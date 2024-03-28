@@ -1,5 +1,6 @@
 namespace ToshokanApp.Extensions;
 using System.Text;
+using ToshokanApp.Models;
 
 public static class EnumerableExtensions
 {
@@ -16,6 +17,7 @@ public static class EnumerableExtensions
             {
                 sb.Append($"<p><i>{itemPropertyInfo.Name}: </i>{itemPropertyInfo.GetValue(item)}</p>");
             }
+            sb.Append($"<a href=\"{typeof(T).Name}Info.html\">{typeof(T).Name} information</a>");
             sb.Append("</div><hr>");
         }
 
