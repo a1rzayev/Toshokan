@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "9DT5tgJQ/X2c76LS6PkfkOzvzagnlq9AgRKIobdUhgU=",
+  "Hash": "Hxq/yqcvEtsz7rKLRLQBTiy2zJRpiBsRWd7rae4aZEU=",
   "Source": "ToshokanApp",
   "BasePath": "_content/ToshokanApp",
   "Mode": "Default",
@@ -72,6 +72,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "C:\\Users\\Asif\\OneDrive - French-Azerbaijani University\\Desktop\\Projects\\Computer Science\\Toshokan\\ToshokanApp\\wwwroot\\css\\styles.css",
+      "SourceId": "ToshokanApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Asif\\OneDrive - French-Azerbaijani University\\Desktop\\Projects\\Computer Science\\Toshokan\\ToshokanApp\\wwwroot\\",
+      "BasePath": "_content/ToshokanApp",
+      "RelativePath": "css/styles.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\styles.css"
     },
     {
       "Identity": "C:\\Users\\Asif\\OneDrive - French-Azerbaijani University\\Desktop\\Projects\\Computer Science\\Toshokan\\ToshokanApp\\wwwroot\\favicon.ico",

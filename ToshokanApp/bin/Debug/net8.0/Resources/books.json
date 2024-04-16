@@ -1,7 +1,7 @@
 [
     {
         "Id": 1,
-        "Title": "The Catcher in the Rye",
+        "Name": "The Catcher in the Rye",
         "Author": "J.D. Salinger",
         "PublicationYear": 1951,
         "Genre": "Fiction",
@@ -12,7 +12,7 @@
     },    
     {
         "Id": 2,
-        "Title": "1984",
+        "Name": "1984",
         "Author": "George Orwell",
         "PublicationYear": 1949,
         "Genre": "Science Fiction",
@@ -23,7 +23,7 @@
     },
     {
         "Id": 3,
-        "Title": "The Hobbit",
+        "Name": "The Hobbit",
         "Author": "J.R.R. Tolkien",
         "PublicationYear": 1937,
         "Genre": "Fantasy",
@@ -34,7 +34,7 @@
     },
     {
         "Id": 4,
-        "Title": "To Kill a Mockingbird",
+        "Name": "To Kill a Mockingbird",
         "Author": "Harper Lee",
         "PublicationYear": 1960,
         "Genre": "Fiction",
