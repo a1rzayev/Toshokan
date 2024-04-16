@@ -1,0 +1,46 @@
+[
+    {
+        "Id": 1,
+        "Title": "The Catcher in the Rye",
+        "Author": "J.D. Salinger",
+        "PublicationYear": 1951,
+        "Genre": "Fiction",
+        "Language": "English",
+        "Description": "A classic novel about teenage angst and rebellion.",
+        "AddedBy": 123,
+        "AddedDate": "2024-04-13T12:00:00"
+    },    
+    {
+        "Id": 2,
+        "Title": "1984",
+        "Author": "George Orwell",
+        "PublicationYear": 1949,
+        "Genre": "Science Fiction",
+        "Language": "English",
+        "Description": "A dystopian novel depicting a totalitarian regime.",
+        "AddedBy": 456,
+        "AddedDate": "2024-04-13T13:30:00"
+    },
+    {
+        "Id": 3,
+        "Title": "The Hobbit",
+        "Author": "J.R.R. Tolkien",
+        "PublicationYear": 1937,
+        "Genre": "Fantasy",
+        "Language": "English",
+        "Description": "An adventurous tale of Bilbo Baggins and his journey.",
+        "AddedBy": 789,
+        "AddedDate": "2024-04-12T09:45:00"
+    },
+    {
+        "Id": 4,
+        "Title": "To Kill a Mockingbird",
+        "Author": "Harper Lee",
+        "PublicationYear": 1960,
+        "Genre": "Fiction",
+        "Language": "English",
+        "Description": "A powerful story of racial injustice and moral growth.",
+        "AddedBy": 234,
+        "AddedDate": "2024-04-12T15:20:00"
+    }            
+]
