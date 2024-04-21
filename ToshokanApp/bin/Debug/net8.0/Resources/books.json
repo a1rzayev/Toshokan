@@ -9,7 +9,7 @@
         "Description": "A classic novel about teenage angst and rebellion.",
         "AddedBy": 123,
         "AddedDate": "2024-04-13T12:00:00"
-    },    
+    },
     {
         "Id": 2,
         "Name": "1984",
@@ -42,5 +42,38 @@
         "Description": "A powerful story of racial injustice and moral growth.",
         "AddedBy": 234,
         "AddedDate": "2024-04-12T15:20:00"
-    }            
+    },
+    {
+        "Id": 0,
+        "Name": "sfdg",
+        "Author": "wrt",
+        "PublicationYear": null,
+        "Genre": "dsfg",
+        "Language": "sdfg",
+        "Description": "sdfg",
+        "AddedBy": 0,
+        "AddedDate": "0001-01-01T00:00:00"
+    },
+    {
+        "Id": 0,
+        "Name": "sdf",
+        "Author": "sdfsdf",
+        "PublicationYear": 432,
+        "Genre": "asfd",
+        "Language": "2234",
+        "Description": "234",
+        "AddedBy": 0,
+        "AddedDate": "0001-01-01T00:00:00"
+    },
+    {
+        "Id": 0,
+        "Name": "Ufaz",
+        "Author": "Vazeh",
+        "PublicationYear": 2016,
+        "Genre": "horror",
+        "Language": "francais",
+        "Description": "Kazarma",
+        "AddedBy": 0,
+        "AddedDate": "0001-01-01T00:00:00"
+    }
 ]
