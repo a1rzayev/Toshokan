@@ -1,3 +1,6 @@
+using ToshokanApp.Services;
+using ToshokanApp.Services.Base;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,6 +20,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+builder.Services.AddTransient<IBookCommentService, BookCommentService>();
 
 app.UseAuthorization();
 
