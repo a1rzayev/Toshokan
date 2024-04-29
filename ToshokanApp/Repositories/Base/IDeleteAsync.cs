@@ -2,5 +2,5 @@ namespace ToshokanApp.Repositories.Base;
 
 public interface IDeleteAsync<TEntity>
 {
-    Task DeleteAsync(TEntity entity);
+    Task DeleteAsync(int entity);
 }

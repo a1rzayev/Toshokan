@@ -1,3 +1,4 @@
+using ToshokanApp.Repositories;
 using ToshokanApp.Services;
 using ToshokanApp.Services.Base;
 
@@ -5,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<IBookCommentRepository, BookCommentJsonRepository>();
+builder.Services.AddTransient<IBookCommentService, BookCommentService>();
 
 var app = builder.Build();
 
@@ -21,12 +24,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-builder.Services.AddTransient<IBookCommentService, BookCommentService>();
 
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Book}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

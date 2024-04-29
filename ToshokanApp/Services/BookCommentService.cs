@@ -1,29 +1,28 @@
-namespace ToshokanApp.Services;
-
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using ToshokanApp.Models;
+using ToshokanApp.Repositories;
 using ToshokanApp.Services.Base;
+
+namespace ToshokanApp.Services;
 
 public class BookCommentService : IBookCommentService
 {
-    private readonly IBookCommentService bookRepository;
-    public BookCommentService(IBookCommentService bookRepository)
+    private readonly IBookCommentRepository bookCommentRepository;
+    public BookCommentService(IBookCommentRepository bookCommentRepository)
     {
-        this.bookRepository = bookRepository;
+        this.bookCommentRepository = bookCommentRepository;
     }
     public async Task AddAsync(BookComment comment)
     {
-        await this.bookRepository.AddAsync(comment);
+        await this.bookCommentRepository.AddAsync(comment);
     }
 
     public async Task DeleteAsync(int commentId)
     {
-        await this.bookRepository.DeleteAsync(commentId);
+        await this.bookCommentRepository.DeleteAsync(commentId);
     }
 
-    public async Task<IEnumerable<BookComment>?> GetAllAsync(int bookId)
+    public async Task<IEnumerable<BookComment>?> GetAllAsync()
     {
-        return await this.bookRepository.GetAllAsync(bookId);
+        return await this.bookCommentRepository.GetAllAsync();
     }
 }

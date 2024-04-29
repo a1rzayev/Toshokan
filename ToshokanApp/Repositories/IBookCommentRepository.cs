@@ -1,4 +1,8 @@
-namespace ToshokanApp.Repositories;
+
 using ToshokanApp.Repositories.Base;
 using ToshokanApp.Models;
-public interface IBookCommentRepository : IGetAllAsync<BookComment>, ICreateAsync<BookComment>, IDeleteAsync<BookComment> { }
+
+namespace ToshokanApp.Repositories;
+public interface IBookCommentRepository : IGetAllAsync<BookComment>, IAddAsync<BookComment>, IDeleteAsync<BookComment> { 
+
+}

@@ -30,3 +30,4 @@ C:\Users\Asif\OneDrive - French-Azerbaijani University\Desktop\Projects\Computer
 C:\Users\Asif\OneDrive - French-Azerbaijani University\Desktop\Projects\Computer Science\Toshokan\ToshokanApp\obj\Debug\net8.0\ToshokanApp.genruntimeconfig.cache
 C:\Users\Asif\OneDrive - French-Azerbaijani University\Desktop\Projects\Computer Science\Toshokan\ToshokanApp\obj\Debug\net8.0\ref\ToshokanApp.dll
 C:\Users\Asif\OneDrive - French-Azerbaijani University\Desktop\Projects\Computer Science\Toshokan\ToshokanApp\bin\Debug\net8.0\Resources\books.json
+C:\Users\Asif\OneDrive - French-Azerbaijani University\Desktop\Projects\Computer Science\Toshokan\ToshokanApp\bin\Debug\net8.0\Resources\booksComments.json
