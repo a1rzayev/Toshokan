@@ -25,20 +25,27 @@ public class BookCommentController : Controller
         return base.View(model: bookComments);
     }
 
+    public IActionResult Add()
+    {
+        return View();
+    }
+
     [HttpPost]
     [Route("[controller]")]
-    public IActionResult Add(BookComment bookComment)
-    {
-        this.bookCommentService.AddAsync(bookComment);
-
-        return base.RedirectToAction(nameof(Index));
+    public async Task<IActionResult> Add(BookComment bookComment)
+    {   
+        if(ModelState.IsValid){
+            await bookCommentService.AddAsync(bookComment);
+            return RedirectToAction(nameof(Index));
+        }
+        return View(bookComment);
     }
 
     [HttpPost]
     [Route("[controller]/{bookId}")]
-    public IActionResult Delete(int bookId)
+    public async Task<IActionResult> Delete(int bookId)
     {
-        this.bookCommentService.DeleteAsync(bookId);
+        await this.bookCommentService.DeleteAsync(bookId);
 
         return base.RedirectToAction(nameof(Index));
     }
