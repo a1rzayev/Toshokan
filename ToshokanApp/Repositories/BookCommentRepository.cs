@@ -9,29 +9,27 @@ namespace ToshokanApp.Repositories;
 
 public class BookCommentRepository : IBookCommentRepository
 {
-    private readonly string connectionString;
     private readonly IDbConnection dbConnection;
 
-    public BookCommentRepository(IDbConnection dbConnection, IOptionsSnapshot<string> connectionStrings) {
+    public BookCommentRepository(IDbConnection dbConnection) {
         this.dbConnection = dbConnection;   
-        this.connectionString = connectionStrings.Value; 
     }
 
     public async Task<IEnumerable<BookComment>?> GetAllAsync()
     {
-        string query = "SELECT * FROM MyEntity";
+        string query = "SELECT * FROM BookComments";
         return await dbConnection.QueryAsync<BookComment>(query);
     }
 
     public async Task AddAsync(BookComment newBookComment)
     {
-        string query = "INSERT INTO MyEntity (Name, Description) VALUES (@Name, @Description)";
+        string query = "INSERT INTO BookComments (Id, BookId, SenderId, Comment) VALUES (@Id, @BookId, @SenderId, @Comment)";
         await dbConnection.ExecuteAsync(query, newBookComment);
     }
 
-    public async Task DeleteAsync(int bookCommentId)
+    public async Task DeleteAsync(Guid bookCommentId)
     {
-        string query = "DELETE FROM MyEntity WHERE Id = @Id";
+        string query = "DELETE FROM BookComments WHERE Id = @Id";
         await dbConnection.ExecuteAsync(query, new { Id = bookCommentId });
     }
 }

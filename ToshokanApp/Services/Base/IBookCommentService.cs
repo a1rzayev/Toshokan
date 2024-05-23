@@ -5,5 +5,5 @@ public interface IBookCommentService
 {
     Task<IEnumerable<BookComment>?> GetAllAsync();
     Task AddAsync(BookComment comment);
-    Task DeleteAsync(int commentId);
+    Task DeleteAsync(Guid commentId);
 }

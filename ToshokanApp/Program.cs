@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+//builder.Services.Configure<string>(builder.Configuration.GetSection("MsSql"));
 builder.Services.AddScoped<IDbConnection>(sp => new System.Data.SqlClient.SqlConnection(builder.Configuration.GetConnectionString("MsSql")));
     
 builder.Services.AddTransient<IBookCommentRepository, BookCommentRepository>();

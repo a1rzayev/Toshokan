@@ -18,6 +18,14 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\Asif\Projects\ComputerScience\Toshokan\ToshokanApp
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/Asif/Projects/ComputerScience/Toshokan/ToshokanApp/Views/BookComment/Add.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va0NvbW1lbnRcQWRkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asif/Projects/ComputerScience/Toshokan/ToshokanApp/Views/BookComment/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va0NvbW1lbnRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Asif/Projects/ComputerScience/Toshokan/ToshokanApp/Views/Book/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va1xBZGQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
