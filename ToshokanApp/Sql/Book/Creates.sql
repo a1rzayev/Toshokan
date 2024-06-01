@@ -1,0 +1,11 @@
+CREATE TABLE Books (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Name NVARCHAR(100) NOT NULL,
+    Author NVARCHAR(100) NOT NULL,
+    PublicationYear INT NOT NULL,
+    Genre NVARCHAR(50) NOT NULL,
+    Language NVARCHAR(50) NOT NULL DEFAULT 'English',
+    Description NVARCHAR(1000) NOT NULL,
+    AddedBy INT NOT NULL,
+    AddedDate DATETIME NOT NULL
+);
