@@ -1,15 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using ToshokanApp.Models;
+using ToshokanApp.Services.Base;
 
 namespace LibraryApp.Controllers
 {
     public class BookController : Controller
     {
         
-        private readonly string jsonPath = "Resources/books.json";
+        private readonly IBookService bookService;
+        public BookController(IBookService bookService)
+        {
+            this.bookService = bookService;
+        }
+        //private readonly string jsonPath = "Resources/books.json";
         [HttpGet]
         public IActionResult Index(){
+            //var books = this.bookService.GetAllAsync();
             return View();
         }
 
@@ -29,43 +36,40 @@ namespace LibraryApp.Controllers
         [ActionName("GetByName")]
         public async Task<IActionResult> GetByName(string? name)
         {
-            var booksJson = await System.IO.File.ReadAllTextAsync(jsonPath);
-            var books = JsonSerializer.Deserialize<IEnumerable<Book>>(booksJson, new JsonSerializerOptions {
-                PropertyNameCaseInsensitive = true
-            });
-            List<Book> booksByName = new List<Book>();
-            foreach (var book in books){
-                if (book.Name?.ToLower().Trim() == name?.ToLower().Trim()){
-                    booksByName.Add(book);
-                }
-            }
-            ViewData["search"] = name;
+            // var booksJson = await System.IO.File.ReadAllTextAsync(jsonPath);
+            // var books = JsonSerializer.Deserialize<IEnumerable<Book>>(booksJson, new JsonSerializerOptions {
+            //     PropertyNameCaseInsensitive = true
+            // });
+            // List<Book> booksByName = new List<Book>();
+            // foreach (var book in books){
+            //     if (book.Name?.ToLower().Trim() == name?.ToLower().Trim()){
+            //         booksByName.Add(book);
+            //     }
+            // }
+            // ViewData["search"] = name;
+            var booksByName = this.bookService.GetByNameAsync(name);
             return View(model: booksByName);
 
-        }
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [HttpPost]
         [ActionName("Add")]
         [Route("[controller]")]
         public async Task<IActionResult> Add([FromForm] Book newBook) {
-            var booksJson = await System.IO.File.ReadAllTextAsync(jsonPath);
+            // var booksJson = await System.IO.File.ReadAllTextAsync(jsonPath);
 
-            var books = JsonSerializer.Deserialize<List<Book>>(booksJson, new JsonSerializerOptions {
-                PropertyNameCaseInsensitive = true
-            });
+            // var books = JsonSerializer.Deserialize<List<Book>>(booksJson, new JsonSerializerOptions {
+            //     PropertyNameCaseInsensitive = true
+            // });
 
-            books?.Add(newBook);
+            // books?.Add(newBook);
 
-            var editedJson = JsonSerializer.Serialize<List<Book>>(books, new JsonSerializerOptions {
-                PropertyNameCaseInsensitive = true
-            });
+            // var editedJson = JsonSerializer.Serialize<List<Book>>(books, new JsonSerializerOptions {
+            //     PropertyNameCaseInsensitive = true
+            // });
 
-            await System.IO.File.WriteAllTextAsync(jsonPath, editedJson);
-
+            // await System.IO.File.WriteAllTextAsync(jsonPath, editedJson);
+            var booksByName = this.bookService.AddAsync(newBook);
             return base.RedirectToAction(actionName: "Index");
         }
     }

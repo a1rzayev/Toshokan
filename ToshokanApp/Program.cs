@@ -7,14 +7,21 @@ using ToshokanApp.Repositories.EfCore.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using ToshokanApp.Configuration;
 using Microsoft.Extensions.Options;
+using ToshokanApp.Repositories.Base;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IDbConnection>(sp => new System.Data.SqlClient.SqlConnection(builder.Configuration.GetConnectionString("MsSql")));
     
-builder.Services.AddTransient<IBookCommentRepository, BookCommentRepository>();
+builder.Services.AddTransient<IBookCommentRepository, BookCommentEfCoreRepository>();
 builder.Services.AddTransient<IBookCommentService, BookCommentService>();
+
+builder.Services.AddTransient<IBookRepository, BookEfCoreRepository>();
+builder.Services.AddTransient<IBookService, BookService>();
+
+builder.Services.AddTransient<ILogRepository, LogEfCoreRepository>();
+builder.Services.AddTransient<ILogService, LogService>();
 var app = builder.Build();
 builder.Services.AddDbContext<ToshokanDbContext>((serviceProvider, options) =>
         {
