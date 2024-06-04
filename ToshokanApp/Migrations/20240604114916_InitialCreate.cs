@@ -36,7 +36,7 @@ namespace ToshokanApp.Migrations
                     Author = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     PublicationYear = table.Column<int>(type: "int", nullable: false),
                     Genre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Language = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, defaultValue: "English"),
+                    Language = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     AddedBy = table.Column<int>(type: "int", nullable: false),
                     AddedDate = table.Column<DateTime>(type: "datetime2", nullable: false)

@@ -8,12 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using ToshokanApp.Configuration;
 using Microsoft.Extensions.Options;
 using ToshokanApp.Repositories.Base;
+using ToshokanApp.Repositories.EfCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IDbConnection>(sp => new System.Data.SqlClient.SqlConnection(builder.Configuration.GetConnectionString("MsSql")));
-    
+//builder.Services.AddScoped<IDbConnection>(sp => new System.Data.SqlClient.SqlConnection(builder.Configuration.GetConnectionString("MsSql")));
+builder.Services.AddDbContext<ToshokanDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MsSql")));
 builder.Services.AddTransient<IBookCommentRepository, BookCommentEfCoreRepository>();
 builder.Services.AddTransient<IBookCommentService, BookCommentService>();
 
@@ -22,12 +23,8 @@ builder.Services.AddTransient<IBookService, BookService>();
 
 builder.Services.AddTransient<ILogRepository, LogEfCoreRepository>();
 builder.Services.AddTransient<ILogService, LogService>();
+
 var app = builder.Build();
-builder.Services.AddDbContext<ToshokanDbContext>((serviceProvider, options) =>
-        {
-            var databaseSettings = serviceProvider.GetRequiredService<IOptionsSnapshot<DatabaseSettings>>().Value;
-            options.UseSqlServer(databaseSettings.ConnectionString);
-        });
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

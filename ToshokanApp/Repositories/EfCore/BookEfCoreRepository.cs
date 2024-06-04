@@ -6,7 +6,7 @@ using System.Data;
 using Dapper;
 using ToshokanApp.Repositories.EfCore.DbContexts;
 
-namespace ToshokanApp.Repositories;
+namespace ToshokanApp.Repositories.EfCore;
 
 public class BookEfCoreRepository : IBookRepository
 {
@@ -27,8 +27,8 @@ public class BookEfCoreRepository : IBookRepository
         return dbContext.Books;
     }
 
-    public Task<IEnumerable<Book>?> GetByNameAsync(string name)
+    public async Task<IEnumerable<Book>?> GetByNameAsync(string name)
     {
-        throw new NotImplementedException();
+        return dbContext.Books.Where(book => book.Name == name);
     }
 }

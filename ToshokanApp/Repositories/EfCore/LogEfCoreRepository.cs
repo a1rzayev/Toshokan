@@ -6,7 +6,7 @@ using System.Data;
 using Dapper;
 using ToshokanApp.Repositories.EfCore.DbContexts;
 
-namespace ToshokanApp.Repositories;
+namespace ToshokanApp.Repositories.EfCore;
 
 public class LogEfCoreRepository : ILogRepository
 {

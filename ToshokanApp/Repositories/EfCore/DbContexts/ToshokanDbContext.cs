@@ -43,7 +43,6 @@ public class ToshokanDbContext : DbContext
         modelBuilder.Entity<Book>()
         .Property(g => g.Language)
         .HasMaxLength(50)
-        .HasDefaultValue("English")
         .IsRequired();
 
         modelBuilder.Entity<Book>()
@@ -74,6 +73,43 @@ public class ToshokanDbContext : DbContext
         modelBuilder.Entity<BookComment>()
         .Property(c => c.Comment)
         .HasMaxLength(1000)
+        .IsRequired();
+
+
+
+        modelBuilder.Entity<Log>()
+        .HasKey(c => c.Id);
+
+        modelBuilder.Entity<Log>()
+        .Property(c => c.RequestBody)
+        .IsRequired();
+
+        modelBuilder.Entity<Log>()
+        .Property(e => e.Url)
+        .IsRequired();
+
+        modelBuilder.Entity<Log>()
+        .Property(e => e.RequestBody)
+        .IsRequired();
+        
+        modelBuilder.Entity<Log>()
+        .Property(e => e.ResponseBody)
+        .IsRequired();
+        
+        modelBuilder.Entity<Log>()
+        .Property(e => e.CreationDate)
+        .IsRequired();
+        
+        modelBuilder.Entity<Log>()
+        .Property(e => e.EndDate)
+        .IsRequired();
+        
+        modelBuilder.Entity<Log>()
+        .Property(e => e.StatusCode)
+        .IsRequired();
+        
+        modelBuilder.Entity<Log>()
+        .Property(e => e.HttpMethod)
         .IsRequired();
 
     }

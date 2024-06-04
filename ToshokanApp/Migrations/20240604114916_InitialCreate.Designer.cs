@@ -12,7 +12,7 @@ using ToshokanApp.Repositories.EfCore.DbContexts;
 namespace ToshokanApp.Migrations
 {
     [DbContext(typeof(ToshokanDbContext))]
-    [Migration("20240601224916_InitialCreate")]
+    [Migration("20240604114916_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -56,10 +56,8 @@ namespace ToshokanApp.Migrations
 
                     b.Property<string>("Language")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasDefaultValue("English");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()

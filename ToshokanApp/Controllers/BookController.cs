@@ -15,11 +15,10 @@ namespace LibraryApp.Controllers
         }
         //private readonly string jsonPath = "Resources/books.json";
         [HttpGet]
-        public IActionResult Index(){
-            //var books = this.bookService.GetAllAsync();
-            return View();
+        public async Task<IActionResult> Index(){
+            var books = await this.bookService.GetAllAsync();
+            return View(model: books);
         }
-
         // [HttpGet]
         // [ActionName("Get")]
         // [Route("[controller]/[action]")]
@@ -47,7 +46,7 @@ namespace LibraryApp.Controllers
             //     }
             // }
             // ViewData["search"] = name;
-            var booksByName = this.bookService.GetByNameAsync(name);
+            var booksByName = await this.bookService.GetByNameAsync(name);
             return View(model: booksByName);
 
         }
@@ -69,7 +68,7 @@ namespace LibraryApp.Controllers
             // });
 
             // await System.IO.File.WriteAllTextAsync(jsonPath, editedJson);
-            var booksByName = this.bookService.AddAsync(newBook);
+            await this.bookService.AddAsync(newBook);
             return base.RedirectToAction(actionName: "Index");
         }
     }

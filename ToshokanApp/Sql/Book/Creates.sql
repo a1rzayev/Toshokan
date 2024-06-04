@@ -4,7 +4,7 @@ CREATE TABLE Books (
     Author NVARCHAR(100) NOT NULL,
     PublicationYear INT NOT NULL,
     Genre NVARCHAR(50) NOT NULL,
-    Language NVARCHAR(50) NOT NULL DEFAULT 'English',
+    Language NVARCHAR(50) NOT NULL,
     Description NVARCHAR(1000) NOT NULL,
     AddedBy INT NOT NULL,
     AddedDate DATETIME NOT NULL

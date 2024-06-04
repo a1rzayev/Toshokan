@@ -7,7 +7,9 @@ using Dapper;
 using ToshokanApp.Repositories.EfCore.DbContexts;
 using ToshokanApp.Repositories.Base.Functions;
 
-namespace ToshokanApp.Repositories;
+namespace ToshokanApp.Repositories.EfCore;
+
+
 
 public class BookCommentEfCoreRepository : IBookCommentRepository
 {

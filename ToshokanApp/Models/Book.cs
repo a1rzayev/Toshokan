@@ -20,7 +20,6 @@ public class Book
     public string? Genre { get; set; }
     [Required]
     [StringLength(50)]
-    [DefaultValue("English")]
     public string? Language { get; set; }
     [Required]
     [StringLength(1000)]
