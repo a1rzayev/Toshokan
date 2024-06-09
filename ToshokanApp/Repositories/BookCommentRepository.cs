@@ -27,7 +27,7 @@ public class BookCommentRepository : IBookCommentRepository
         await dbConnection.ExecuteAsync(query, newBookComment);
     }
 
-    public async Task DeleteAsync(int bookCommentId)
+    public async Task DeleteAsync(Guid bookCommentId)
     {
         string query = "DELETE FROM BookComments WHERE Id = @Id";
         await dbConnection.ExecuteAsync(query, new { Id = bookCommentId });

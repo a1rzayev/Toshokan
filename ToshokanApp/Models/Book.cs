@@ -6,7 +6,7 @@ namespace ToshokanApp.Models;
 public class Book
 {
     [Key]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     [Required]
     [StringLength(100)]
     public string? Name { get; set; }

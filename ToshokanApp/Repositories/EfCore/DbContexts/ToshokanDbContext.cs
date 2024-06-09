@@ -9,6 +9,7 @@ public class ToshokanDbContext : DbContext
     public DbSet<BookComment> BookComments { get; set; }
     public DbSet<Book> Books { get; set; }
     public DbSet<Log> Logs { get; set; }
+    public DbSet<User> Users { get; set; }
 
     public ToshokanDbContext(DbContextOptions<ToshokanDbContext> options) : base(options)
     {
@@ -17,6 +18,7 @@ public class ToshokanDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        
         
         modelBuilder.Entity<Book>()
         .HasKey(g => g.Id);
@@ -57,6 +59,9 @@ public class ToshokanDbContext : DbContext
         modelBuilder.Entity<Book>()
         .Property(g => g.AddedDate)
         .IsRequired();
+
+
+
 
 
         modelBuilder.Entity<BookComment>()
@@ -111,6 +116,43 @@ public class ToshokanDbContext : DbContext
         modelBuilder.Entity<Log>()
         .Property(e => e.HttpMethod)
         .IsRequired();
+
+
+
+        
+        modelBuilder.Entity<User>()
+        .HasKey(c => c.Id);
+
+        modelBuilder.Entity<User>()
+        .Property(c => c.Name)
+        .HasMaxLength(50)
+        .IsRequired();
+
+        modelBuilder.Entity<User>()
+        .Property(c => c.Surname)
+        .HasMaxLength(50)
+        .IsRequired();
+
+        modelBuilder.Entity<User>()
+        .Property(c => c.Email)
+        .HasMaxLength(100)
+        .IsRequired();
+
+        modelBuilder.Entity<User>()
+        .Property(c => c.Password)
+        .HasMaxLength(100)
+        .IsRequired();
+
+        modelBuilder.Entity<User>()
+        .Property(c => c.AvatarPath);
+
+        modelBuilder.Entity<User>()
+        .Property(c => c.PurchasedBooks);
+
+        modelBuilder.Entity<User>()
+        .Property(c => c.WishList);
+
+
 
     }
 }

@@ -24,6 +24,9 @@ builder.Services.AddTransient<IBookService, BookService>();
 builder.Services.AddTransient<ILogRepository, LogEfCoreRepository>();
 builder.Services.AddTransient<ILogService, LogService>();
 
+builder.Services.AddTransient<IIdentityRepository, IdentityEfCoreRepository>();
+builder.Services.AddTransient<IIdentityService, IdentityService>();
+
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {

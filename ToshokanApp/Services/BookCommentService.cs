@@ -19,7 +19,7 @@ public class BookCommentService : IBookCommentService
         await this.bookCommentRepository.AddAsync(comment);
     }
 
-    public async Task DeleteAsync(int commentId)
+    public async Task DeleteAsync(Guid commentId)
     {
         await this.bookCommentRepository.DeleteAsync(commentId);
     }
