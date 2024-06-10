@@ -9,6 +9,7 @@ using ToshokanApp.Configuration;
 using Microsoft.Extensions.Options;
 using ToshokanApp.Repositories.Base;
 using ToshokanApp.Repositories.EfCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,14 @@ builder.Services.AddTransient<ILogService, LogService>();
 
 builder.Services.AddTransient<IIdentityRepository, IdentityEfCoreRepository>();
 builder.Services.AddTransient<IIdentityService, IdentityService>();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddDataProtection();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options => {
+        
+    });
 
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())

@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO.Pipes;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Dapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using ToshokanApp.Dtos;
 using ToshokanApp.Models;
@@ -15,9 +19,12 @@ namespace ToshokanApp.Controllers
     public class IdentityController : Controller
     {        
         private readonly IIdentityService identityService;
-        public IdentityController(IIdentityService identityService)
+
+        private readonly IDataProtector dataProtector;
+        public IdentityController(IIdentityService identityService, IDataProtectionProvider dataProtectionProvider)
         {
             this.identityService = identityService;
+            this.dataProtector = dataProtectionProvider.CreateProtector("identity");
         }
 
         [Route("/[controller]/[action]", Name = "LoginView")]
@@ -39,8 +46,32 @@ namespace ToshokanApp.Controllers
                 base.TempData["error"] = "Incorrect login or password!";
                 return base.RedirectToRoute("LoginView");
             }
-            base.HttpContext.Response.Cookies.Append("Authentication", foundUser.Id.ToString());
+            var hashedUserId = this.dataProtector.Protect(foundUser.Id.ToString());
+
+            base.HttpContext.Response.Cookies.Append("Authentication", hashedUserId);
+
+            var claims = new Claim[] {
+                new(ClaimTypes.Email, foundUser.Email),
+                new(ClaimTypes.Name, foundUser.Name),
+                new("id", hashedUserId),
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            await base.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
+
             return base.RedirectToAction(controllerName: "Home", actionName: "Index");
+        }
+
+        [HttpGet]
+        [Route("/api/[controller]/[action]", Name = "LogoutEndpoint")]
+        public async Task<IActionResult> Logout() {
+
+            base.HttpContext.Response.Cookies.Delete("Authentication");
+
+            return base.RedirectToRoute("LoginView");
         }
 
         [Route("/[controller]/[action]", Name = "RegistrationView")]
