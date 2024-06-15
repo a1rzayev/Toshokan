@@ -14,5 +14,3 @@ C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.I
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Infrastructure\obj\Debug\net8.0\refint\ToshokanApp.Infrastructure.dll
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Infrastructure\obj\Debug\net8.0\ToshokanApp.Infrastructure.pdb
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Infrastructure\obj\Debug\net8.0\ref\ToshokanApp.Infrastructure.dll
-C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanAPp\src\ToshokanApp.Infrastructure\bin\Debug\net8.0\ToshokanApp.Infrastructure.runtimeconfig.json
-C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanAPp\src\ToshokanApp.Infrastructure\obj\Debug\net8.0\ToshokanApp.Infrastructure.genruntimeconfig.cache

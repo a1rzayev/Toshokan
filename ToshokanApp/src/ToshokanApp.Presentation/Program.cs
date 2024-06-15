@@ -6,11 +6,18 @@ using Microsoft.EntityFrameworkCore;
 using ToshokanApp.Core.Repositories;
 using ToshokanApp.Infrastructure.Repositories.EfCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Reflection;
+using Microsoft.EntityFrameworkCore.Design;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<ToshokanDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MsSql")));
+builder.Services.AddDbContext<ToshokanDbContext>( dbContextOptionsBuilder => {
+    var connectionString = builder.Configuration.GetConnectionString("MsSql");
+    dbContextOptionsBuilder.UseSqlServer(connectionString, options => {
+        options.MigrationsAssembly("ToshokanApp.Infrastructure");
+    });
+});
 builder.Services.AddTransient<IBookCommentRepository, BookCommentEfCoreRepository>();
 builder.Services.AddTransient<IBookCommentService, BookCommentService>();
 
@@ -18,6 +25,7 @@ builder.Services.AddTransient<IBookRepository, BookEfCoreRepository>();
 builder.Services.AddTransient<IBookService, BookService>();
 
 builder.Services.AddTransient<ILogRepository, LogEfCoreRepository>();
+
 builder.Services.AddTransient<ILogService, LogService>();
 
 builder.Services.AddTransient<IIdentityRepository, IdentityEfCoreRepository>();

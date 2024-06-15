@@ -37,7 +37,8 @@ public class HomeController : Controller
 
                 return View(foundUser);
             }
-        }
+        } 
+        else return base.RedirectToRoute("LoginView");//.RedirectToAction(controllerName: "Identity", actionName: "Login");
 
         return View();
     }
