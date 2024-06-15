@@ -1,0 +1,22 @@
+@using System.Text.Json
+@model IEnumerable<Book>
+    
+<link rel="stylesheet" href="~/wwwroot/css/styles.css">
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h2>Results for @ViewData["search"]</h2>  
+<div>
+    @foreach (var book in Model)
+    {
+        <p>Name: @(book?.Name ?? "UNKNOWN")</p>
+        <p>Author: @(book?.Author ?? "UNKNOWN")</p>
+        <p>Year: @(book?.PublicationYear.ToString() ?? "UNKNOWN")</p>
+        <p>Genre: @(book?.Genre ?? "UNKNOWN")</p>
+        <p>Language: @(book?.Language ?? "UNKNOWN")</p>
+        <p>Description: @(book?.Description ?? "UNKNOWN")</p>
+        <hr>
+    }
+</div>
