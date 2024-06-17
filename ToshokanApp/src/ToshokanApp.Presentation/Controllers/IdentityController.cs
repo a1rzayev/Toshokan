@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using ToshokanApp.Core.Dtos;
@@ -19,9 +20,11 @@ public class IdentityController : Controller
     }
 
     [Route("/[controller]/[action]", Name = "LoginView")]
-    public IActionResult Login()
+    [AllowAnonymous]
+    public IActionResult Login(string? ReturnUrl)
     {
         var errorMessage = base.TempData["error"];
+        ViewBag.ReturnUrl = ReturnUrl;
         if (errorMessage != null)
         {
             base.ModelState.AddModelError("All", errorMessage.ToString()!);
@@ -31,6 +34,7 @@ public class IdentityController : Controller
     }
 
     [HttpPost]
+    [AllowAnonymous]
     [Route("/api/[controller]/[action]", Name = "LoginEndpoint")]
     public async Task<IActionResult> Login([FromForm] LoginDto loginDto)
     {
@@ -39,16 +43,20 @@ public class IdentityController : Controller
         if (foundUser == null)
         {
             base.TempData["error"] = "Incorrect login or password!";
-            return base.RedirectToRoute("LoginView");
+            return base.RedirectToRoute("LoginView", new
+            {
+                loginDto.ReturnUrl
+            });
         }
         var hashedUserId = this.dataProtector.Protect(foundUser.Id.ToString());
 
-        base.HttpContext.Response.Cookies.Append("Authentication", hashedUserId);
+        //base.HttpContext.Response.Cookies.Append("Authentication", hashedUserId);
 
         var claims = new Claim[] {
                 new(ClaimTypes.Email, foundUser.Email),
                 new(ClaimTypes.Name, foundUser.Name),
-                new("id", hashedUserId),
+                new("Id", hashedUserId),
+                new(ClaimTypes.Role, await this.identityService.GetRole(foundUser.Id)),
             };
 
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -56,26 +64,40 @@ public class IdentityController : Controller
         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
         await base.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
+        
+        if (string.IsNullOrWhiteSpace(loginDto.ReturnUrl) == false)
+        {
+            return base.Redirect(loginDto.ReturnUrl);
+        }
 
-        return base.RedirectToAction(controllerName: "Home", actionName: "Index");
+        return base.RedirectToAction(controllerName: "Book", actionName: "Index");
     }
 
     [HttpGet]
+    [Authorize()]
     [Route("/api/[controller]/[action]", Name = "LogoutEndpoint")]
-    public async Task<IActionResult> Logout()
-    {
+    public async Task<IActionResult> Logout(string? ReturnUrl)
+        {
+            await base.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-        base.HttpContext.Response.Cookies.Delete("Authentication");
+        //base.HttpContext.Response.Cookies.Delete("Authentication");
+        //await base.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-        return base.RedirectToRoute("LoginView");
+
+        return base.RedirectToRoute("LoginView", new
+            {
+                ReturnUrl
+            });
+        //return base.RedirectToRoute("LoginView");
     }
 
     [Route("/[controller]/[action]", Name = "RegistrationView")]
+    [AllowAnonymous]
     public IActionResult Registration()
     {
         if (TempData["error"] != null)
         {
-            ModelState.AddModelError("All", "Something went wrong. Please try again");
+            ModelState.AddModelError("All", TempData["error"].ToString());
             System.Console.WriteLine(TempData["error"]);
         }
 
@@ -83,19 +105,23 @@ public class IdentityController : Controller
     }
 
     [HttpPost]
+    [AllowAnonymous]
     [Route("/api/[controller]/[action]", Name = "RegistrationEndpoint")]
-    public async Task<IActionResult> Registration([FromForm] RegistrationDto registrationDto)
+    public async Task<IActionResult> Registration([FromForm] RegistrationDto registrationDto, IFormFile avatar)
     {
         try
         {
-            await this.identityService.Registration(registrationDto);
+            var userId = await this.identityService.Registration(registrationDto);
+            
+            //var extension = new FileInfo(avatar.FileName).Extension[1..];
+            //using var newFileStream = System.IO.File.Create($"Assets/Avatars/{userId}.{extension}");
+            //await avatar.CopyToAsync(newFileStream);
         }
         catch (Exception ex)
         {
             TempData["error"] = ex.Message;
             return base.RedirectToRoute("RegistrationView");
         }
-
         return base.RedirectToRoute("LoginView");
     }
 }

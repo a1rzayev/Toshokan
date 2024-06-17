@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using ToshokanApp.Core.Resources;
 
 namespace ToshokanApp.Core.Models;
 

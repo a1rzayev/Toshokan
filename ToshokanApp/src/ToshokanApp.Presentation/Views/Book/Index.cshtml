@@ -1,71 +1,67 @@
-@using System.Text.Json
-<link rel="stylesheet" href="~/wwwroot/css/styles.css">
 @model IEnumerable<Book>
 @{
     ViewData["Title"] = "Home Page";
-
-    var bookComment = new BookComment();
-
-    var bookComments = new List<BookComment>();
+    //var hasAccess = User.Claims.Any(c => c.Type == ClaimTypes.Role && (c.Value == RoleEnum.Admin.ToString() ||c.Value == RoleEnum.CEO.ToString() ||c.Value == RoleEnum.Developer.ToString()));
+    var hasAccess = User.Claims.Any(c => c.Type == ClaimTypes.Role && (c.Value == "Admin" ||c.Value == "Developer" ||c.Value == "CEO"));
 }
 
-<h2>Add Book</h2>
-<form asp-controller="Book" asp-action="/Add" method="post">
-    <label>
-        Name: <input type="text" name="Name">
-    </label>
-    <label>
-        Author: <input type="text" name="Author">
-    </label>
-    <label>
-        Year: <input type="text" name="PublicationYear">
-    </label>
-    <label>
-        Genre: <input type="text" name="Genre">
-    </label>
-    <label>
-        Language: <input type="text" name="Language">
-    </label>
-    <label>
-        Description: <input type="text" name="Description">
-    </label>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    <button asp-controller="Book" asp-action="Add">Add</button>
-</form>
-
-
-<h2>Library</h2>
-<div>
-    @foreach (var book in Model)
+<div class="container mt-4">
+    @if (hasAccess)
     {
-        <p>Name: @(book?.Name ?? "UNKNOWN")</p>
-        <p>Author: @(book?.Author ?? "UNKNOWN")</p>
-        <p>Year: @(book?.PublicationYear.ToString() ?? "UNKNOWN")</p>
-        <p>Genre: @(book?.Genre ?? "UNKNOWN")</p>
-        <p>Language: @(book?.Language ?? "UNKNOWN")</p>
-        <p>Description: @(book?.Description ?? "UNKNOWN")</p>
-        @foreach (var comment in bookComments) {
-        if(comment.BookId == book.Id){
-        <tr>
-            <td>@Html.DisplayFor(modelItem => comment.Id)</td>
-            <td>@Html.DisplayFor(modelItem => comment.Comment)</td>
-            <td>
-                <a href="@Url.Action("Delete", new { id = comment.Id })">Delete</a>
-            </td>
-        </tr>
-        }
-}
-        <form asp-controller="BookComment" asp-action="Add">
-            <div class="form-group">
-                <label asp-for="@bookComment.Comment" class="control-label"></label>
-                <input asp-for="@bookComment.Comment" class="form-control" />
-                <span asp-validation-for="@bookComment.Comment" class="text-danger"></span>
+        <h2>Add Book</h2>
+        <form asp-controller="Book" asp-action="Add" method="post">
+            <div class="form-row">
+                <div class="col-md-3 mb-3">
+                    <label>Name:</label>
+                    <input type="text" name="Name" class="form-control">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label>Author:</label>
+                    <input type="text" name="Author" class="form-control">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label>Year:</label>
+                    <input type="text" name="PublicationYear" class="form-control">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label>Genre:</label>
+                    <input type="text" name="Genre" class="form-control">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label>Language:</label>
+                    <input type="text" name="Language" class="form-control">
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>Description:</label>
+                    <input type="text" name="Description" class="form-control">
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Add" class="btn btn-primary" />
-            </div>
+
+            <button type="submit" class="btn btn-primary">Add</button>
         </form>
-        <hr>
-        
+
+    <hr>
     }
+
+    <h2>Library</h2>
+    <div class="row">
+        @foreach (var book in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@(book?.Name ?? "UNKNOWN")</h5>
+                        <p class="card-text">Author: @(book?.Author ?? "UNKNOWN")</p>
+                        <p class="card-text">Year: @(book?.PublicationYear.ToString() ?? "UNKNOWN")</p>
+                        <p class="card-text">Genre: @(book?.Genre ?? "UNKNOWN")</p>
+                        <p class="card-text">Language: @(book?.Language ?? "UNKNOWN")</p>
+                        <p class="card-text">Description: @(book?.Description ?? "UNKNOWN")</p>
+                        <a href="@Url.Action("GetById", "Book", new { id = book.Id })" class="btn btn-primary">Description</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>

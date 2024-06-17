@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using ToshokanApp.Core.Models;
@@ -17,27 +18,48 @@ public class BookController : Controller
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> Index()
     {
         var books = await this.bookService.GetAllAsync();
-        return View(model: books);
+        return View(books);
     }
 
     [HttpGet]
     [ActionName("GetByName")]
+    [AllowAnonymous]
+    //[Route("[controller]/[action]/{name}")]
     public async Task<IActionResult> GetByName(string? name)
     {
         var booksByName = await this.bookService.GetByNameAsync(name);
-        return View(model: booksByName);
-
+        return View("Description", booksByName);
     }
+
+    [HttpGet]
+    [ActionName("GetById")]
+    [AllowAnonymous]
+    //[Route("[controller]/[action]/{id}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        var bookById = await this.bookService.GetByIdAsync(id);
+        return View("Description", bookById);
+    }
+
+    // [ActionName("Add")]
+    // [Route("[controller]/[action]/")]
+    // [Authorize("RequireAdminAccess")]
+    // public IActionResult Add()
+    // {
+    //     return base.View();
+    // }
 
     [HttpPost]
     [ActionName("Add")]
-    [Route("[controller]")]
+    [Route("api/[controller]/[action]/")]
+    [Authorize("RequireAdminAccess")]
     public async Task<IActionResult> Add([FromForm] Book newBook)
     {
         await this.bookService.AddAsync(newBook);
-        return base.RedirectToAction(actionName: "Index");
+        return base.RedirectToAction("Index");
     }
 }

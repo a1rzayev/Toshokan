@@ -28,4 +28,8 @@ public class BookCommentService : IBookCommentService
     {
         return await this.bookCommentRepository.GetAllAsync();
     }
+
+    public async Task<IEnumerable<BookComment>?> GetByIdAsync(Guid bookId){
+        return await this.bookCommentRepository.GetByIdAsync(bookId);
+    }
 }

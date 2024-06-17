@@ -28,4 +28,10 @@ public class BookCommentEfCoreRepository : IBookCommentRepository
     {
         return dbContext.BookComments;
     }
+    
+
+    public async Task<IEnumerable<BookComment>?> GetByIdAsync(Guid id)
+    {
+        return dbContext.BookComments.Where(bookComment => bookComment.Id == id);
+    }
 }

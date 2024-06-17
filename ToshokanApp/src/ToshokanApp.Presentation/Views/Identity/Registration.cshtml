@@ -23,5 +23,11 @@
     <label asp-for=Password class="form-label">Password</label>
     <input asp-for=Password type="password" class="form-control">
   </div>
+  <div class="mb-3">
+    <label for="avatar" class="form-label">Avatar: </label>
+    <input type="file" class="form-control" id="avatar" name="avatar">
+  </div>
   <button type="submit" class="btn btn-success">Registration</button>
+  
+  <p>Already have an account? <a asp-route="LoginView">Sign in</a></p>
 </form>

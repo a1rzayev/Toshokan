@@ -6,8 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using ToshokanApp.Core.Repositories;
 using ToshokanApp.Infrastructure.Repositories.EfCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Reflection;
-using Microsoft.EntityFrameworkCore.Design;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,8 +35,15 @@ builder.Services.AddDataProtection();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options => {
-        
+        options.LoginPath = "/Identity/Login";
     });
+
+builder.Services.AddAuthorization(options => {
+    options.AddPolicy("RequireAdminAccess", policyBuilder =>
+    {
+        policyBuilder.RequireRole( "Admin", "Writer");
+    });
+});
 
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
@@ -47,16 +53,18 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+
 app.UseStaticFiles();
 
 app.UseRouting();
 
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseMiddleware<LoggingMiddleware>();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Book}/{action=Index}");
 
 app.Run();

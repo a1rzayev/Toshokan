@@ -10,6 +10,7 @@ public class ToshokanDbContext : DbContext
     public DbSet<Book> Books { get; set; }
     public DbSet<Log> Logs { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<UserRole> UserRoles { get; set; }
 
     public ToshokanDbContext(DbContextOptions<ToshokanDbContext> options) : base(options)
     {
@@ -154,5 +155,13 @@ public class ToshokanDbContext : DbContext
 
 
 
+
+
+        modelBuilder.Entity<UserRole>()
+        .HasKey(c => c.UserId);
+
+        modelBuilder.Entity<UserRole>()
+        .Property(c => c.Role)
+        .IsRequired();
     }
 }

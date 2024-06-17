@@ -24,6 +24,11 @@ public class BookService : IBookService
         return await this.bookRepository.GetAllAsync();
     }
 
+    public async Task<IEnumerable<Book>?> GetByIdAsync(Guid id)
+    {
+        return await this.bookRepository.GetByIdAsync(id);
+    }
+
     public async Task<IEnumerable<Book>?> GetByNameAsync(string name)
     {
         return await this.bookRepository.GetByNameAsync(name);

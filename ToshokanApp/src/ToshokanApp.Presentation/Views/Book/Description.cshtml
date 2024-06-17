@@ -1,0 +1,63 @@
+@model IEnumerable<Book>
+
+<link rel="stylesheet" href="~/wwwroot/css/styles.css">
+
+@{
+    ViewData["Title"] = "Description";
+
+    var hasAccess = User.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Admin");
+
+    var bookComment = new BookComment();
+
+
+    var bookComments = new List<BookComment>();
+
+    var bookName = Model.FirstOrDefault()?.Name;
+}
+
+<h2>Results for @bookName</h2>
+<div>
+    @foreach (var book in Model)
+    {
+        <p>Name: @(book?.Name ?? "UNKNOWN")</p>
+        <p>Author: @(book?.Author ?? "UNKNOWN")</p>
+        <p>Year: @(book?.PublicationYear.ToString() ?? "UNKNOWN")</p>
+        <p>Genre: @(book?.Genre ?? "UNKNOWN")</p>
+        <p>Language: @(book?.Language ?? "UNKNOWN")</p>
+        <p>Description: @(book?.Description ?? "UNKNOWN")</p>
+        <hr>
+        @foreach (var comment in bookComments)
+        {
+            if (comment.BookId == book.Id)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => comment.Id)</td>
+                    <td>@Html.DisplayFor(modelItem => comment.Comment)</td>
+                    @if (hasAccess)
+                    {
+                        <td>
+                            <a href="@Url.Action("Delete", new { id = comment.Id })">Delete</a>
+                        </td>
+                    }
+                </tr>
+            }
+        }
+        <form asp-controller="BookComment" asp-action="Add">
+            <div class="form-group">
+                <label asp-for="@bookComment.Comment" class="control-label"></label>
+                <input asp-for="@bookComment.Comment" class="form-control" />
+                <span asp-validation-for="@bookComment.Comment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @if (base.User.Identity.IsAuthenticated)
+                {
+                    <input type="submit" value="Add" class="btn btn-primary" />
+                }
+                else
+                {
+                    <input type="submit" value="Add" class="btn btn-primary" disabled />
+                }
+            </div>
+        </form>
+    }
+</div>

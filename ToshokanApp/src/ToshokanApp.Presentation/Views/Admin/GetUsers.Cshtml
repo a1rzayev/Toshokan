@@ -1,0 +1,20 @@
+@model IEnumerable<User>
+    
+<link rel="stylesheet" href="~/wwwroot/css/styles.css">
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h2>Results for @ViewData["search"]</h2>  
+<div>
+    @foreach (var user in Model)
+    {
+        @* <image> *@
+        <p>Id: @(user?.Id.ToString() ?? "UNKNOWN")</p>
+        <p>Name: @(user?.Name ?? "UNKNOWN")</p>
+        <p>Surname: @(user?.Surname ?? "UNKNOWN")</p>
+        <p>Email: @(user?.Email ?? "UNKNOWN")</p>
+        <hr>
+    }
+</div>

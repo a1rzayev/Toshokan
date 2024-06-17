@@ -18,6 +18,14 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Presentation
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/Asif/Projects/L0/ComputerScience/Toshokan/ToshokanApp/src/ToshokanApp.Presentation/Views/Admin/GetBooks.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cR2V0Qm9va3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Asif/Projects/L0/ComputerScience/Toshokan/ToshokanApp/src/ToshokanApp.Presentation/Views/Admin/GetUsers.Cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cR2V0VXNlcnMuQ3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Asif/Projects/L0/ComputerScience/Toshokan/ToshokanApp/src/ToshokanApp.Presentation/Views/BookComment/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va0NvbW1lbnRcQWRkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -30,8 +38,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va1xBZGQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Asif/Projects/L0/ComputerScience/Toshokan/ToshokanApp/src/ToshokanApp.Presentation/Views/Book/GetByName.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va1xHZXRCeU5hbWUuY3NodG1s
+[C:/Users/Asif/Projects/L0/ComputerScience/Toshokan/ToshokanApp/src/ToshokanApp.Presentation/Views/Book/Description.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va1xEZXNjcmlwdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Asif/Projects/L0/ComputerScience/Toshokan/ToshokanApp/src/ToshokanApp.Presentation/Views/Book/Index.cshtml]

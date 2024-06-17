@@ -2,6 +2,7 @@ using Microsoft.Extensions.Options;
 using ToshokanApp.Core.Dtos;
 using ToshokanApp.Core.Models;
 using ToshokanApp.Core.Repositories;
+using ToshokanApp.Core.Resources;
 using ToshokanApp.Core.Services;
 
 namespace ToshokanApp.Infrastructure.Services;
@@ -20,8 +21,11 @@ public class IdentityService : IIdentityService
         return identityRepository.Login(loginDto);
     }
 
-    public async Task Registration(RegistrationDto registrationDto)
+    public async Task<Guid> Registration(RegistrationDto registrationDto)
     {
-        await identityRepository.Registration(registrationDto);
+        return await identityRepository.Registration(registrationDto);
+    }
+    public async Task<string> GetRole(Guid userId){
+        return await identityRepository.GetRole(userId);
     }
 }

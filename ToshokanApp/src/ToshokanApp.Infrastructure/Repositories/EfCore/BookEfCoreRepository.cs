@@ -23,6 +23,11 @@ public class BookEfCoreRepository : IBookRepository
         return dbContext.Books;
     }
 
+    public async Task<IEnumerable<Book>?> GetByIdAsync(Guid id)
+    {
+        return dbContext.Books.Where(book => book.Id == id);
+    }
+
     public async Task<IEnumerable<Book>?> GetByNameAsync(string name)
     {
         return dbContext.Books.Where(book => book.Name == name);
