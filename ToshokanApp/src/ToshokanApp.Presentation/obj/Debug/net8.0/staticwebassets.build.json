@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "irvp7l2frxppLsHjha7ElTaYtX+KP3TvSgkUd2QSzk8=",
+  "Hash": "WkwVVwmDivfGz4Qcd2+ZwkrV8rBSeN7xo57TxnYtgkU=",
   "Source": "ToshokanApp.Presentation",
   "BasePath": "_content/ToshokanApp.Presentation",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\Asif\\Projects\\L0\\ComputerScience\\Toshokan\\ToshokanApp\\src\\ToshokanApp.Presentation\\wwwroot\\js\\Admin\\UserManagement.js",
+      "SourceId": "ToshokanApp.Presentation",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Asif\\Projects\\L0\\ComputerScience\\Toshokan\\ToshokanApp\\src\\ToshokanApp.Presentation\\wwwroot\\",
+      "BasePath": "_content/ToshokanApp.Presentation",
+      "RelativePath": "js/Admin/UserManagement.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Admin\\UserManagement.js"
     },
     {
       "Identity": "C:\\Users\\Asif\\Projects\\L0\\ComputerScience\\Toshokan\\ToshokanApp\\src\\ToshokanApp.Presentation\\wwwroot\\js\\site.js",

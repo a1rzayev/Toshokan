@@ -129,17 +129,6 @@ public class IdentityController : Controller
         return base.RedirectToRoute("LoginView");
     }
 
-    [HttpDelete]
-    [Authorize("RequireAdminAccess")]
-    [Route("/api/[controller]/[action]", Name = "DeleteEndpoint")]
-    public async Task<IActionResult> Delete(Guid id){
-        if (ModelState.IsValid)
-        {
-            await this.identityService.DeleteAsync(id);
-            return base.RedirectToAction("Book", "Index");
-        }
 
-        return Forbid();
-    }
 }
 

@@ -9,4 +9,9 @@ public interface IIdentityService
     Task<Guid> Registration(RegistrationDto registrationDto);
     Task<string> GetRole(Guid userId);
     Task DeleteAsync(Guid id);
+    Task<IEnumerable<User>?> GetAllAsync();
+    Task BanAsync(Guid id);
+    
+    Task PromoteAdminAsync(Guid id);
+
 }

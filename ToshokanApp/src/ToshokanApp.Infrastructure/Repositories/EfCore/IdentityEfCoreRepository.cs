@@ -48,4 +48,21 @@ public class IdentityEfCoreRepository : IIdentityRepository
         dbContext.Users.Remove((User)dbContext.Users.Where(c => c.Id == id));
         await dbContext.SaveChangesAsync();
     }
+
+    public async Task<IEnumerable<User>?> GetAllAsync()
+    {
+        return dbContext.Users;
+    }
+
+    public async Task BanAsync(Guid id)
+    {
+        dbContext.UserRoles.FirstOrDefault(x => x.UserId == id).Role = "Banned";
+        await dbContext.SaveChangesAsync();
+    }
+
+    public async Task PromoteAdminAsync(Guid id)
+    {
+        dbContext.UserRoles.FirstOrDefault(x => x.UserId == id).Role = "Admin";
+        await dbContext.SaveChangesAsync();
+    }
 }

@@ -25,11 +25,24 @@ public class IdentityService : IIdentityService
     {
         await this.identityRepository.DeleteAsync(id);
     }
+    public async Task BanAsync(Guid id)
+    {
+        await this.identityRepository.BanAsync(id);
+    }
+    public async Task PromoteAdminAsync(Guid id)
+    {
+        await this.identityRepository.PromoteAdminAsync(id);
+    }
     public async Task<Guid> Registration(RegistrationDto registrationDto)
     {
         return await identityRepository.Registration(registrationDto);
     }
     public async Task<string> GetRole(Guid userId){
         return await identityRepository.GetRole(userId);
+    }
+
+    public async Task<IEnumerable<User>?> GetAllAsync()
+    {
+        return await identityRepository.GetAllAsync();
     }
 }

@@ -5,6 +5,8 @@
 } *@
 @{
     var IsAuthenticated = base.User.Identity?.IsAuthenticated ?? false;
+    
+    var hasAccess = User.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Admin");
 }
 
 <!DOCTYPE html>
@@ -35,6 +37,12 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @if (hasAccess)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="GetUsers">Users</a>
+                            </li>
+                        }
                     </ul>
                     <form class="d-flex me-2" asp-controller="Book" asp-action="GetByName" method="get">
                         <input class="form-control me-2" type="search" placeholder="Enter book name" aria-label="Search" name="name">

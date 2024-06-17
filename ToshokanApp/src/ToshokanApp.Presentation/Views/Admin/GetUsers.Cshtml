@@ -6,7 +6,6 @@
     ViewData["Title"] = "Home Page";
 }
 
-<h2>Results for @ViewData["search"]</h2>  
 <div>
     @foreach (var user in Model)
     {
@@ -15,6 +14,19 @@
         <p>Name: @(user?.Name ?? "UNKNOWN")</p>
         <p>Surname: @(user?.Surname ?? "UNKNOWN")</p>
         <p>Email: @(user?.Email ?? "UNKNOWN")</p>
+        @* <input asp-controller="Admin" asp-action="Delete" type="submit" value="Delete" class="btn btn-primary" />
+        <input asp-controller="Admin" asp-action="Ban" type="submit" value="Ban" class="btn btn-primary" /> *@
+
+        <a href="@Url.Action("PromoteAdmin", "Admin", new { id = user.Id })" class="btn btn-primary">Promote to Admin</a>
+        <a href="@Url.Action("Ban", "Admin", new { id = user.Id })" class="btn btn-primary">Ban</a>
+        <a href="@Url.Action("Delete", "Admin", new { id = user.Id })" class="btn btn-primary">Delete</a>
+
+        @* <button id="promoteAdminButton" class="btn btn-primary">Promote Admin</button>
+        <button id="banButton" class="btn btn-primary">Ban</button>
+        <button id="deleteButtton" class="btn btn-primary">Delete</button> *@
         <hr>
     }
 </div>
+
+@* <script src="~/js/Admin.UserManagement.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false) *@
