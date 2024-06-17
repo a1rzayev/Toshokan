@@ -23,13 +23,23 @@ public class BookEfCoreRepository : IBookRepository
         return dbContext.Books;
     }
 
-    public async Task<IEnumerable<Book>?> GetByIdAsync(Guid id)
+    public async Task<Book?> GetByIdAsync(Guid id)
     {
-        return dbContext.Books.Where(book => book.Id == id);
+        return dbContext.Books.FirstOrDefault(book => book.Id == id);
     }
 
     public async Task<IEnumerable<Book>?> GetByNameAsync(string name)
     {
         return dbContext.Books.Where(book => book.Name == name);
+    }
+    
+    public async Task DeleteAsync(Guid id)
+    {
+        dbContext.Books.Remove((Book)dbContext.Books.Where(c => c.Id == id));
+        await dbContext.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<Comment>?> GetComments(Guid id){
+        return dbContext.Comments;//.Where(bookComment => bookComment.BookId == id);
     }
 }

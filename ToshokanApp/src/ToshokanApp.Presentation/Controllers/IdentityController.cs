@@ -69,6 +69,8 @@ public class IdentityController : Controller
         {
             return base.Redirect(loginDto.ReturnUrl);
         }
+        HttpContext.Items["CurrentUserId"] = foundUser.Id;
+        // ViewData["currentUserId"] = foundUser.Id;
 
         return base.RedirectToAction(controllerName: "Book", actionName: "Index");
     }
@@ -84,10 +86,12 @@ public class IdentityController : Controller
         //await base.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
 
+        ViewData["currentUserId"] = null;
         return base.RedirectToRoute("LoginView", new
             {
                 ReturnUrl
             });
+            
         //return base.RedirectToRoute("LoginView");
     }
 
@@ -124,4 +128,18 @@ public class IdentityController : Controller
         }
         return base.RedirectToRoute("LoginView");
     }
+
+    [HttpDelete]
+    [Authorize("RequireAdminAccess")]
+    [Route("/api/[controller]/[action]", Name = "DeleteEndpoint")]
+    public async Task<IActionResult> Delete(Guid id){
+        if (ModelState.IsValid)
+        {
+            await this.identityService.DeleteAsync(id);
+            return base.RedirectToAction("Book", "Index");
+        }
+
+        return Forbid();
+    }
 }
+

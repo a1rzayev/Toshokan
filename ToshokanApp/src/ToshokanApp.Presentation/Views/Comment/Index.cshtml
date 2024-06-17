@@ -1,4 +1,4 @@
-@model IEnumerable<BookComment>
+@model IEnumerable<Comment>
 
 @{
     ViewData["Title"] = "Index";
@@ -22,7 +22,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>@Html.DisplayFor(modelItem => item.Id)</td>
-            <td>@Html.DisplayFor(modelItem => item.Comment)</td>
+            <td>@Html.DisplayFor(modelItem => item.Text)</td>
             <td>
                 <a href="@Url.Action("Delete", new { id = item.Id })">Delete</a>
             </td>

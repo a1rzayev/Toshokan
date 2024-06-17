@@ -19,12 +19,17 @@ public class BookService : IBookService
         await this.bookRepository.AddAsync(newBook);
     }
 
+    public async Task DeleteAsync(Guid id)
+    {
+        await this.bookRepository.DeleteAsync(id);
+    }
+
     public async Task<IEnumerable<Book>?> GetAllAsync()
     {
         return await this.bookRepository.GetAllAsync();
     }
 
-    public async Task<IEnumerable<Book>?> GetByIdAsync(Guid id)
+    public async Task<Book?> GetByIdAsync(Guid id)
     {
         return await this.bookRepository.GetByIdAsync(id);
     }
@@ -32,5 +37,10 @@ public class BookService : IBookService
     public async Task<IEnumerable<Book>?> GetByNameAsync(string name)
     {
         return await this.bookRepository.GetByNameAsync(name);
+    }
+
+    public async Task<IEnumerable<Comment>?> GetComments(Guid id)
+    {
+        return await this.bookRepository.GetComments(id);
     }
 }

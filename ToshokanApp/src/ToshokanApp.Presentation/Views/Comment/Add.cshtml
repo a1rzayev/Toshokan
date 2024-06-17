@@ -1,4 +1,4 @@
-@model BookComment
+@model Comment
 
 @{
     ViewData["Title"] = "Add";
@@ -12,9 +12,9 @@
     <div class="col-md-4">
         <form asp-action="Add">
             <div class="form-group">
-                <label asp-for="Comment" class="control-label"></label>
-                <input asp-for="Comment" class="form-control" />
-                <span asp-validation-for="Comment" class="text-danger"></span>
+                <label asp-for="Text" class="control-label"></label>
+                <input asp-for="Text" class="form-control" />
+                <span asp-validation-for="Text" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Add" class="btn btn-primary" />

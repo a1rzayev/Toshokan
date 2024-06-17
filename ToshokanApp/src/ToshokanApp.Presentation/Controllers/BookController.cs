@@ -32,7 +32,7 @@ public class BookController : Controller
     public async Task<IActionResult> GetByName(string? name)
     {
         var booksByName = await this.bookService.GetByNameAsync(name);
-        return View("Description", booksByName);
+        return View("Index", booksByName);
     }
 
     [HttpGet]
@@ -42,7 +42,13 @@ public class BookController : Controller
     public async Task<IActionResult> GetById(Guid id)
     {
         var bookById = await this.bookService.GetByIdAsync(id);
-        return View("Description", bookById);
+        HttpContext.Items["CurrentUserId"] = bookById.Id;
+        var comments = await this.bookService.GetComments(bookById.Id);
+        var bookComments = new BookComment{
+            book = bookById,
+            comments = comments
+        };
+        return View("Description", bookComments);
     }
 
     // [ActionName("Add")]
@@ -61,5 +67,19 @@ public class BookController : Controller
     {
         await this.bookService.AddAsync(newBook);
         return base.RedirectToAction("Index");
+    }
+
+    
+    [HttpDelete]
+    [Authorize("RequireAdminAccess")]
+    [Route("/api/[controller]/[action]")]
+    public async Task<IActionResult> Delete(Guid id){
+        if (ModelState.IsValid)
+        {
+            await this.bookService.DeleteAsync(id);
+            return base.RedirectToAction("Index");
+        }
+
+        return Forbid();
     }
 }

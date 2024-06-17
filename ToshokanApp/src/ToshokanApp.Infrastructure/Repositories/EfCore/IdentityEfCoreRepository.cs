@@ -43,4 +43,9 @@ public class IdentityEfCoreRepository : IIdentityRepository
     public async Task<string> GetRole(Guid userId){
         return dbContext.UserRoles.FirstOrDefault(x => x.UserId == userId).Role;
     }
+
+    public async Task DeleteAsync(Guid id){
+        dbContext.Users.Remove((User)dbContext.Users.Where(c => c.Id == id));
+        await dbContext.SaveChangesAsync();
+    }
 }

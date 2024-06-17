@@ -6,7 +6,7 @@ namespace ToshokanApp.Infrastructure.Repositories.EfCore.DbContexts;
 
 public class ToshokanDbContext : DbContext
 {
-    public DbSet<BookComment> BookComments { get; set; }
+    public DbSet<Comment> Comments { get; set; }
     public DbSet<Book> Books { get; set; }
     public DbSet<Log> Logs { get; set; }
     public DbSet<User> Users { get; set; }
@@ -65,19 +65,19 @@ public class ToshokanDbContext : DbContext
 
 
 
-        modelBuilder.Entity<BookComment>()
+        modelBuilder.Entity<Comment>()
         .HasKey(c => c.Id);
 
-        modelBuilder.Entity<BookComment>()
+        modelBuilder.Entity<Comment>()
         .Property(c => c.BookId)
         .IsRequired();
 
-        modelBuilder.Entity<BookComment>()
+        modelBuilder.Entity<Comment>()
         .Property(c => c.SenderId)
         .IsRequired();
 
-        modelBuilder.Entity<BookComment>()
-        .Property(c => c.Comment)
+        modelBuilder.Entity<Comment>()
+        .Property(c => c.Text)
         .HasMaxLength(1000)
         .IsRequired();
 

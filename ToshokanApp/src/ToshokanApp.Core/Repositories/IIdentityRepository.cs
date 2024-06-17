@@ -1,9 +1,10 @@
 using ToshokanApp.Core.Dtos;
 using ToshokanApp.Core.Models;
+using ToshokanApp.Core.Repositories.Functions;
 using ToshokanApp.Core.Resources;
 
 namespace ToshokanApp.Core.Repositories;
-public interface IIdentityRepository { 
+public interface IIdentityRepository : IDeleteAsync<User> { 
     User? Login(LoginDto loginDto);
     Task<Guid> Registration(RegistrationDto registrationDto);
 

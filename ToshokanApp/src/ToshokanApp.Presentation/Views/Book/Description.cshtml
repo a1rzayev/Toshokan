@@ -1,4 +1,4 @@
-@model IEnumerable<Book>
+@model BookComment
 
 <link rel="stylesheet" href="~/wwwroot/css/styles.css">
 
@@ -7,46 +7,42 @@
 
     var hasAccess = User.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Admin");
 
-    var bookComment = new BookComment();
+    var bookName = Model.book.Name;
 
-
-    var bookComments = new List<BookComment>();
-
-    var bookName = Model.FirstOrDefault()?.Name;
+    var comment = new Comment(); 
 }
 
 <h2>Results for @bookName</h2>
 <div>
-    @foreach (var book in Model)
-    {
-        <p>Name: @(book?.Name ?? "UNKNOWN")</p>
-        <p>Author: @(book?.Author ?? "UNKNOWN")</p>
-        <p>Year: @(book?.PublicationYear.ToString() ?? "UNKNOWN")</p>
-        <p>Genre: @(book?.Genre ?? "UNKNOWN")</p>
-        <p>Language: @(book?.Language ?? "UNKNOWN")</p>
-        <p>Description: @(book?.Description ?? "UNKNOWN")</p>
+        <p>Name: @(Model?.book.Name ?? "UNKNOWN")</p>
+        <p>Author: @(Model?.book.Author ?? "UNKNOWN")</p>
+        <p>Year: @(Model?.book.PublicationYear.ToString() ?? "UNKNOWN")</p>
+        <p>Genre: @(Model?.book.Genre ?? "UNKNOWN")</p>
+        <p>Language: @(Model?.book.Language ?? "UNKNOWN")</p>
+        <p>Description: @(Model?.book.Description ?? "UNKNOWN")</p>
         <hr>
-        @foreach (var comment in bookComments)
+        @foreach (var item in Model.comments)
         {
-            if (comment.BookId == book.Id)
+            <p>item.Text</p>
+        @* <tr>
+            <td>@Html.DisplayFor(modelItem => comment.Id)</td>
+            <td>@Html.DisplayFor(modelItem => comment.Text)</td>
+            @if (hasAccess)
             {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => comment.Id)</td>
-                    <td>@Html.DisplayFor(modelItem => comment.Comment)</td>
-                    @if (hasAccess)
-                    {
-                        <td>
-                            <a href="@Url.Action("Delete", new { id = comment.Id })">Delete</a>
-                        </td>
-                    }
-                </tr>
+                <td>
+                    <a href="@Url.Action("Delete", new { id = comment.Id })">Delete</a>
+                </td>
             }
+            
+                        <a href="@Url.Action("GetById", "Book", new { id = book.Id })" class="btn btn-primary">Description</a>
+        </tr> *@
+            @* <p>@comment.Text</p> *@
         }
-        <form asp-controller="BookComment" asp-action="Add">
+        <form asp-controller="Comment" asp-action="Add">
             <div class="form-group">
-                <label asp-for="@bookComment.Comment" class="control-label"></label>
-                <input asp-for="@bookComment.Comment" class="form-control" />
-                <span asp-validation-for="@bookComment.Comment" class="text-danger"></span>
+                <label asp-for="@comment.Text" class="control-label"></label>
+                <input asp-for="@comment.Text" class="form-control" />
+                <span asp-validation-for="@comment.Text" class="text-danger"></span>
             </div>
             <div class="form-group">
                 @if (base.User.Identity.IsAuthenticated)
@@ -59,5 +55,4 @@
                 }
             </div>
         </form>
-    }
 </div>

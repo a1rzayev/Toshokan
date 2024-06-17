@@ -12,8 +12,8 @@ using ToshokanApp.Infrastructure.Repositories.EfCore.DbContexts;
 namespace ToshokanApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ToshokanDbContext))]
-    [Migration("20240617091256_AddRoles")]
-    partial class AddRoles
+    [Migration("20240617150815_FixCommentsBug")]
+    partial class FixCommentsBug
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,7 +71,7 @@ namespace ToshokanApp.Infrastructure.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("ToshokanApp.Core.Models.BookComment", b =>
+            modelBuilder.Entity("ToshokanApp.Core.Models.Comment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,17 +80,17 @@ namespace ToshokanApp.Infrastructure.Migrations
                     b.Property<Guid>("BookId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Comment")
+                    b.Property<Guid>("SenderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<Guid>("SenderId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.ToTable("BookComments");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("ToshokanApp.Core.Models.Log", b =>
@@ -175,8 +175,9 @@ namespace ToshokanApp.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
 

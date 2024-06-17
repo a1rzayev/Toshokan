@@ -17,8 +17,8 @@ builder.Services.AddDbContext<ToshokanDbContext>( dbContextOptionsBuilder => {
         options.MigrationsAssembly("ToshokanApp.Infrastructure");
     });
 });
-builder.Services.AddTransient<IBookCommentRepository, BookCommentEfCoreRepository>();
-builder.Services.AddTransient<IBookCommentService, BookCommentService>();
+builder.Services.AddTransient<ICommentRepository, CommentEfCoreRepository>();
+builder.Services.AddTransient<ICommentService, CommentService>();
 
 builder.Services.AddTransient<IBookRepository, BookEfCoreRepository>();
 builder.Services.AddTransient<IBookService, BookService>();

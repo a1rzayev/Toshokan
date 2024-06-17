@@ -68,7 +68,7 @@ namespace ToshokanApp.Infrastructure.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("ToshokanApp.Core.Models.BookComment", b =>
+            modelBuilder.Entity("ToshokanApp.Core.Models.Comment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,17 +77,17 @@ namespace ToshokanApp.Infrastructure.Migrations
                     b.Property<Guid>("BookId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Comment")
+                    b.Property<Guid>("SenderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<Guid>("SenderId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.ToTable("BookComments");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("ToshokanApp.Core.Models.Log", b =>

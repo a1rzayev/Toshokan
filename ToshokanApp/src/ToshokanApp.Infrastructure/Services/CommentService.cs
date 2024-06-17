@@ -5,16 +5,16 @@ using ToshokanApp.Core.Services;
 
 namespace ToshokanApp.Infrastructure.Services;
 
-public class BookCommentService : IBookCommentService
+public class CommentService : ICommentService
 {
-    private readonly IBookCommentRepository bookCommentRepository; 
+    private readonly ICommentRepository bookCommentRepository; 
     private readonly IOptionsSnapshot<string> connectionString;
-    public BookCommentService(IBookCommentRepository bookCommentRepository, IOptionsSnapshot<string> connectionString)
+    public CommentService(ICommentRepository bookCommentRepository, IOptionsSnapshot<string> connectionString)
     {
         this.connectionString = connectionString;
         this.bookCommentRepository = bookCommentRepository;
     }
-    public async Task AddAsync(BookComment comment)
+    public async Task AddAsync(Comment comment)
     {
         await this.bookCommentRepository.AddAsync(comment);
     }
@@ -24,12 +24,12 @@ public class BookCommentService : IBookCommentService
         await this.bookCommentRepository.DeleteAsync(commentId);
     }
 
-    public async Task<IEnumerable<BookComment>?> GetAllAsync()
+    public async Task<IEnumerable<Comment>?> GetAllAsync()
     {
         return await this.bookCommentRepository.GetAllAsync();
     }
-
-    public async Task<IEnumerable<BookComment>?> GetByIdAsync(Guid bookId){
+    public async Task<Comment?> GetByIdAsync(Guid bookId){
         return await this.bookCommentRepository.GetByIdAsync(bookId);
     }
+
 }

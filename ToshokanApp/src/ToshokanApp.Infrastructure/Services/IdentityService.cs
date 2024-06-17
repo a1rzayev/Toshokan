@@ -21,6 +21,10 @@ public class IdentityService : IIdentityService
         return identityRepository.Login(loginDto);
     }
 
+    public async Task DeleteAsync(Guid id)
+    {
+        await this.identityRepository.DeleteAsync(id);
+    }
     public async Task<Guid> Registration(RegistrationDto registrationDto)
     {
         return await identityRepository.Registration(registrationDto);
