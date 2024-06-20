@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ToshokanApp.Core.Models;
 using ToshokanApp.Core.Repositories;
 using ToshokanApp.Infrastructure.Repositories.EfCore.DbContexts;
@@ -34,10 +35,14 @@ public class BookEfCoreRepository : IBookRepository
     }
     
     public async Task DeleteAsync(Guid id)
+{
+    var book = await dbContext.Books.FirstOrDefaultAsync(c => c.Id == id);
+    if (book != null)
     {
-        dbContext.Books.Remove((Book)dbContext.Books.Where(c => c.Id == id));
+        dbContext.Books.Remove(book);
         await dbContext.SaveChangesAsync();
     }
+}
 
     public async Task<IEnumerable<Comment>?> GetComments(Guid id){
         return dbContext.Comments;//.Where(bookComment => bookComment.BookId == id);

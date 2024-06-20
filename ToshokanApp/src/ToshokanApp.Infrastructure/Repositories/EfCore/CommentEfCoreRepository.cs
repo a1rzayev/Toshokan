@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ToshokanApp.Core.Models;
 using ToshokanApp.Core.Repositories;
 using ToshokanApp.Infrastructure.Repositories.EfCore.DbContexts;
@@ -19,10 +20,14 @@ public class CommentEfCoreRepository : ICommentRepository
     }
 
     public async Task DeleteAsync(Guid id)
+{
+    var comment = await dbContext.Comments.FirstOrDefaultAsync(c => c.Id == id);
+    if (comment != null)
     {
-        dbContext.Comments.Remove((Comment)dbContext.Comments.Where(c => c.Id == id));
+        dbContext.Comments.Remove(comment);
         await dbContext.SaveChangesAsync();
     }
+}
 
     public async Task<IEnumerable<Comment>?> GetAllAsync()
     {

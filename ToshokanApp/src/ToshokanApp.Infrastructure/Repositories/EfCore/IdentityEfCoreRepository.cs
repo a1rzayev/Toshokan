@@ -3,6 +3,7 @@ using ToshokanApp.Core.Repositories;
 using ToshokanApp.Infrastructure.Repositories.EfCore.DbContexts;
 using ToshokanApp.Core.Dtos;
 using ToshokanApp.Core.Resources;
+using Microsoft.EntityFrameworkCore;
 
 namespace ToshokanApp.Infrastructure.Repositories.EfCore;
 
@@ -37,16 +38,22 @@ public class IdentityEfCoreRepository : IIdentityRepository
             Role = "User"
         });
         await dbContext.SaveChangesAsync();
-        return userId;
+        return user.Id;
     }
 
-    public async Task<string> GetRole(Guid userId){
+    public async Task<string> GetRole(Guid userId)
+    {
         return dbContext.UserRoles.FirstOrDefault(x => x.UserId == userId).Role;
     }
 
-    public async Task DeleteAsync(Guid id){
-        dbContext.Users.Remove((User)dbContext.Users.Where(c => c.Id == id));
-        await dbContext.SaveChangesAsync();
+    public async Task DeleteAsync(Guid id)
+    {
+        var user = await dbContext.Users.FirstOrDefaultAsync(c => c.Id == id);
+        if (user != null)
+        {
+            dbContext.Users.Remove(user);
+            await dbContext.SaveChangesAsync();
+        }
     }
 
     public async Task<IEnumerable<User>?> GetAllAsync()
@@ -56,13 +63,21 @@ public class IdentityEfCoreRepository : IIdentityRepository
 
     public async Task BanAsync(Guid id)
     {
-        dbContext.UserRoles.FirstOrDefault(x => x.UserId == id).Role = "Banned";
-        await dbContext.SaveChangesAsync();
+        var userroles = await dbContext.UserRoles.FirstOrDefaultAsync(c => c.UserId == id);
+        if (userroles != null)
+        {
+            dbContext.UserRoles.FirstOrDefault(c => c.UserId == id).Role = "Banned";
+            await dbContext.SaveChangesAsync();
+        }
     }
 
     public async Task PromoteAdminAsync(Guid id)
     {
-        dbContext.UserRoles.FirstOrDefault(x => x.UserId == id).Role = "Admin";
-        await dbContext.SaveChangesAsync();
+        var userroles = await dbContext.UserRoles.FirstOrDefaultAsync(c => c.UserId == id);
+        if (userroles != null)
+        {
+            dbContext.UserRoles.FirstOrDefault(x => x.UserId == id).Role = "Admin";
+            await dbContext.SaveChangesAsync();
+        }
     }
 }
