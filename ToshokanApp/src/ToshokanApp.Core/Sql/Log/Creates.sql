@@ -1,0 +1,10 @@
+CREATE TABLE Logs (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Url NVARCHAR(MAX) NOT NULL,
+    RequestBody NVARCHAR(MAX) NOT NULL,
+    ResponseBody NVARCHAR(MAX) NOT NULL,
+    CreationDate DATETIME NOT NULL,
+    EndDate DATETIME NOT NULL,
+    StatusCode INT NOT NULL,
+    HttpMethod NVARCHAR(MAX) NOT NULL
+);
