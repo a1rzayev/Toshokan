@@ -1,0 +1,32 @@
+@model IEnumerable<Comment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a href="@Url.Action("Add")">Add New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Id)</td>
+            <td>@Html.DisplayFor(modelItem => item.Text)</td>
+            <td>
+                <a href="@Url.Action("Delete", new { id = item.Id })">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

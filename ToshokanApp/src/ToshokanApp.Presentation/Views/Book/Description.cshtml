@@ -1,0 +1,58 @@
+@model BookComment
+
+<link rel="stylesheet" href="~/wwwroot/css/styles.css">
+
+@{
+    ViewData["Title"] = "Description";
+
+    var hasAccess = User.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Admin");
+
+    var bookName = Model.book.Name;
+
+    var comment = new Comment(); 
+}
+
+<h2>Results for @bookName</h2>
+<div>
+        <p>Name: @(Model?.book.Name ?? "UNKNOWN")</p>
+        <p>Author: @(Model?.book.Author ?? "UNKNOWN")</p>
+        <p>Year: @(Model?.book.PublicationYear.ToString() ?? "UNKNOWN")</p>
+        <p>Genre: @(Model?.book.Genre ?? "UNKNOWN")</p>
+        <p>Language: @(Model?.book.Language ?? "UNKNOWN")</p>
+        <p>Description: @(Model?.book.Description ?? "UNKNOWN")</p>
+        <hr>
+        @foreach (var item in Model.comments)
+        {
+            <p>item.Text</p>
+        @* <tr>
+            <td>@Html.DisplayFor(modelItem => comment.Id)</td>
+            <td>@Html.DisplayFor(modelItem => comment.Text)</td>
+            @if (hasAccess)
+            {
+                <td>
+                    <a href="@Url.Action("Delete", new { id = comment.Id })">Delete</a>
+                </td>
+            }
+            
+                        <a href="@Url.Action("GetById", "Book", new { id = book.Id })" class="btn btn-primary">Description</a>
+        </tr> *@
+            @* <p>@comment.Text</p> *@
+        }
+        <form asp-controller="Comment" asp-action="Add">
+            <div class="form-group">
+                <label asp-for="@comment.Text" class="control-label"></label>
+                <input asp-for="@comment.Text" class="form-control" />
+                <span asp-validation-for="@comment.Text" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @if (base.User.Identity.IsAuthenticated)
+                {
+                    <input type="submit" value="Add" class="btn btn-primary" />
+                }
+                else
+                {
+                    <input type="submit" value="Add" class="btn btn-primary" disabled />
+                }
+            </div>
+        </form>
+</div>
