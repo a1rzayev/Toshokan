@@ -69,7 +69,9 @@ public class IdentityController : Controller
         {
             return base.Redirect(loginDto.ReturnUrl);
         }
-        HttpContext.Items["CurrentUserId"] = foundUser.Id;
+        //HttpContext.Items["CurrentUserId"] = foundUser.Id;
+        
+        base.HttpContext.Response.Cookies.Append("CurrentUserId", foundUser.Id.ToString());
         // ViewData["currentUserId"] = foundUser.Id;
 
         return base.RedirectToAction(controllerName: "Book", actionName: "Index");
@@ -80,6 +82,8 @@ public class IdentityController : Controller
     [Route("/api/[controller]/[action]", Name = "LogoutEndpoint")]
     public async Task<IActionResult> Logout(string? ReturnUrl)
         {
+            
+            base.HttpContext.Response.Cookies.Delete("CurrentUserId");
             await base.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
         //base.HttpContext.Response.Cookies.Delete("Authentication");

@@ -45,6 +45,6 @@ public class BookEfCoreRepository : IBookRepository
 }
 
     public async Task<IEnumerable<Comment>?> GetComments(Guid id){
-        return dbContext.Comments;//.Where(bookComment => bookComment.BookId == id);
+        return dbContext.Comments.Where(bookComment => bookComment.BookId == id);
     }
 }

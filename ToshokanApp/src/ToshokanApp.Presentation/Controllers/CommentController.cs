@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using ToshokanApp.Core.Models;
 using ToshokanApp.Core.Services;
@@ -7,10 +8,12 @@ namespace ToshokanApp.Presentation.Controllers;
 
 public class CommentController : Controller
 {
+    private readonly IDataProtector dataProtector;
     private readonly ICommentService commentService;
-    public CommentController(ICommentService commentService)
+    public CommentController(ICommentService commentService, IDataProtectionProvider dataProtectionProvider)
     {
         this.commentService = commentService;
+        this.dataProtector = dataProtectionProvider.CreateProtector("comment");
     }
 
     [HttpGet]
@@ -25,16 +28,46 @@ public class CommentController : Controller
     [HttpPost]
     [Route("api/[controller]")]
     public async Task<IActionResult> Add(Comment comment)
-    {   
-        var currentUserId = HttpContext.Items["CurrentUserId"];
-        var currentBookId = HttpContext.Items["CurrentBookId"];
-        Guid senderId, bookId;
-        Guid.TryParse(HttpContext.User.FindFirst("Id")?.Value, out senderId);
-        //Guid.TryParse(currentBookId, out bookId);
-        comment.SenderId = senderId;
-        if(ModelState.IsValid){
+    {
+        Guid senderId;
+        var hashedSenderId = base.HttpContext.Request.Cookies["CurrentUserId"];
+
+        if (string.IsNullOrWhiteSpace(hashedSenderId) == false)
+        {
+            //var senderIdValue = this.dataProtector.Unprotect(hashedSenderId);
+
+            if (Guid.TryParse(hashedSenderId, out senderId))
+            {
+
+                comment.SenderId = senderId;
+            }
+        }
+
+        Guid bookId;
+        var hashedBookId = base.HttpContext.Request.Cookies["CurrentBookId"];
+
+        if (string.IsNullOrWhiteSpace(hashedBookId) == false)
+        {
+
+            if (Guid.TryParse(hashedBookId, out bookId))
+            {
+                comment.BookId = bookId;
+
+            }
+        }
+
+        // var currentUserId = HttpContext.Items["CurrentUserId"];
+        // var currentBookId = HttpContext.Items["CurrentBookId"];
+        //var hashedSenderId = this.dataProtector.Unprotect(base.HttpContext.Request.Cookies["CurrentUserId"]);
+        //Guid senderId, bookId;
+        // Guid.TryParse(HttpContext.User.FindFirst("Id")?.Value, out senderId);
+        // Guid.TryParse(, out bookId);
+        // base.HttpContext.Request.Cookies.Get
+        if (ModelState.IsValid)
+        {
             await commentService.AddAsync(comment);
             return Created();
+            //return base.RedirectToRoute($"Book/GetById?id={comment.BookId}");
         }
         return Forbid();
     }

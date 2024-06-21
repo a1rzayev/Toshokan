@@ -13,14 +13,15 @@ public class BookController : Controller
     private readonly IBookService bookService;
     public BookController(IBookService bookService, IDataProtectionProvider dataProtectionProvider)
     {
-        this.dataProtector = dataProtectionProvider.CreateProtector("identity");
         this.bookService = bookService;
+        this.dataProtector = dataProtectionProvider.CreateProtector("book");
     }
 
     [HttpGet]
     [AllowAnonymous]
     public async Task<IActionResult> Index()
     {
+        base.HttpContext.Response.Cookies.Delete("CurrentBookId");
         var books = await this.bookService.GetAllAsync();
         return View(books);
     }
@@ -42,12 +43,12 @@ public class BookController : Controller
     public async Task<IActionResult> GetById(Guid id)
     {
         var bookById = await this.bookService.GetByIdAsync(id);
-        HttpContext.Items["CurrentUserId"] = bookById.Id;
         var comments = await this.bookService.GetComments(bookById.Id);
         var bookComments = new BookComment{
             book = bookById,
             comments = comments
         };
+        base.HttpContext.Response.Cookies.Append("CurrentBookId", bookById.Id.ToString());
         return View("Description", bookComments);
     }
 

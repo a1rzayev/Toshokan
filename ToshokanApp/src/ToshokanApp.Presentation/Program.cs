@@ -7,6 +7,7 @@ using ToshokanApp.Core.Repositories;
 using ToshokanApp.Infrastructure.Repositories.EfCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,11 @@ builder.Services.AddDbContext<ToshokanDbContext>( dbContextOptionsBuilder => {
         options.MigrationsAssembly("ToshokanApp.Infrastructure");
     });
 });
+
+builder.Services.AddDataProtection();
+
+builder.Services.AddTransient<ICurrentStateService, CurrentStateService>();
+
 builder.Services.AddTransient<ICommentRepository, CommentEfCoreRepository>();
 builder.Services.AddTransient<ICommentService, CommentService>();
 
@@ -31,7 +37,6 @@ builder.Services.AddTransient<IIdentityRepository, IdentityEfCoreRepository>();
 builder.Services.AddTransient<IIdentityService, IdentityService>();
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddDataProtection();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options => {
