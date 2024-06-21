@@ -4,6 +4,9 @@
     var nameCookie = base.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name);
 
     var username = nameCookie?.Value ?? "UNKNOWN";
+}@if (ViewBag.Message != null)
+{
+    <p>@ViewBag.Message</p>
 }
 
 @if(base.User.Identity.IsAuthenticated) {

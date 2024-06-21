@@ -64,13 +64,13 @@ public class IdentityController : Controller
         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
         await base.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
-        
+
         if (string.IsNullOrWhiteSpace(loginDto.ReturnUrl) == false)
         {
             return base.Redirect(loginDto.ReturnUrl);
         }
         //HttpContext.Items["CurrentUserId"] = foundUser.Id;
-        
+
         base.HttpContext.Response.Cookies.Append("CurrentUserId", foundUser.Id.ToString());
         // ViewData["currentUserId"] = foundUser.Id;
 
@@ -81,10 +81,10 @@ public class IdentityController : Controller
     [Authorize()]
     [Route("/api/[controller]/[action]", Name = "LogoutEndpoint")]
     public async Task<IActionResult> Logout(string? ReturnUrl)
-        {
-            
-            base.HttpContext.Response.Cookies.Delete("CurrentUserId");
-            await base.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+    {
+
+        base.HttpContext.Response.Cookies.Delete("CurrentUserId");
+        await base.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
         //base.HttpContext.Response.Cookies.Delete("Authentication");
         //await base.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -92,10 +92,10 @@ public class IdentityController : Controller
 
         ViewData["currentUserId"] = null;
         return base.RedirectToRoute("LoginView", new
-            {
-                ReturnUrl
-            });
-            
+        {
+            ReturnUrl
+        });
+
         //return base.RedirectToRoute("LoginView");
     }
 
@@ -120,7 +120,7 @@ public class IdentityController : Controller
         try
         {
             var userId = await this.identityService.Registration(registrationDto);
-            
+
             //var extension = new FileInfo(avatar.FileName).Extension[1..];
             //using var newFileStream = System.IO.File.Create($"Assets/Avatars/{userId}.{extension}");
             //await avatar.CopyToAsync(newFileStream);
@@ -134,5 +134,71 @@ public class IdentityController : Controller
     }
 
 
+    // [HttpPost]
+    // [AllowAnonymous]
+    // public IActionResult RequestTobeWriter(){
+    //     var rtbw = new RequestTobeWriter{
+    //         MotivationalLetter = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    //         ExperienceYears = 3,
+    //         Portfolio = "https://example.com/your-portfolio"
+    //     };
+    //     return base.View(rtbw);
+    // }
+
+
+    [HttpPost]
+    [Route("/[controller]/[action]", Name = "BuyBookEndpoint")]
+    public async Task<IActionResult> BuyBook()
+    {
+        try
+        {
+            Guid userId;
+            var hashedSenderId = base.HttpContext.Request.Cookies["CurrentUserId"];
+            Guid.TryParse(hashedSenderId, out userId);
+
+            Guid bookId;
+            var hashedBookId = base.HttpContext.Request.Cookies["CurrentBookId"];
+            Guid.TryParse(hashedBookId, out bookId);
+            await this.identityService.BuyBook(userId, bookId);
+
+            //var extension = new FileInfo(avatar.FileName).Extension[1..];
+            //using var newFileStream = System.IO.File.Create($"Assets/Avatars/{userId}.{extension}");
+            //await avatar.CopyToAsync(newFileStream);
+        }
+        catch (Exception ex)
+        {
+            TempData["error"] = ex.Message;
+            return base.RedirectToAction("Index", "Book");
+        }
+        return base.RedirectToAction("Index", "Book");
+    }
+
+
+    [HttpPost]
+    [Route("/[controller]/[action]", Name = "AddtoWishlistBookEndpoint")]
+    public async Task<IActionResult> AddtoWishlistBook()
+    {
+        try
+        {
+            Guid userId;
+            var hashedSenderId = base.HttpContext.Request.Cookies["CurrentUserId"];
+            Guid.TryParse(hashedSenderId, out userId);
+
+            Guid bookId;
+            var hashedBookId = base.HttpContext.Request.Cookies["CurrentBookId"];
+            Guid.TryParse(hashedBookId, out bookId);
+            await this.identityService.AddtoWishlistBook(userId, bookId);
+
+            //var extension = new FileInfo(avatar.FileName).Extension[1..];
+            //using var newFileStream = System.IO.File.Create($"Assets/Avatars/{userId}.{extension}");
+            //await avatar.CopyToAsync(newFileStream);
+        }
+        catch (Exception ex)
+        {
+            TempData["error"] = ex.Message;
+            return base.RedirectToAction("Index", "Book");
+        }
+        return base.RedirectToAction("Index", "Book");
+    }
 }
 

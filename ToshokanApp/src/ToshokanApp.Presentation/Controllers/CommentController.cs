@@ -34,7 +34,6 @@ public class CommentController : Controller
 
         if (string.IsNullOrWhiteSpace(hashedSenderId) == false)
         {
-            //var senderIdValue = this.dataProtector.Unprotect(hashedSenderId);
 
             if (Guid.TryParse(hashedSenderId, out senderId))
             {

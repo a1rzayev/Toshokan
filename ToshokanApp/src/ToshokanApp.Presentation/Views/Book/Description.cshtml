@@ -47,6 +47,12 @@
             <p class="card-text"><strong>Language:</strong> @(Model?.book.Language ?? "UNKNOWN")</p>
             <p class="card-text"><strong>Description:</strong> @(Model?.book.Description ?? "UNKNOWN")</p>
         </div>
+        @using (Html.BeginForm("BuyBook", "Identity", FormMethod.Post)){
+            <input type="submit" value="Buy" />
+        }
+        @using (Html.BeginForm("AddtoWishlistBook", "Identity", FormMethod.Post)){
+            <input type="submit" value="Add to wishlist" />
+        }
     </div>
 
     <hr>

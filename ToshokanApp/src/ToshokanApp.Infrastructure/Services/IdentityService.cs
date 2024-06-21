@@ -45,4 +45,12 @@ public class IdentityService : IIdentityService
     {
         return await identityRepository.GetAllAsync();
     }
+
+    public async Task BuyBook(Guid userId, Guid bookId){
+        await identityRepository.BuyBook(userId, bookId);
+    }
+
+    public async Task AddtoWishlistBook(Guid userId, Guid bookId){
+        await identityRepository.AddtoWishlistBook(userId, bookId);
+    }
 }

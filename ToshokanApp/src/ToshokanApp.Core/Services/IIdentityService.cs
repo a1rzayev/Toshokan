@@ -13,5 +13,7 @@ public interface IIdentityService
     Task BanAsync(Guid id);
     
     Task PromoteAdminAsync(Guid id);
+    Task BuyBook(Guid userId, Guid bookId);
+    Task AddtoWishlistBook(Guid userId, Guid bookId);
 
 }

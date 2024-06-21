@@ -18,7 +18,13 @@ public class HomeController : Controller
         this.dataProtector = dataProtectionProvider.CreateProtector("identity");
     }
 
-    public async Task<IActionResult> Index()
+
+public ActionResult GetMessage()
+    {
+        ViewBag.Message = "Hello from the controller!";
+        return View("Index");
+    }   
+     public async Task<IActionResult> Index()
     {
         // var authenticationHashedValue = base.HttpContext.Request.Cookies["Authentication"];
 

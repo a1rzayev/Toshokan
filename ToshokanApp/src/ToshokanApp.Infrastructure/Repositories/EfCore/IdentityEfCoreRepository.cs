@@ -5,6 +5,7 @@ using ToshokanApp.Core.Dtos;
 using ToshokanApp.Core.Resources;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace ToshokanApp.Infrastructure.Repositories.EfCore;
 
 public class IdentityEfCoreRepository : IIdentityRepository
@@ -77,6 +78,28 @@ public class IdentityEfCoreRepository : IIdentityRepository
         if (userroles != null)
         {
             dbContext.UserRoles.FirstOrDefault(x => x.UserId == id).Role = "Admin";
+            await dbContext.SaveChangesAsync();
+        }
+    }
+
+
+    public async Task BuyBook(Guid userId, Guid bookId)
+    {
+        var user = dbContext.Users.FirstOrDefault(x => x.Id == userId);
+        if (user != null)
+        {
+            user.PurchasedBooks.Add(bookId);
+            await dbContext.SaveChangesAsync();
+        }
+    }
+
+
+    public async Task AddtoWishlistBook(Guid userId, Guid bookId)
+    {
+        var user = dbContext.Users.FirstOrDefault(x => x.Id == userId);
+        if (user != null)
+        {
+            user.WishList.Add(bookId);
             await dbContext.SaveChangesAsync();
         }
     }
