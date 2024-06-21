@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ToshokanApp.Core.Dtos;
 using ToshokanApp.Core.Models;
 using ToshokanApp.Core.Repositories;
 using ToshokanApp.Infrastructure.Repositories.EfCore.DbContexts;
@@ -44,7 +45,21 @@ public class BookEfCoreRepository : IBookRepository
     }
 }
 
-    public async Task<IEnumerable<Comment>?> GetComments(Guid id){
-        return dbContext.Comments.Where(bookComment => bookComment.BookId == id);
+    public IEnumerable<CommentDto>? GetComments(Guid id){
+        var comments = dbContext.Comments.Where(bookComment => bookComment.BookId == id).ToList();
+        var commentDtos = new List<CommentDto>();
+        foreach (var item in comments)
+        {
+
+            commentDtos.Add(new CommentDto{
+                Id = item.Id,
+                BookId = item.BookId,
+                SenderId = item.SenderId,
+                Text = item.Text,
+                SenderName = dbContext.Users.FirstOrDefault(user => user.Id == item.SenderId)?.Name,
+                SenderSurname = dbContext.Users.FirstOrDefault(user => user.Id == item.SenderId)?.Surname,
+            });
+        }
+        return commentDtos;
     }
 }

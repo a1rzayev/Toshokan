@@ -66,8 +66,14 @@ public class CommentController : Controller
         if (ModelState.IsValid)
         {
             await commentService.AddAsync(comment);
-            return Created();
-            //return base.RedirectToRoute($"Book/GetById?id={comment.BookId}");
+            //return Created();
+            //return base.RedirectToAction("GetById", "Book", comment.BookId);
+            return base.RedirectToRoute(new
+            {
+                controller = "Book",
+                action = "GetById",
+                id = comment.BookId.ToString()
+            });
         }
         return Forbid();
     }

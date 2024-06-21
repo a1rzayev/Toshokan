@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ToshokanApp.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3887414cffad78513905e948177d3f11bd821034")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+832093894d1a8384d978ad00b871dded0a8541a9")]
 [assembly: System.Reflection.AssemblyProductAttribute("ToshokanApp.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ToshokanApp.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Options;
+using ToshokanApp.Core.Dtos;
 using ToshokanApp.Core.Models;
 using ToshokanApp.Core.Repositories;
 using ToshokanApp.Core.Services;
@@ -39,8 +40,8 @@ public class BookService : IBookService
         return await this.bookRepository.GetByNameAsync(name);
     }
 
-    public async Task<IEnumerable<Comment>?> GetComments(Guid id)
+    public IEnumerable<CommentDto>? GetComments(Guid id)
     {
-        return await this.bookRepository.GetComments(id);
+        return this.bookRepository.GetComments(id);
     }
 }

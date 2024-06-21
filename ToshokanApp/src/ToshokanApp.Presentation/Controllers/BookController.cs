@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
+using ToshokanApp.Core.Dtos;
 using ToshokanApp.Core.Models;
 using ToshokanApp.Core.Services;
 
@@ -43,10 +44,11 @@ public class BookController : Controller
     public async Task<IActionResult> GetById(Guid id)
     {
         var bookById = await this.bookService.GetByIdAsync(id);
-        var comments = await this.bookService.GetComments(bookById.Id);
+        var commentDtos = this.bookService.GetComments(bookById.Id);
+       
         var bookComments = new BookComment{
             book = bookById,
-            comments = comments
+            comments = commentDtos
         };
         base.HttpContext.Response.Cookies.Append("CurrentBookId", bookById.Id.ToString());
         return View("Description", bookComments);
