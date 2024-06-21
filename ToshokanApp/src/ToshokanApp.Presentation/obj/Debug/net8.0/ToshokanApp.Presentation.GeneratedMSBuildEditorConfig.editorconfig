@@ -54,6 +54,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSWRlbnRpdHlcTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Asif/Projects/L0/ComputerScience/Toshokan/ToshokanApp/src/ToshokanApp.Presentation/Views/Identity/MyAccount.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSWRlbnRpdHlcTXlBY2NvdW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Asif/Projects/L0/ComputerScience/Toshokan/ToshokanApp/src/ToshokanApp.Presentation/Views/Identity/Registration.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSWRlbnRpdHlcUmVnaXN0cmF0aW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

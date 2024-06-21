@@ -22,6 +22,4 @@ public class User
     public string? AvatarPath { get; set; }
     public List<Guid>? PurchasedBooks { get; set; }
     public List<Guid>? WishList { get; set; }
-
-
 }

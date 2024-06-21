@@ -89,8 +89,6 @@ public class IdentityController : Controller
         //base.HttpContext.Response.Cookies.Delete("Authentication");
         //await base.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-
-        ViewData["currentUserId"] = null;
         return base.RedirectToRoute("LoginView", new
         {
             ReturnUrl
@@ -148,7 +146,8 @@ public class IdentityController : Controller
 
     [HttpPost]
     [Route("/[controller]/[action]", Name = "BuyBookEndpoint")]
-    public async Task<IActionResult> BuyBook()
+    [Authorize()]
+    public async Task<IActionResult> BuyBook(string? ReturnUrl)
     {
         try
         {
@@ -168,15 +167,18 @@ public class IdentityController : Controller
         catch (Exception ex)
         {
             TempData["error"] = ex.Message;
-            return base.RedirectToAction("Index", "Book");
         }
-        return base.RedirectToAction("Index", "Book");
+        return base.RedirectToAction("Index", "Book", new
+        {
+            ReturnUrl
+        });
     }
 
 
     [HttpPost]
     [Route("/[controller]/[action]", Name = "AddtoWishlistBookEndpoint")]
-    public async Task<IActionResult> AddtoWishlistBook()
+    [Authorize("UserAccess")]
+    public async Task<IActionResult> AddtoWishlistBook(string? ReturnUrl)
     {
         try
         {
@@ -196,9 +198,24 @@ public class IdentityController : Controller
         catch (Exception ex)
         {
             TempData["error"] = ex.Message;
-            return base.RedirectToAction("Index", "Book");
         }
-        return base.RedirectToAction("Index", "Book");
+        return base.RedirectToAction("Index", "Book", new
+        {
+            ReturnUrl
+        });
+    }
+    [HttpGet]
+    [Route("/[controller]/[action]")]
+    [Authorize()]
+    public async Task<ActionResult> MyAccount()
+    {
+       
+        Guid userId;
+        var hashedSenderId = base.HttpContext.Request.Cookies["CurrentUserId"];
+        Guid.TryParse(hashedSenderId, out userId);
+        var user = await identityService.MyAccount(userId);
+
+        return View(user);
     }
 }
 

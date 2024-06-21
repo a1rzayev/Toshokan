@@ -57,9 +57,14 @@
                         }
                         else
                         {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Identity" asp-action="Logout">Sign out</a>
-                            </li>
+@*                             
+                            <a asp-controller="Identity" asp-action="MyAccount">
+                                <img src="https://via.placeholder.com/64" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
+                            </a> *@
+                            
+                            <a href="@Url.Action("MyAccount", "Identity")" class="btn">
+                                <img src="https://th.bing.com/th/id/R.dc8b1732c919ca17845aab44dc3afb27?rik=qjVkoFOnwCqKyQ&pid=ImgRaw&r=0" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
+                            </a>
                         }
                     </ul>
                 </div>

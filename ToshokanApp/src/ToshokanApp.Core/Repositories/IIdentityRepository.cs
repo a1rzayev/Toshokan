@@ -14,4 +14,6 @@ public interface IIdentityRepository : IDeleteAsync<User>, IGetAllAsync<User> {
     Task PromoteAdminAsync(Guid id);
     Task BuyBook(Guid userId, Guid bookId);
     Task AddtoWishlistBook(Guid userId, Guid bookId);
+    
+    Task<User> MyAccount(Guid userId);
 }

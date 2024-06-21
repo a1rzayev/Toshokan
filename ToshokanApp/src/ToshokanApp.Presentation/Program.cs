@@ -41,12 +41,17 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options => {
         options.LoginPath = "/Identity/Login";
+        options.AccessDeniedPath = "/Book/Index";
     });
 
 builder.Services.AddAuthorization(options => {
     options.AddPolicy("RequireAdminAccess", policyBuilder =>
     {
-        policyBuilder.RequireRole( "Admin", "Writer");
+        policyBuilder.RequireRole("Admin");
+    });
+    options.AddPolicy("UserAccess", policyBuilder =>
+    {
+        policyBuilder.RequireRole("User");
     });
 });
 

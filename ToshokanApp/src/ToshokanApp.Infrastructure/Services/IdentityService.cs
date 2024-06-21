@@ -53,4 +53,7 @@ public class IdentityService : IIdentityService
     public async Task AddtoWishlistBook(Guid userId, Guid bookId){
         await identityRepository.AddtoWishlistBook(userId, bookId);
     }
+    public async Task<User> MyAccount(Guid userId){
+        return await identityRepository.MyAccount(userId);
+    }
 }

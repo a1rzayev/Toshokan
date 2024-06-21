@@ -15,5 +15,6 @@ public interface IIdentityService
     Task PromoteAdminAsync(Guid id);
     Task BuyBook(Guid userId, Guid bookId);
     Task AddtoWishlistBook(Guid userId, Guid bookId);
+    Task<User> MyAccount(Guid userId);
 
 }

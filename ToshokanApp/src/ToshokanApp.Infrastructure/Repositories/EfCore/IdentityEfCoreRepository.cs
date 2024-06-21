@@ -103,4 +103,9 @@ public class IdentityEfCoreRepository : IIdentityRepository
             await dbContext.SaveChangesAsync();
         }
     }
+    
+    public async Task<User> MyAccount(Guid userId)
+    {        
+        return dbContext.Users.FirstOrDefault(u => u.Id == userId);
+    }
 }
