@@ -119,9 +119,10 @@ public class IdentityController : Controller
         {
             var userId = await this.identityService.Registration(registrationDto);
 
-            //var extension = new FileInfo(avatar.FileName).Extension[1..];
-            //using var newFileStream = System.IO.File.Create($"Assets/Avatars/{userId}.{extension}");
-            //await avatar.CopyToAsync(newFileStream);
+            if (avatar == null){}
+            var extension = new FileInfo(avatar.FileName).Extension[1..];
+            using var newFileStream = System.IO.File.Create($"Assets/Avatars/{userId}.{extension}");
+            await avatar.CopyToAsync(newFileStream);
         }
         catch (Exception ex)
         {

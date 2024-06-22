@@ -9,19 +9,37 @@
         <div class="col-md-6">
             <h2 class="text-center">@ViewData["Title"]</h2>
             <div asp-validation-summary="All" class="text-danger"></div>
-            <form asp-route="LoginEndpoint" method="post">
+            <form asp-route="LoginEndpoint" method="post" id="loginForm">
                 <input type="hidden" class="form-control" name="ReturnUrl" value="@ViewBag.ReturnUrl">
                 <div class="mb-3">
                     <label asp-for="Email" class="form-label">Email address</label>
-                    <input asp-for="Email" type="email" class="form-control">
+                    <input asp-for="Email" type="email" class="form-control" id="email">
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label asp-for="Password" class="form-label">Password</label>
-                    <input asp-for="Password" type="password" class="form-control">
+                    <input asp-for="Password" type="password" class="form-control" id="password">
+                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Login</button>
+                <button type="submit" class="btn btn-primary w-100" id="submitButton" disabled>Login</button>
                 <p class="text-center mt-3">Don't have an account? <a asp-route="RegistrationView">Sign up</a></p>
             </form>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#loginForm input').on('keyup change', function () {
+                let isValid = true;
+                $('#loginForm input[type="email"], #loginForm input[type="password"]').each(function () {
+                    if ($(this).val() === '') {
+                        isValid = false;
+                    }
+                });
+                $('#submitButton').prop('disabled', !isValid);
+            });
+        });
+    </script>
+}

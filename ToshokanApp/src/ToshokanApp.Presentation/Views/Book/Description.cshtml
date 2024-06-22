@@ -47,12 +47,25 @@
             <p class="card-text"><strong>Language:</strong> @(Model?.book.Language ?? "UNKNOWN")</p>
             <p class="card-text"><strong>Description:</strong> @(Model?.book.Description ?? "UNKNOWN")</p>
         </div>
-        @using (Html.BeginForm("BuyBook", "Identity", FormMethod.Post)){
-            <input type="submit" value="Buy" />
-        }
-        @using (Html.BeginForm("AddtoWishlistBook", "Identity", FormMethod.Post)){
-            <input type="submit" value="Add to wishlist" />
-        }
+        <div>
+            @using (Html.BeginForm("BuyBook", "Identity", FormMethod.Post, new { id = "buyBookForm" }))
+            {
+                <button type="submit" class="btn btn-primary" id="buyButton">Buy</button>
+                <div class="alert alert-warning mt-3" role="alert" id="buyAlert" style="display: none;">
+                    Please log in to buy the book.
+                </div>
+            }
+        </div>
+
+        <div>
+            @using (Html.BeginForm("AddToWishlistBook", "Identity", FormMethod.Post, new { id = "wishlistForm" }))
+            {
+                <button type="submit" class="btn btn-primary" id="wishlistButton">Add to Wishlist</button>
+                <div class="alert alert-warning mt-3" role="alert" id="wishlistAlert" style="display: none;">
+                    Please log in to add the book to your wishlist.
+                </div>
+            }
+        </div>
     </div>
 
     <hr>
@@ -63,9 +76,10 @@
 
             @foreach (var item in Model.comments)
             {
-                <div class="media mb-3">   
-                    <img src="https://th.bing.com/th/id/R.dc8b1732c919ca17845aab44dc3afb27?rik=qjVkoFOnwCqKyQ&pid=ImgRaw&r=0" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
-                            
+                <div class="media mb-3">
+                    <img src="https://th.bing.com/th/id/R.dc8b1732c919ca17845aab44dc3afb27?rik=qjVkoFOnwCqKyQ&pid=ImgRaw&r=0"
+                        class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
+
                     <div class="media-body">
                         <h6 class="mt-0">@item.SenderName @item.SenderSurname</h6>
                         <p>@item.Text</p>
@@ -73,39 +87,79 @@
                 </div>
             }
 
-            <form asp-controller="Comment" asp-action="Add">
+            <form asp-controller="Comment" asp-action="Add" method="post" id="commentForm">
                 <div class="form-group">
-                    <label asp-for="@comment.Text" class="control-label"></label>
+                    <label asp-for="@comment.Text" class="control-label">Comment</label>
                     <input asp-for="@comment.Text" class="form-control" id="commentInput" />
                     <span asp-validation-for="@comment.Text" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    @* @if (base.User.Identity.IsAuthenticated)
+                    @if (User.Identity.IsAuthenticated)
                     {
-                    <input type="submit" value="Add" class="btn btn-primary addButton" id="addButton" />
+                        <button type="submit" class="btn btn-primary" id="addButton">Add</button>
                     }
                     else
                     {
-                    <input type="submit" value="Add" class="btn btn-primary addButton" disabled />
-                    } *@
-                    <button class="btn btn-primary" id="addButton" >Add</button>
-                    <script>
-                        const commentInput = document.querySelector("#commentInput");
-                        const button = document.querySelector("#addButton");
-
-                        commentInput.addEventListener("commentInput", validate);
-
-                        function validate() {
-                            if (commentInput.value === "") {
-                                button.setAttribute("disabled", "disabled");
-                            }
-                            else {
-                                button.removeAttribute("disabled");
-                            }
-                        }    
-                    </script>
+                        <button type="button" class="btn btn-primary" id="addButton" disabled>Add</button>
+                        <div class="alert alert-warning mt-3" role="alert" id="loginAlert" style="display: none;">
+                            Please log in to add a comment.
+                        </div>
+                    }
                 </div>
             </form>
+            @section Scripts {
+                <script>
+                    $(document).ready(function () {
+                        $('#addButton').click(function (e) {
+                            if (!@User.Identity.IsAuthenticated.ToString().ToLower()) {
+                                e.preventDefault();
+                                $('#loginAlert').slideDown();
+                                setTimeout(function () {
+                                    $('#loginAlert').slideUp();
+                                }, 3000); // Hide alert after 3 seconds
+                            }
+                        });
+
+                        $('#commentInput').on('keyup change', function () {
+                            validateForm();
+                        });
+
+                        function validateForm() {
+                            var isValid = true;
+                            $('#commentForm input[type="text"]').each(function () {
+                                if ($(this).val() === '') {
+                                    isValid = false;
+                                }
+                            });
+
+                            $('#addButton').prop('disabled', !isValid);
+                        }
+
+                        $('#buyBookForm').submit(function (e) {
+                            if (!@User.Identity.IsAuthenticated.ToString().ToLower()) {
+                                e.preventDefault();
+                                $('#buyAlert').slideDown();
+                                setTimeout(function () {
+                                    $('#buyAlert').slideUp();
+                                }, 3000); // Hide alert after 3 seconds
+                            }
+                        });
+
+                        $('#wishlistForm').submit(function (e) {
+                            if (!@User.Identity.IsAuthenticated.ToString().ToLower()) {
+                                e.preventDefault();
+                                $('#wishlistAlert').slideDown();
+                                setTimeout(function () {
+                                    $('#wishlistAlert').slideUp();
+                                }, 3000); // Hide alert after 3 seconds
+                            }
+                        });
+                        // Call validateForm initially to ensure button state matches initial input state
+                        validateForm();
+                    });
+                </script>
+            }
+
         </div>
     </div>
 </div>
