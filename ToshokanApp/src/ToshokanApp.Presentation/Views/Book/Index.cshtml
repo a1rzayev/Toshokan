@@ -1,4 +1,4 @@
-@model IEnumerable<Book>
+@* @model IEnumerable<Book>
 @{
     ViewData["Title"] = "Home Page";
     //var hasAccess = User.Claims.Any(c => c.Type == ClaimTypes.Role && (c.Value == RoleEnum.Admin.ToString() ||c.Value == RoleEnum.CEO.ToString() ||c.Value == RoleEnum.Developer.ToString()));
@@ -64,4 +64,126 @@
             </div>
         }
     </div>
+</div> *@
+
+@model IEnumerable<Book>
+@{
+    ViewData["Title"] = "Home Page";
+    var hasAccess = User.Claims.Any(c => c.Type == ClaimTypes.Role && (c.Value == "Admin" || c.Value == "Developer" || c.Value == "CEO"));
+}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.11/dist/jquery.validate.unobtrusive.min.js"></script>
+
+<div class="container mt-4">
+    @if (hasAccess)
+    {
+        <h2 class="mb-4">Add Book</h2>
+        <form id="addBookForm" asp-controller="Book" asp-action="Add" method="post">
+            <div class="form-row">
+                <div class="form-group col-md-3 mb-3">
+                    <label >Name</label>
+                    <input type="text" name="Name" class="form-control" required>
+                    <span asp- class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3 mb-3">
+                    <label >Author</label>
+                    <input type="text" name="Author" class="form-control" required>
+                    <span asp- class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-2 mb-3">
+                    <label >PublicationYear</label>
+                    <input type="text" name="PublicationYear" class="form-control" required>
+                    <span asp- class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-2 mb-3">
+                    <label >Genre</label>
+                    <input type="text" name="Genre" class="form-control" required>
+                    <span asp- class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-2 mb-3">
+                    <label >Language</label>
+                    <input type="text" name="Language" class="form-control" required>
+                    <span  class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-12 mb-12">
+                    <label >Description</label>
+                    <textarea type="text" name="Description" class="form-control" rows="3" required></textarea>
+                    <span asp- class="text-danger"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="addBookButton">Add</button>
+        </form>
+
+        <hr>
+    }
+
+    <h2 class="mb-4">Library</h2>
+    <div class="row">
+        @foreach (var book in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@book.Name</h5>
+                        <p class="card-text">Author: @book.Author</p>
+                        <p class="card-text">Year: @book.PublicationYear</p>
+                        <p class="card-text">Genre: @book.Genre</p>
+                        <p class="card-text">Language: @book.Language</p>
+                        <p class="card-text">Description: @book.Description</p>
+                        <a href="@Url.Action("GetById", "Book", new { id = book.Id })" class="btn btn-primary mt-auto">Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        // Initialize validation
+        $('#addBookForm').validate({
+            rules: {
+                PublicationYear: {
+                    required: true,
+                    number: true,
+                    max: new Date().getFullYear()
+                }
+            },
+            messages: {
+                PublicationYear: {
+                    required: "Publication Year is required",
+                    number: "Please enter a valid year",
+                    max: "Year must be less than or equal to " + new Date().getFullYear()
+                }
+            }
+        });
+
+        // Disable the Add button initially
+        $('#addBookButton').prop('disabled', true);
+
+        // Function to check if all fields are filled
+        function checkFormValidity() {
+            let isValid = true;
+            $('#addBookForm input, #addBookForm textarea').each(function() {
+                if ($(this).val() === '') {
+                    isValid = false;
+                    return false;  // Break the loop
+                }
+            });
+            return isValid;
+        }
+
+        // Enable the Add button when the form is valid
+        $('#addBookForm input, #addBookForm textarea').on('keyup change', function () {
+            if ($('#addBookForm').valid() && checkFormValidity()) {
+                $('#addBookButton').prop('disabled', false);
+            } else {
+                $('#addBookButton').prop('disabled', true);
+            }
+        });
+    });
+</script>

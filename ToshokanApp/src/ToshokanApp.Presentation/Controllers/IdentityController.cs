@@ -205,7 +205,7 @@ public class IdentityController : Controller
 
     [HttpPost]
     [Route("/[controller]/[action]", Name = "AddtoWishlistBookEndpoint")]
-    [Authorize("UserAccess")]
+    //[Authorize("UserAccess")]
     public async Task<IActionResult> AddtoWishlistBook(string? ReturnUrl)
     {
         try
@@ -220,31 +220,28 @@ public class IdentityController : Controller
             await this.identityService.AddtoWishlistBook(userId, bookId);
 
             //var extension = new FileInfo(avatar.FileName).Extension[1..];
+            System.Console.WriteLine(userId.ToString(), bookId.ToString());
             //using var newFileStream = System.IO.File.Create($"Assets/Avatars/{userId}.{extension}");
             //await avatar.CopyToAsync(newFileStream);
         }
         catch (Exception ex)
         {
             TempData["error"] = ex.Message;
+            System.Console.WriteLine(TempData["error"]);
         }
-        return base.RedirectToAction("Index", "Book", new
-        {
-            ReturnUrl
-        });
+        return base.RedirectToAction("Index", "Book");//, new
+        // {
+        //     ReturnUrl
+        // });
     }
     [HttpGet]
     [Authorize()]
-    [Route("/[controller]/[action]/{id}")]
+    [Route("[controller]/[action]/{id}")]
     [ActionName("GetById")]
     public async Task<ActionResult> GetById(Guid id)
     {
-
-        Guid userId2;
-        // var hashedSenderId = base.HttpContext.Request.Cookies["CurrentUserId"];
-        Guid.TryParse("77f487a9-0463-450f-cf70-08dc92a95b62", out userId2);
         var user = await identityService.GetByIdAsync(id);
-
-        return base.View("GetById", user);
+        return base.View(user);
     }
 }
 

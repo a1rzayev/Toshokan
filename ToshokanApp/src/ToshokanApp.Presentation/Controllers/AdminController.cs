@@ -52,16 +52,12 @@ public class AdminController : Controller
 
 
     [HttpPost]
-    [Route("[controller]/[action]/{id}", Name = "BanUserEndpoint")]
+    [Route("[controller]/[action]", Name = "BanUserEndpoint")]
     public async Task<IActionResult> BanUser(Guid id)
     {
-        if (ModelState.IsValid)
-        {
-            await this.identityService.BanAsync(id);
-            return base.RedirectToAction("GetUsers");
-        }
+        await this.identityService.BanAsync(id);
+        return base.RedirectToAction("GetUsers");
 
-        return Forbid();
     }
 
 
@@ -69,17 +65,13 @@ public class AdminController : Controller
     [Route("[controller]/[action]/{id}", Name = "PromoteAdminEndpoint")]
     public async Task<IActionResult> PromoteAdmin(Guid id)
     {
-        if (ModelState.IsValid)
-        {
-            await this.identityService.PromoteAdminAsync(id);
-            return base.RedirectToAction("GetUsers");
-        }
+        await this.identityService.PromoteAdminAsync(id);
+        return base.RedirectToAction("GetUsers");
 
-        return Forbid();
     }
 
     [HttpDelete]
-    [Route("[controller]/[action]", Name = "DeleteUserEndpoint")]
+    [Route("[controller]/[action]/{id}", Name = "DeleteUserEndpoint")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
         await this.identityService.DeleteAsync(id);

@@ -1,0 +1,31 @@
+<h2>Add Book</h2>
+        <form asp-controller="Book" asp-action="Add" method="post">
+            <div class="form-row">
+                <div class="col-md-3 mb-3">
+                    <label>Name:</label>
+                    <input type="text" name="Name" class="form-control">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label>Author:</label>
+                    <input type="text" name="Author" class="form-control">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label>Year:</label>
+                    <input type="text" name="PublicationYear" class="form-control">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label>Genre:</label>
+                    <input type="text" name="Genre" class="form-control">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label>Language:</label>
+                    <input type="text" name="Language" class="form-control">
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>Description:</label>
+                    <input type="text" name="Description" class="form-control">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>

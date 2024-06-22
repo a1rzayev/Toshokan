@@ -13,28 +13,6 @@
     var comment = new Comment();
 }
 
-@* <h2>Results for @bookName</h2>
-<div>
-<p>Name: @(Model?.book.Name ?? "UNKNOWN")</p>
-<p>Author: @(Model?.book.Author ?? "UNKNOWN")</p>
-<p>Year: @(Model?.book.PublicationYear.ToString() ?? "UNKNOWN")</p>
-<p>Genre: @(Model?.book.Genre ?? "UNKNOWN")</p>
-<p>Language: @(Model?.book.Language ?? "UNKNOWN")</p>
-<p>Description: @(Model?.book.Description ?? "UNKNOWN")</p>
-<hr>
-@foreach (var item in Model.comments)
-{
-<div class="media mb-4">
-<div class="media-body">
-<h5 class="mt-0">@item.SenderId</h5>
-<p>@item.Text</p>
-</div>
-</div>
-}
-
-
-</div> *@
-
 <div class="container mt-5">
     <h2>Results for @bookName</h2>
 
@@ -48,7 +26,7 @@
             <p class="card-text"><strong>Description:</strong> @(Model?.book.Description ?? "UNKNOWN")</p>
         </div>
         <div>
-            @using (Html.BeginForm("BuyBook", "Identity", FormMethod.Post, new { id = "buyBookForm" }))
+            @using (Html.BeginForm("BuyBook", "Identity", FormMethod.Post, new { id = Model?.book.Id }))
             {
                 <button type="submit" class="btn btn-primary" id="buyButton">Buy</button>
                 <div class="alert alert-warning mt-3" role="alert" id="buyAlert" style="display: none;">
@@ -58,7 +36,7 @@
         </div>
 
         <div>
-            @using (Html.BeginForm("AddToWishlistBook", "Identity", FormMethod.Post, new { id = "wishlistForm" }))
+            @using (Html.BeginForm("AddToWishlistBook", "Identity", FormMethod.Post, new { id = Model?.book.Id }))
             {
                 <button type="submit" class="btn btn-primary" id="wishlistButton">Add to Wishlist</button>
                 <div class="alert alert-warning mt-3" role="alert" id="wishlistAlert" style="display: none;">
