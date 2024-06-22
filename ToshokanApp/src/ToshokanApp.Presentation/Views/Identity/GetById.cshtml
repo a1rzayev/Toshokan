@@ -1,15 +1,13 @@
 @model User
 
 @{
-    ViewData["Title"] = "My Account";
+    ViewData["Title"] = "Account Info";
 }
 
-<h2>My Account</h2>
+<h2>Account Info</h2>
 
-<!-- Display validation summary for any potential errors -->
 <div asp-validation-summary="All" class="text-danger"></div>
 
-<!-- Form to display user information -->
 <form>    
     <img src="https://th.bing.com/th/id/R.dc8b1732c919ca17845aab44dc3afb27?rik=qjVkoFOnwCqKyQ&pid=ImgRaw&r=0" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
                             
@@ -27,14 +25,16 @@
         <label asp-for="@Model.Email" class="form-label">Email address</label>
         <label asp-for="@Model.Email" type="email" class="form-control" readonly />@Model.Name</label>
     </div>
+
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button type="button" class="btn btn-primary me-md-2" onclick="location.href='@Url.Action("RequestTobeWriter", "Identity")'">Request to be Writer</button>
         <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Logout", "Identity")'">Logout</button>
     </div>
 </form>
 
-<!-- Display any messages -->
 @if (ViewBag.Message != null)
 {
     <p class="text-success mt-3">@ViewBag.Message</p>
 }
+
+

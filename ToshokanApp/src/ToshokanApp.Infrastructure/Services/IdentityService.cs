@@ -35,25 +35,25 @@ public class IdentityService : IIdentityService
     }
     public async Task<Guid> Registration(RegistrationDto registrationDto)
     {
-        return await identityRepository.Registration(registrationDto);
+        return await this.identityRepository.Registration(registrationDto);
     }
     public async Task<string> GetRole(Guid userId){
-        return await identityRepository.GetRole(userId);
+        return await this.identityRepository.GetRole(userId);
     }
 
     public async Task<IEnumerable<User>?> GetAllAsync()
     {
-        return await identityRepository.GetAllAsync();
+        return await this.identityRepository.GetAllAsync();
     }
 
     public async Task BuyBook(Guid userId, Guid bookId){
-        await identityRepository.BuyBook(userId, bookId);
+        await this.identityRepository.BuyBook(userId, bookId);
     }
 
     public async Task AddtoWishlistBook(Guid userId, Guid bookId){
-        await identityRepository.AddtoWishlistBook(userId, bookId);
+        await this.identityRepository.AddtoWishlistBook(userId, bookId);
     }
-    public async Task<User> MyAccount(Guid userId){
-        return await identityRepository.MyAccount(userId);
+    public async Task<User?> GetByIdAsync(Guid userId){
+        return await this.identityRepository.GetByIdAsync(userId);
     }
 }

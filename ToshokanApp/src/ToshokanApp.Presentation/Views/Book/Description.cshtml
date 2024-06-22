@@ -77,9 +77,10 @@
             @foreach (var item in Model.comments)
             {
                 <div class="media mb-3">
-                    <img src="https://th.bing.com/th/id/R.dc8b1732c919ca17845aab44dc3afb27?rik=qjVkoFOnwCqKyQ&pid=ImgRaw&r=0"
-                        class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
-
+                    
+                            <a href="@Url.Action("GetById", "Identity", new { id = item.SenderId})"class="btn">
+                                <img src="@Url.Content($"C:/ToshokanAppAssets/Assets//Avatars/{item.SenderId}.jpg")" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
+                            </a>
                     <div class="media-body">
                         <h6 class="mt-0">@item.SenderName @item.SenderSurname</h6>
                         <p>@item.Text</p>
@@ -116,7 +117,7 @@
                                 $('#loginAlert').slideDown();
                                 setTimeout(function () {
                                     $('#loginAlert').slideUp();
-                                }, 3000); // Hide alert after 3 seconds
+                                }, 3000);
                             }
                         });
 
@@ -141,7 +142,7 @@
                                 $('#buyAlert').slideDown();
                                 setTimeout(function () {
                                     $('#buyAlert').slideUp();
-                                }, 3000); // Hide alert after 3 seconds
+                                }, 3000); 
                             }
                         });
 
@@ -151,10 +152,9 @@
                                 $('#wishlistAlert').slideDown();
                                 setTimeout(function () {
                                     $('#wishlistAlert').slideUp();
-                                }, 3000); // Hide alert after 3 seconds
+                                }, 3000);
                             }
                         });
-                        // Call validateForm initially to ensure button state matches initial input state
                         validateForm();
                     });
                 </script>

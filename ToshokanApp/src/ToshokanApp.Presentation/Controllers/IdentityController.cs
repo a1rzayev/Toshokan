@@ -115,20 +115,47 @@ public class IdentityController : Controller
     [Route("/api/[controller]/[action]", Name = "RegistrationEndpoint")]
     public async Task<IActionResult> Registration([FromForm] RegistrationDto registrationDto, IFormFile avatar)
     {
+        // try
+        // {
+        //     var userId = await this.identityService.Registration(registrationDto);
+
+        //     if (avatar == null){}
+        //     var extension = new FileInfo(avatar.FileName).Extension[1..];
+        //     using var newFileStream = System.IO.File.Create($"Assets/Avatars/{userId}.{extension}");
+        //     await avatar.CopyToAsync(newFileStream);
+        // }
+        // catch (Exception ex)
+        // {
+        //     TempData["error"] = ex.Message;
+        //     return base.RedirectToRoute("RegistrationView");
+        // }
+        // return base.RedirectToRoute("LoginView");
         try
         {
             var userId = await this.identityService.Registration(registrationDto);
 
-            if (avatar == null){}
-            var extension = new FileInfo(avatar.FileName).Extension[1..];
-            using var newFileStream = System.IO.File.Create($"Assets/Avatars/{userId}.{extension}");
-            await avatar.CopyToAsync(newFileStream);
+            if (avatar == null)
+            {
+                var defaultAvatarPath = "C:/ToshokanAppAssets/Assets/Avatars/Default.jpg";
+
+                var extension = Path.GetExtension(defaultAvatarPath);
+                using var defaultAvatarFileStream = System.IO.File.OpenRead(defaultAvatarPath);
+                using var newFileStream = System.IO.File.Create($"C:/ToshokanAppAssets/Assets/Avatars/{userId}{extension}");
+                await defaultAvatarFileStream.CopyToAsync(newFileStream);
+            }
+            else
+            {
+                var extension = Path.GetExtension(avatar.FileName);
+                using var newFileStream = System.IO.File.Create($"C:/ToshokanAppAssets/Assets/Avatars/{userId}{extension}");
+                await avatar.CopyToAsync(newFileStream);
+            }
         }
         catch (Exception ex)
         {
             TempData["error"] = ex.Message;
             return base.RedirectToRoute("RegistrationView");
         }
+
         return base.RedirectToRoute("LoginView");
     }
 
@@ -206,17 +233,18 @@ public class IdentityController : Controller
         });
     }
     [HttpGet]
-    [Route("/[controller]/[action]")]
     [Authorize()]
-    public async Task<ActionResult> MyAccount()
+    [Route("/[controller]/[action]/{id}")]
+    [ActionName("GetById")]
+    public async Task<ActionResult> GetById(Guid id)
     {
-       
-        Guid userId;
-        var hashedSenderId = base.HttpContext.Request.Cookies["CurrentUserId"];
-        Guid.TryParse(hashedSenderId, out userId);
-        var user = await identityService.MyAccount(userId);
 
-        return View(user);
+        Guid userId2;
+        // var hashedSenderId = base.HttpContext.Request.Cookies["CurrentUserId"];
+        Guid.TryParse("77f487a9-0463-450f-cf70-08dc92a95b62", out userId2);
+        var user = await identityService.GetByIdAsync(id);
+
+        return base.View("GetById", user);
     }
 }
 

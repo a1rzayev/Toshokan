@@ -104,7 +104,7 @@ public class IdentityEfCoreRepository : IIdentityRepository
         }
     }
     
-    public async Task<User> MyAccount(Guid userId)
+    public async Task<User?> GetByIdAsync(Guid userId)
     {        
         return dbContext.Users.FirstOrDefault(u => u.Id == userId);
     }

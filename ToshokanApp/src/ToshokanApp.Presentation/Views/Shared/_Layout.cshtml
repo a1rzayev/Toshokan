@@ -1,8 +1,8 @@
-﻿@* @inject IHttpContextAccessor httpAccessor
+﻿@inject IHttpContextAccessor httpAccessor
 
 @{
-    var authenticationValue = httpAccessor.HttpContext.Request.Cookies["Authentication"];
-} *@
+    var currentUserId = httpAccessor.HttpContext.Request.Cookies["CurrentUserId"];
+}
 @{
     var IsAuthenticated = base.User.Identity?.IsAuthenticated ?? false;
     
@@ -62,8 +62,8 @@
                                 <img src="https://via.placeholder.com/64" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
                             </a> *@
                             
-                            <a href="@Url.Action("MyAccount", "Identity")" class="btn">
-                                <img src="https://th.bing.com/th/id/R.dc8b1732c919ca17845aab44dc3afb27?rik=qjVkoFOnwCqKyQ&pid=ImgRaw&r=0" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
+                            <a href="@Url.Action("GetById", "Identity", new { id = currentUserId})"class="btn">
+                                <img src="@Url.Content($"C:/ToshokanAppAssets/Assets//Avatars/{currentUserId}.jpg")" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
                             </a>
                         }
                     </ul>
