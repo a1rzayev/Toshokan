@@ -122,6 +122,7 @@ public class IdentityController : Controller
             //registrationDto.Password = dataProtector.Protect(registrationDto.Password);
             registrationDto.Password = Convert.ToBase64String(Encoding.UTF8.GetBytes(registrationDto.Password));
             var userId = await this.identityService.Registration(registrationDto);
+            if(userId == null) throw new Exception("This email is already using by the other user");
 
             if (avatar == null)
             {

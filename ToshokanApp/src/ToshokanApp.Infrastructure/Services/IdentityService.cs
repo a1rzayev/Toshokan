@@ -33,7 +33,7 @@ public class IdentityService : IIdentityService
     {
         await this.identityRepository.PromoteAdminAsync(id);
     }
-    public async Task<Guid> Registration(RegistrationDto registrationDto)
+    public async Task<Guid?> Registration(RegistrationDto registrationDto)
     {
         return await this.identityRepository.Registration(registrationDto);
     }

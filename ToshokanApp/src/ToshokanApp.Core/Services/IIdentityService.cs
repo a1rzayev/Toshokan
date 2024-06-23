@@ -6,7 +6,7 @@ namespace ToshokanApp.Core.Services;
 public interface IIdentityService
 {
     User? Login(LoginDto loginDto);
-    Task<Guid> Registration(RegistrationDto registrationDto);
+    Task<Guid?> Registration(RegistrationDto registrationDto);
     Task<string> GetRole(Guid userId);
     Task DeleteAsync(Guid id);
     Task<IEnumerable<User>?> GetAllAsync();

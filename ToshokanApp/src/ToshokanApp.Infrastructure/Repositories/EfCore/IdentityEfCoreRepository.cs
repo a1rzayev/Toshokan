@@ -22,25 +22,29 @@ public class IdentityEfCoreRepository : IIdentityRepository
         return dbContext.Users.FirstOrDefault(x => x.Email == loginDto.Email && x.Password == loginDto.Password);
     }
 
-    public async Task<Guid> Registration(RegistrationDto registrationDto)
+    public async Task<Guid?> Registration(RegistrationDto registrationDto)
     {
-        var userId = new Guid();
-        var user = new User
+        if (dbContext.Users.FirstOrDefault(u => u.Email.ToLower() == registrationDto.Email.ToLower()) == null)
         {
-            Id = userId,
-            Name = Regex.Replace(registrationDto.Name, @"^\w", m => m.Value.ToUpper()),
-            Surname = Regex.Replace(registrationDto.Surname, @"^\w", m => m.Value.ToUpper()),
-            Email = registrationDto.Email,
-            Password = registrationDto.Password
-        };
-        await dbContext.Users.AddAsync(user);
-        await dbContext.UserRoles.AddAsync(new UserRole
-        {
-            UserId = user.Id,
-            Role = "User"
-        });
-        await dbContext.SaveChangesAsync();
-        return user.Id;
+            var userId = new Guid();
+            var user = new User
+            {
+                Id = userId,
+                Name = Regex.Replace(registrationDto.Name.ToLower(), @"^\w", m => m.Value.ToUpper()),
+                Surname = Regex.Replace(registrationDto.Surname.ToLower(), @"^\w", m => m.Value.ToUpper()),
+                Email = registrationDto.Email,
+                Password = registrationDto.Password
+            };
+            await dbContext.Users.AddAsync(user);
+            await dbContext.UserRoles.AddAsync(new UserRole
+            {
+                UserId = user.Id,
+                Role = "User"
+            });
+            await dbContext.SaveChangesAsync();
+            return user.Id;
+        }
+        return null;
     }
 
     public async Task<string> GetRole(Guid userId)
@@ -104,9 +108,9 @@ public class IdentityEfCoreRepository : IIdentityRepository
             await dbContext.SaveChangesAsync();
         }
     }
-    
+
     public async Task<User?> GetByIdAsync(Guid userId)
-    {        
+    {
         return dbContext.Users.FirstOrDefault(u => u.Id == userId);
     }
 }

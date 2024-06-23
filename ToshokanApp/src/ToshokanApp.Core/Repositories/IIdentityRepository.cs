@@ -6,7 +6,7 @@ using ToshokanApp.Core.Resources;
 namespace ToshokanApp.Core.Repositories;
 public interface IIdentityRepository : IDeleteAsync<User>, IGetAllAsync<User> { 
     User? Login(LoginDto loginDto);
-    Task<Guid> Registration(RegistrationDto registrationDto);
+    Task<Guid?> Registration(RegistrationDto registrationDto);
 
     Task<string> GetRole(Guid Id);
     
