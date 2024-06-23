@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using ToshokanApp.Core.Dtos;
 using ToshokanApp.Core.Services;
 
@@ -11,12 +12,15 @@ namespace ToshokanApp.Infrastructure.Controllers;
 public class IdentityController : Controller
 {
     private readonly IIdentityService identityService;
+    
+    private readonly IConfiguration avatarDirConfiguration;
 
     private readonly IDataProtector dataProtector;
-    public IdentityController(IIdentityService identityService, IDataProtectionProvider dataProtectionProvider)
+    public IdentityController(IIdentityService identityService, IDataProtectionProvider dataProtectionProvider, IConfiguration avatarDirConfiguration)
     {
         this.identityService = identityService;
         this.dataProtector = dataProtectionProvider.CreateProtector("identity");
+        this.avatarDirConfiguration = avatarDirConfiguration;
     }
 
     [Route("/[controller]/[action]", Name = "LoginView")]
@@ -136,17 +140,18 @@ public class IdentityController : Controller
 
             if (avatar == null)
             {
-                var defaultAvatarPath = "C:/ToshokanAppAssets/Assets/Avatars/Default.jpg";
+                var defaultAvatarPath = $"{avatarDirConfiguration["StaticFileRoutes:Avatars"]}/Default.jpg";
 
                 var extension = Path.GetExtension(defaultAvatarPath);
                 using var defaultAvatarFileStream = System.IO.File.OpenRead(defaultAvatarPath);
-                using var newFileStream = System.IO.File.Create($"C:/ToshokanAppAssets/Assets/Avatars/{userId}{extension}");
+                using var newFileStream = System.IO.File.Create($"{avatarDirConfiguration["StaticFileRoutes:Avatars"]}{userId}{extension}");
                 await defaultAvatarFileStream.CopyToAsync(newFileStream);
+                
             }
             else
             {
                 var extension = Path.GetExtension(avatar.FileName);
-                using var newFileStream = System.IO.File.Create($"C:/ToshokanAppAssets/Assets/Avatars/{userId}{extension}");
+                using var newFileStream = System.IO.File.Create($"{avatarDirConfiguration["StaticFileRoutes:Avatars"]}{userId}{extension}");
                 await avatar.CopyToAsync(newFileStream);
             }
         }
@@ -241,6 +246,7 @@ public class IdentityController : Controller
     public async Task<ActionResult> GetById(Guid id)
     {
         var user = await identityService.GetByIdAsync(id);
+        ViewBag.avatarDirPath = avatarDirConfiguration["StaticFileRoutes:Books"];
         return base.View(user);
     }
 }

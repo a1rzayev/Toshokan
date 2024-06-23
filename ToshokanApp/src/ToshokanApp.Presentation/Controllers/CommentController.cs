@@ -8,12 +8,10 @@ namespace ToshokanApp.Presentation.Controllers;
 
 public class CommentController : Controller
 {
-    private readonly IDataProtector dataProtector;
     private readonly ICommentService commentService;
     public CommentController(ICommentService commentService, IDataProtectionProvider dataProtectionProvider)
     {
         this.commentService = commentService;
-        this.dataProtector = dataProtectionProvider.CreateProtector("comment");
     }
 
     [HttpGet]

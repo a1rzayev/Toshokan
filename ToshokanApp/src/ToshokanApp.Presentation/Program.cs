@@ -8,6 +8,8 @@ using ToshokanApp.Infrastructure.Repositories.EfCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +21,13 @@ builder.Services.AddDbContext<ToshokanDbContext>( dbContextOptionsBuilder => {
     });
 });
 
+
+
 builder.Services.AddDataProtection();
+
+
+var avatarDirPath = builder.Configuration["StaticFileRoutes:Avatar"];
+var bookDirPath = builder.Configuration["StaticFileRoutes:Books"];
 
 builder.Services.AddTransient<ICurrentStateService, CurrentStateService>();
 
@@ -54,6 +62,8 @@ builder.Services.AddAuthorization(options => {
         policyBuilder.RequireRole("User");
     });
 });
+
+
 
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())

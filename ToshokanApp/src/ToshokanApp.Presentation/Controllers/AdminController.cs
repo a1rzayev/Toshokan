@@ -14,14 +14,12 @@ namespace ToshokanApp.Infrastructure.Controllers;
 public class AdminController : Controller
 {
 
-    private readonly string identityConnectionString;
     private readonly IBookService bookService;
     private readonly IIdentityService identityService;
     public AdminController(IConfiguration configuration, IBookService bookService, IIdentityService identityService)
     {
         this.bookService = bookService;
         this.identityService = identityService;
-        identityConnectionString = configuration.GetConnectionString("MsSql") ?? throw new ArgumentNullException("Identity connection string");
     }
 
     public async Task<IActionResult> Index()

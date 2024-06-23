@@ -57,7 +57,7 @@
                 <div class="media mb-3">
                     
                             <a href="@Url.Action("GetById", "Identity", new { id = item.SenderId})"class="btn">
-                                <img src="@Url.Content($"C:/ToshokanAppAssets/Assets//Avatars/{item.SenderId}.jpg")" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
+                                <img src="@(ViewBag.avatarDirPath)/@item.SenderId" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
                             </a>
                     <div class="media-body">
                         <h6 class="mt-0">@item.SenderName @item.SenderSurname</h6>

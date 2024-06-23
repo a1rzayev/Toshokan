@@ -9,7 +9,7 @@
 <div asp-validation-summary="All" class="text-danger"></div>
 
 <form>    
-    <img src="https://th.bing.com/th/id/R.dc8b1732c919ca17845aab44dc3afb27?rik=qjVkoFOnwCqKyQ&pid=ImgRaw&r=0" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
+    <img src="@(ViewBag.avatarDirPath)/@Model.Id" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
                             
     <div class="mb-3">
         <label asp-for="@Model.Name" class="form-label">Name</label>
@@ -23,7 +23,7 @@
     
     <div class="mb-3">
         <label asp-for="@Model.Email" class="form-label">Email address</label>
-        <label asp-for="@Model.Email" type="email" class="form-control" readonly />@Model.Name</label>
+        <label asp-for="@Model.Email" type="email" class="form-control" readonly />@Model.Email</label>
     </div>
 
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
