@@ -145,9 +145,6 @@ public class ToshokanDbContext : DbContext
         .IsRequired();
 
         modelBuilder.Entity<User>()
-        .Property(c => c.AvatarPath);
-
-        modelBuilder.Entity<User>()
         .Property(c => c.PurchasedBooks);
 
         modelBuilder.Entity<User>()

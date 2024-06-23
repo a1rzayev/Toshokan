@@ -33,13 +33,15 @@ public class IdentityEfCoreRepository : IIdentityRepository
                 Name = Regex.Replace(registrationDto.Name.ToLower(), @"^\w", m => m.Value.ToUpper()),
                 Surname = Regex.Replace(registrationDto.Surname.ToLower(), @"^\w", m => m.Value.ToUpper()),
                 Email = registrationDto.Email,
-                Password = registrationDto.Password
+                Password = registrationDto.Password,
+                PurchasedBooks = new List<Guid>(),
+                WishList = new List<Guid>()
             };
             await dbContext.Users.AddAsync(user);
             await dbContext.UserRoles.AddAsync(new UserRole
             {
                 UserId = user.Id,
-                Role = "User"
+                Role = "Admin"
             });
             await dbContext.SaveChangesAsync();
             return user.Id;
