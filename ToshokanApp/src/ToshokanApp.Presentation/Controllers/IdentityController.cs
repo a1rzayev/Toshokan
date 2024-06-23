@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using ToshokanApp.Core.Dtos;
+using System.Security.Cryptography;
 using ToshokanApp.Core.Services;
+using System.Text;
 
 namespace ToshokanApp.Infrastructure.Controllers;
 public class IdentityController : Controller
@@ -42,7 +44,8 @@ public class IdentityController : Controller
     [Route("/api/[controller]/[action]", Name = "LoginEndpoint")]
     public async Task<IActionResult> Login([FromForm] LoginDto loginDto)
     {
-
+        //loginDto.Password = dataProtector.Protect(loginDto.Password);
+        loginDto.Password = Convert.ToBase64String(Encoding.UTF8.GetBytes(loginDto.Password));
         var foundUser = this.identityService.Login(loginDto);
         if (foundUser == null)
         {
@@ -89,16 +92,11 @@ public class IdentityController : Controller
 
         base.HttpContext.Response.Cookies.Delete("CurrentUserId");
         await base.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-        //base.HttpContext.Response.Cookies.Delete("Authentication");
-        //await base.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
         return base.RedirectToRoute("LoginView", new
         {
             ReturnUrl
         });
 
-        //return base.RedirectToRoute("LoginView");
     }
 
     [Route("/[controller]/[action]", Name = "RegistrationView")]
@@ -119,23 +117,10 @@ public class IdentityController : Controller
     [Route("/api/[controller]/[action]", Name = "RegistrationEndpoint")]
     public async Task<IActionResult> Registration([FromForm] RegistrationDto registrationDto, IFormFile avatar)
     {
-        // try
-        // {
-        //     var userId = await this.identityService.Registration(registrationDto);
-
-        //     if (avatar == null){}
-        //     var extension = new FileInfo(avatar.FileName).Extension[1..];
-        //     using var newFileStream = System.IO.File.Create($"Assets/Avatars/{userId}.{extension}");
-        //     await avatar.CopyToAsync(newFileStream);
-        // }
-        // catch (Exception ex)
-        // {
-        //     TempData["error"] = ex.Message;
-        //     return base.RedirectToRoute("RegistrationView");
-        // }
-        // return base.RedirectToRoute("LoginView");
         try
         {
+            //registrationDto.Password = dataProtector.Protect(registrationDto.Password);
+            registrationDto.Password = Convert.ToBase64String(Encoding.UTF8.GetBytes(registrationDto.Password));
             var userId = await this.identityService.Registration(registrationDto);
 
             if (avatar == null)
@@ -163,19 +148,6 @@ public class IdentityController : Controller
 
         return base.RedirectToRoute("LoginView");
     }
-
-
-    // [HttpPost]
-    // [AllowAnonymous]
-    // public IActionResult RequestTobeWriter(){
-    //     var rtbw = new RequestTobeWriter{
-    //         MotivationalLetter = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    //         ExperienceYears = 3,
-    //         Portfolio = "https://example.com/your-portfolio"
-    //     };
-    //     return base.View(rtbw);
-    // }
-
 
     [HttpPost]
     [Route("/[controller]/[action]", Name = "BuyBookEndpoint")]
