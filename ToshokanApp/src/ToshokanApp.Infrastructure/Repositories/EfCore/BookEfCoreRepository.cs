@@ -34,24 +34,26 @@ public class BookEfCoreRepository : IBookRepository
     {
         return dbContext.Books.Where(book => book.Name == name);
     }
-    
-    public async Task DeleteAsync(Guid id)
-{
-    var book = await dbContext.Books.FirstOrDefaultAsync(c => c.Id == id);
-    if (book != null)
-    {
-        dbContext.Books.Remove(book);
-        await dbContext.SaveChangesAsync();
-    }
-}
 
-    public IEnumerable<CommentDto>? GetComments(Guid id){
+    public async Task DeleteAsync(Guid id)
+    {
+        var book = await dbContext.Books.FindAsync(id);
+        if (book != null)
+        {
+            dbContext.Books.Remove(book);
+            await dbContext.SaveChangesAsync();
+        }
+    }
+
+    public IEnumerable<CommentDto>? GetComments(Guid id)
+    {
         var comments = dbContext.Comments.Where(bookComment => bookComment.BookId == id).ToList();
         var commentDtos = new List<CommentDto>();
         foreach (var item in comments)
         {
 
-            commentDtos.Add(new CommentDto{
+            commentDtos.Add(new CommentDto
+            {
                 Id = item.Id,
                 BookId = item.BookId,
                 SenderId = item.SenderId,

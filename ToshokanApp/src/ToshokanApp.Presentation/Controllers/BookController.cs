@@ -98,9 +98,10 @@ public class BookController : Controller
     }
 
 
-    [HttpDelete]
+
+    [HttpGet]
+    [ActionName("DeleteBook")]
     [Authorize("RequireAdminAccess")]
-    [Route("/api/[controller]/[action]")]
     public async Task<IActionResult> Delete(Guid id)
     {
         if (ModelState.IsValid)

@@ -72,6 +72,9 @@
                         <p class="card-text">Language: @book.Language</p>
                         <p class="card-text">Description: @book.Description</p>
                         <a href="@Url.Action("GetById", "Book", new { id = book.Id })" class="btn btn-primary mt-auto">Details</a>
+                        @if(hasAccess){
+                            <a href="@Url.Action("DeleteBook", "Book", new { id = book.Id })" class="btn btn-primary mt-auto">Delete</a>
+                        }
                     </div>
                 </div>
             </div>
