@@ -19,7 +19,7 @@
     <div class="card">
         <div class="card-body">
             <p class="card-text"><strong>Name:</strong> @(Model?.book.Name ?? "UNKNOWN")</p>
-            <p class="card-text"><strong>Author:</strong> @(Model?.book.Author ?? "UNKNOWN")</p>
+            <strong>Author:<a target="_blank" href="https://en.wikipedia.org/w/index.php?search=@(Model?.book.Author)&title=Special%3ASearch&ns0=1" class="card-text">@(Model?.book.Author ?? "UNKNOWN")</a></strong>
             <p class="card-text"><strong>Year:</strong> @(Model?.book.PublicationYear?.ToString() ?? "UNKNOWN")</p>
             <p class="card-text"><strong>Genre:</strong> @(Model?.book.Genre ?? "UNKNOWN")</p>
             <p class="card-text"><strong>Language:</strong> @(Model?.book.Language ?? "UNKNOWN")</p>
