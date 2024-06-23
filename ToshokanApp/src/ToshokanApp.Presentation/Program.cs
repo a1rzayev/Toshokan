@@ -14,9 +14,11 @@ using Microsoft.Extensions.Configuration.Json;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<ToshokanDbContext>( dbContextOptionsBuilder => {
+builder.Services.AddDbContext<ToshokanDbContext>(dbContextOptionsBuilder =>
+{
     var connectionString = builder.Configuration.GetConnectionString("MsSql");
-    dbContextOptionsBuilder.UseSqlServer(connectionString, options => {
+    dbContextOptionsBuilder.UseSqlServer(connectionString, options =>
+    {
         options.MigrationsAssembly("ToshokanApp.Infrastructure");
     });
 });
@@ -28,6 +30,28 @@ builder.Services.AddDataProtection();
 
 var avatarDirPath = builder.Configuration["StaticFileRoutes:Avatar"];
 var bookDirPath = builder.Configuration["StaticFileRoutes:Books"];
+
+if (!Directory.Exists(avatarDirPath))
+{
+    try{
+        Directory.CreateDirectory(avatarDirPath);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error while initializing folder: {ex.Message}");
+    }
+}
+
+if (!Directory.Exists(bookDirPath))
+{
+    try{
+        Directory.CreateDirectory(bookDirPath);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error while initializing folder: {ex.Message}");
+    }
+}
 
 builder.Services.AddTransient<ICurrentStateService, CurrentStateService>();
 
@@ -47,12 +71,14 @@ builder.Services.AddTransient<IIdentityService, IdentityService>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options => {
+    .AddCookie(options =>
+    {
         options.LoginPath = "/Identity/Login";
         options.AccessDeniedPath = "/Book/Index";
     });
 
-builder.Services.AddAuthorization(options => {
+builder.Services.AddAuthorization(options =>
+{
     options.AddPolicy("RequireAdminAccess", policyBuilder =>
     {
         policyBuilder.RequireRole("Admin");
