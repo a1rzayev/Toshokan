@@ -44,7 +44,6 @@ public class IdentityController : Controller
     [Route("/api/[controller]/[action]", Name = "LoginEndpoint")]
     public async Task<IActionResult> Login([FromForm] LoginDto loginDto)
     {
-        //loginDto.Password = dataProtector.Protect(loginDto.Password);
         loginDto.Password = Convert.ToBase64String(Encoding.UTF8.GetBytes(loginDto.Password));
         var foundUser = await this.identityService.Login(loginDto);
         if (foundUser == null)
@@ -56,8 +55,6 @@ public class IdentityController : Controller
             });
         }
         var hashedUserId = this.dataProtector.Protect(foundUser.Id.ToString());
-
-        //base.HttpContext.Response.Cookies.Append("Authentication", hashedUserId);
 
         var claims = new Claim[] {
                 new(ClaimTypes.Email, foundUser.Email),
@@ -76,11 +73,8 @@ public class IdentityController : Controller
         {
             return base.Redirect(loginDto.ReturnUrl);
         }
-        //HttpContext.Items["CurrentUserId"] = foundUser.Id;
 
         base.HttpContext.Response.Cookies.Append("CurrentUserId", foundUser.Id.ToString());
-        // ViewData["currentUserId"] = foundUser.Id;
-
         return base.RedirectToAction(controllerName: "Book", actionName: "Index");
     }
 
@@ -165,10 +159,6 @@ public class IdentityController : Controller
             var hashedBookId = base.HttpContext.Request.Cookies["CurrentBookId"];
             Guid.TryParse(hashedBookId, out bookId);
             await this.identityService.BuyBook(userId, bookId);
-
-            //var extension = new FileInfo(avatar.FileName).Extension[1..];
-            //using var newFileStream = System.IO.File.Create($"Assets/Avatars/{userId}.{extension}");
-            //await avatar.CopyToAsync(newFileStream);
         }
         catch (Exception ex)
         {
@@ -179,7 +169,6 @@ public class IdentityController : Controller
             ReturnUrl
         });
     }
-
 
     [HttpPost]
     [Route("/[controller]/[action]", Name = "AddtoWishlistBookEndpoint")]

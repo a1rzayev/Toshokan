@@ -34,6 +34,16 @@
                 </div>
             }
         </div>
+        <a id="downloadButton" href="@Url.Action("DownloadBook", "Book", new { id = Model?.book.Id})" class="btn btn-primary">Download File</a>
+        
+@* 
+<script>
+    document.getElementById('downloadButton').addEventListener('click', function() {
+        // Replace 'your-file-id' with the actual file ID
+        var fileId = Model?.book.Id;
+        window.location.href = '@Url.Action("DownloadBook", "Identity")' + '?id=' + fileId;
+    });
+</script> *@
 
         <div>
             @using (Html.BeginForm("AddToWishlistBook", "Identity", FormMethod.Post, new { id = Model?.book.Id }))

@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using ToshokanApp.Core.Dtos;
 using ToshokanApp.Core.Models;
 using ToshokanApp.Core.Services;
-// using Microsoft.SqlServer.Management;
 
 namespace ToshokanApp.Presentation.Controllers;
 
@@ -31,7 +30,6 @@ public class BookController : Controller
     [HttpGet]
     [ActionName("GetByName")]
     [AllowAnonymous]
-    //[Route("[controller]/[action]/{name}")]
     public async Task<IActionResult> GetByName(string? name)
     {
         var booksByName = await this.bookService.GetByNameAsync(name);
@@ -41,7 +39,6 @@ public class BookController : Controller
     [HttpGet]
     [ActionName("GetById")]
     [AllowAnonymous]
-    //[Route("[controller]/[action]/{id}")]
     public async Task<IActionResult> GetById(Guid id)
     {
         var bookById = await this.bookService.GetByIdAsync(id);
@@ -56,14 +53,6 @@ public class BookController : Controller
         ViewBag.avatarDirPath = bookDirConfiguration["StaticFileRoutes:Avatars"];
         return View("Description", bookComments);
     }
-
-    // [ActionName("Add")]
-    // [Route("[controller]/[action]/")]
-    // [Authorize("RequireAdminAccess")]
-    // public IActionResult Add()
-    // {
-    //     return base.View();
-    // }
 
     [HttpPost]
     [ActionName("Add")]
@@ -95,6 +84,32 @@ public class BookController : Controller
         return base.RedirectToAction("Index");
     }
 
+
+
+    [HttpGet]
+    [ActionName("DownloadBook")]
+    public async Task<IActionResult> DownloadBook(Guid id)
+    {
+        var book = await this.bookService.GetByIdAsync(id);
+        var fileName = $"{id}.pdf";
+        var filePath = Path.Combine(bookDirConfiguration["StaticFileRoutes:Books"], fileName);
+
+        if (!System.IO.File.Exists(filePath))
+        {
+            return NotFound();
+        }
+
+        var mimeType = "application/pdf";
+        var newFileName = $"{book.Name}({book.Author}).pdf";
+        var cd = new System.Net.Mime.ContentDisposition
+        {
+            FileName = newFileName,
+            Inline = false,
+        };
+
+        Response.Headers.Add("Content-Disposition", cd.ToString());
+        return PhysicalFile(filePath, mimeType);
+    }
 
 
     [HttpGet]
