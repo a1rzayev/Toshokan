@@ -85,7 +85,7 @@ public class BookController : Controller
             else
             {
                 var extension = Path.GetExtension(bookFile.FileName);
-                using var newFileStream = System.IO.File.Create($"{bookDirConfiguration["StaticFileRoutes:Books"]}{newBook.Id}.{extension}");
+                using var newFileStream = System.IO.File.Create($"{bookDirConfiguration["StaticFileRoutes:Books"]}{newBook.Id}{extension}");
                 await bookFile.CopyToAsync(newFileStream);
             }
         }

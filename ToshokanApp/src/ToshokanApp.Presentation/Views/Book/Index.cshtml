@@ -1,71 +1,3 @@
-@* @model IEnumerable<Book>
-@{
-    ViewData["Title"] = "Home Page";
-    //var hasAccess = User.Claims.Any(c => c.Type == ClaimTypes.Role && (c.Value == RoleEnum.Admin.ToString() ||c.Value == RoleEnum.CEO.ToString() ||c.Value == RoleEnum.Developer.ToString()));
-    var hasAccess = User.Claims.Any(c => c.Type == ClaimTypes.Role && (c.Value == "Admin" ||c.Value == "Developer" ||c.Value == "CEO"));
-}
-
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-<div class="container mt-4">
-    @if (hasAccess)
-    {
-        <h2>Add Book</h2>
-        <form asp-controller="Book" asp-action="Add" method="post">
-            <div class="form-row">
-                <div class="col-md-3 mb-3">
-                    <label>Name:</label>
-                    <input type="text" name="Name" class="form-control">
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label>Author:</label>
-                    <input type="text" name="Author" class="form-control">
-                </div>
-                <div class="col-md-2 mb-3">
-                    <label>Year:</label>
-                    <input type="text" name="PublicationYear" class="form-control">
-                </div>
-                <div class="col-md-2 mb-3">
-                    <label>Genre:</label>
-                    <input type="text" name="Genre" class="form-control">
-                </div>
-                <div class="col-md-2 mb-3">
-                    <label>Language:</label>
-                    <input type="text" name="Language" class="form-control">
-                </div>
-                <div class="col-md-12 mb-3">
-                    <label>Description:</label>
-                    <input type="text" name="Description" class="form-control">
-                </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Add</button>
-        </form>
-
-    <hr>
-    }
-
-    <h2>Library</h2>
-    <div class="row">
-        @foreach (var book in Model)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">@(book?.Name ?? "UNKNOWN")</h5>
-                        <p class="card-text">Author: @(book?.Author ?? "UNKNOWN")</p>
-                        <p class="card-text">Year: @(book?.PublicationYear.ToString() ?? "UNKNOWN")</p>
-                        <p class="card-text">Genre: @(book?.Genre ?? "UNKNOWN")</p>
-                        <p class="card-text">Language: @(book?.Language ?? "UNKNOWN")</p>
-                        <p class="card-text">Description: @(book?.Description ?? "UNKNOWN")</p>
-                        <a href="@Url.Action("GetById", "Book", new { id = book.Id })" class="btn btn-primary">Description</a>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-</div> *@
-
 @model IEnumerable<Book>
 @{
     ViewData["Title"] = "Home Page";
@@ -114,7 +46,7 @@
                     <span  class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-12 mb-12">
-                    <label for="avatar" class="form-label">Avatar</label>
+                    <label>Pdf file</label>
                     <input type="file" class="form-control" id="bookFile" name="bookFile" required/>
                     <span class="text-danger"></span>
                 </div>

@@ -4,6 +4,7 @@ using ToshokanApp.Infrastructure.Repositories.EfCore.DbContexts;
 using ToshokanApp.Core.Dtos;
 using ToshokanApp.Core.Resources;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 
 namespace ToshokanApp.Infrastructure.Repositories.EfCore;
@@ -27,8 +28,8 @@ public class IdentityEfCoreRepository : IIdentityRepository
         var user = new User
         {
             Id = userId,
-            Name = registrationDto.Name,
-            Surname = registrationDto.Surname,
+            Name = Regex.Replace(registrationDto.Name, @"^\w", m => m.Value.ToUpper()),
+            Surname = Regex.Replace(registrationDto.Surname, @"^\w", m => m.Value.ToUpper()),
             Email = registrationDto.Email,
             Password = registrationDto.Password
         };
