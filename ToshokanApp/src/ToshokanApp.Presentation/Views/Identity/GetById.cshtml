@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Account Info";
+    var Requestable = !User.Claims.Any(c => c.Type == ClaimTypes.Role && (c.Value == "Admin" || c.Value == "Developer" || c.Value == "Writer" || c.Value == "CEO"));
 }
 
 <h2>Account Info</h2>
@@ -27,7 +28,9 @@
     </div>
 
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button type="button" class="btn btn-primary me-md-2" onclick="location.href='@Url.Action("RequestTobeWriter", "Identity")'">Request to be Writer</button>
+        @if(Requestable){
+            <button type="button" class="btn btn-primary me-md-2" onclick="location.href='@Url.Action("RequestTobeWriter", "Identity")'">Request to be Writer</button>
+        }
         <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Logout", "Identity")'">Logout</button>
     </div>
 </form>

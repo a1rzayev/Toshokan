@@ -53,6 +53,10 @@ public class IdentityService : IIdentityService
     public async Task AddtoWishlistBook(Guid userId, Guid bookId){
         await this.identityRepository.AddtoWishlistBook(userId, bookId);
     }
+
+    public async Task RemovefromWishlistBook(Guid userId, Guid bookId){
+        await this.identityRepository.RemovefromWishlistBook(userId, bookId);
+    }
     public async Task<User?> GetByIdAsync(Guid userId){
         return await this.identityRepository.GetByIdAsync(userId);
     }

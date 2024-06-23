@@ -56,12 +56,7 @@
                             </li>
                         }
                         else
-                        {
-@*                             
-                            <a asp-controller="Identity" asp-action="MyAccount">
-                                <img src="https://via.placeholder.com/64" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
-                            </a> *@
-                            
+                        {                           
                             <a href="@Url.Action("GetById", "Identity", new { id = currentUserId})"class="btn">
                                 <img src="/ToshokanAppAssets/Assets/Avatars/@currentUserId" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
                             </a>

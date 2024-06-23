@@ -25,35 +25,51 @@
             <p class="card-text"><strong>Language:</strong> @(Model?.book.Language ?? "UNKNOWN")</p>
             <p class="card-text"><strong>Description:</strong> @(Model?.book.Description ?? "UNKNOWN")</p>
         </div>
-        <div>
-            @using (Html.BeginForm("BuyBook", "Identity", FormMethod.Post, new { id = Model?.book.Id }))
-            {
-                <button type="submit" class="btn btn-primary" id="buyButton">Buy</button>
-                <div class="alert alert-warning mt-3" role="alert" id="buyAlert" style="display: none;">
-                    Please log in to buy the book.
-                </div>
-            }
-        </div>
-        <a id="downloadButton" href="@Url.Action("DownloadBook", "Book", new { id = Model?.book.Id})" class="btn btn-primary">Download File</a>
-        
-@* 
-<script>
-    document.getElementById('downloadButton').addEventListener('click', function() {
-        // Replace 'your-file-id' with the actual file ID
-        var fileId = Model?.book.Id;
-        window.location.href = '@Url.Action("DownloadBook", "Identity")' + '?id=' + fileId;
-    });
-</script> *@
+        @if (ViewBag.InPurchased && base.User.Identity?.IsAuthenticated)
+        {
+            <div>
+            <a id="downloadButton" href="@Url.Action("DownloadBook", "Book", new { id = Model?.book.Id})"
+                class="btn btn-primary">Download File</a>
+            </div>
+        }
+        else
+        {
+            <div>
+                @using (Html.BeginForm("BuyBook", "Identity", FormMethod.Post, new { id = Model?.book.Id }))
+                {
+                    <button type="submit" class="btn btn-primary" id="buyButton">Buy</button>
+                    <div class="alert alert-warning mt-3" role="alert" id="buyAlert" style="display: none;">
+                        Please log in to buy the book.
+                    </div>
+                }
+            </div>
+        }
 
-        <div>
-            @using (Html.BeginForm("AddToWishlistBook", "Identity", FormMethod.Post, new { id = Model?.book.Id }))
-            {
-                <button type="submit" class="btn btn-primary" id="wishlistButton">Add to Wishlist</button>
-                <div class="alert alert-warning mt-3" role="alert" id="wishlistAlert" style="display: none;">
-                    Please log in to add the book to your wishlist.
-                </div>
-            }
-        </div>
+        @if (ViewBag.InWishlist && base.User.Identity?.IsAuthenticated)
+        {
+
+            <div>
+                @using (Html.BeginForm("RemoveFromWishlistBook", "Identity", FormMethod.Post, new { id = Model?.book.Id }))
+                {
+                    <button type="submit" class="btn btn-primary" id="removeWishlistButton">Remove from Wishlist</button>
+                    <div class="alert alert-warning mt-3" role="alert" id="removeWishlistAlert" style="display: none;">
+                        Please log in to add the book to your wishlist.
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div>
+                @using (Html.BeginForm("AddToWishlistBook", "Identity", FormMethod.Post, new { id = Model?.book.Id }))
+                {
+                    <button type="submit" class="btn btn-primary" id="addWishlistButton">Add to Wishlist</button>
+                    <div class="alert alert-warning mt-3" role="alert" id="addWishlistAlert" style="display: none;">
+                        Please log in to add the book to your wishlist.
+                    </div>
+                }
+            </div>
+        }
     </div>
 
     <hr>
@@ -65,10 +81,11 @@
             @foreach (var item in Model.comments)
             {
                 <div class="media mb-3">
-                    
-                            <a href="@Url.Action("GetById", "Identity", new { id = item.SenderId})"class="btn">
-                                <img src="@(ViewBag.avatarDirPath)/@item.SenderId" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
-                            </a>
+
+                    <a href="@Url.Action("GetById", "Identity", new { id = item.SenderId})" class="btn">
+                        <img src="@(ViewBag.avatarDirPath)/@item.SenderId" class="mr-3 rounded-circle" alt="User Avatar"
+                            style="width: 64px;">
+                    </a>
                     <div class="media-body">
                         <h6 class="mt-0">@item.SenderName @item.SenderSurname</h6>
                         <p>@item.Text</p>
@@ -130,16 +147,26 @@
                                 $('#buyAlert').slideDown();
                                 setTimeout(function () {
                                     $('#buyAlert').slideUp();
-                                }, 3000); 
+                                }, 3000);
                             }
                         });
 
-                        $('#wishlistForm').submit(function (e) {
+                        $('#addWishlistForm').submit(function (e) {
                             if (!@User.Identity.IsAuthenticated.ToString().ToLower()) {
                                 e.preventDefault();
-                                $('#wishlistAlert').slideDown();
+                                $('#addWishlistAlert').slideDown();
                                 setTimeout(function () {
-                                    $('#wishlistAlert').slideUp();
+                                    $('#addWishlistAlert').slideUp();
+                                }, 3000);
+                            }
+                        });
+
+                        $('#removeWishlistForm').submit(function (e) {
+                            if (!@User.Identity.IsAuthenticated.ToString().ToLower()) {
+                                e.preventDefault();
+                                $('#removeWishlistAlert').slideDown();
+                                setTimeout(function () {
+                                    $('#removeWishlistAlert').slideUp();
                                 }, 3000);
                             }
                         });

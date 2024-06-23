@@ -12,9 +12,11 @@ public class BookController : Controller
 
     private readonly IConfiguration bookDirConfiguration;
     private readonly IBookService bookService;
-    public BookController(IBookService bookService, IConfiguration bookDirConfiguration)
+    private readonly IIdentityService identityService;
+    public BookController(IBookService bookService, IIdentityService identityService, IConfiguration bookDirConfiguration)
     {
         this.bookService = bookService;
+        this.identityService = identityService;
         this.bookDirConfiguration = bookDirConfiguration;
     }
 
@@ -49,6 +51,18 @@ public class BookController : Controller
             book = bookById,
             comments = commentDtos
         };
+
+        Guid userId;
+        var hashedSenderId = base.HttpContext.Request.Cookies["CurrentUserId"];
+
+        if (string.IsNullOrWhiteSpace(hashedSenderId) == false)
+        {
+            Guid.TryParse(hashedSenderId, out userId);
+            var user = await identityService.GetByIdAsync(userId);
+            ViewBag.InPurchased = user.PurchasedBooks.Contains(id);
+            ViewBag.InWishlist = user.WishList.Contains(id);
+        }       
+
         base.HttpContext.Response.Cookies.Append("CurrentBookId", bookById.Id.ToString());
         ViewBag.avatarDirPath = bookDirConfiguration["StaticFileRoutes:Avatars"];
         return View("Description", bookComments);
@@ -65,11 +79,7 @@ public class BookController : Controller
             newBook.Id = new Guid();
             await this.bookService.AddAsync(newBook);
 
-            if (bookFile == null)
-            {
-                System.Console.WriteLine("ERORRRRRRRRRRRRRRRRRR");
-            }
-            else
+            if (bookFile != null)
             {
                 var extension = Path.GetExtension(bookFile.FileName);
                 using var newFileStream = System.IO.File.Create($"{bookDirConfiguration["StaticFileRoutes:Books"]}{newBook.Id}{extension}");

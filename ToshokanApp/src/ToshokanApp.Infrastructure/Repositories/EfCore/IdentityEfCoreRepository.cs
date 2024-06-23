@@ -120,6 +120,17 @@ public class IdentityEfCoreRepository : IIdentityRepository
         }
     }
 
+
+    public async Task RemovefromWishlistBook(Guid userId, Guid bookId)
+    {
+        var user = dbContext.Users.FirstOrDefault(x => x.Id == userId);
+        if (user != null)
+        {
+            user.WishList.Remove(bookId);
+            await dbContext.SaveChangesAsync();
+        }
+    }
+
     public async Task<User?> GetByIdAsync(Guid userId)
     {
         return dbContext.Users.FirstOrDefault(u => u.Id == userId);

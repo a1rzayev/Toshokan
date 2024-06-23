@@ -52,19 +52,9 @@ public class CommentController : Controller
 
             }
         }
-
-        // var currentUserId = HttpContext.Items["CurrentUserId"];
-        // var currentBookId = HttpContext.Items["CurrentBookId"];
-        //var hashedSenderId = this.dataProtector.Unprotect(base.HttpContext.Request.Cookies["CurrentUserId"]);
-        //Guid senderId, bookId;
-        // Guid.TryParse(HttpContext.User.FindFirst("Id")?.Value, out senderId);
-        // Guid.TryParse(, out bookId);
-        // base.HttpContext.Request.Cookies.Get
         if (ModelState.IsValid)
         {
             await commentService.AddAsync(comment);
-            //return Created();
-            //return base.RedirectToAction("GetById", "Book", comment.BookId);
             return base.RedirectToRoute(new
             {
                 controller = "Book",

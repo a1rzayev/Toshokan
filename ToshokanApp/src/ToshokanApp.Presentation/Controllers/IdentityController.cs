@@ -113,7 +113,6 @@ public class IdentityController : Controller
     {
         try
         {
-            //registrationDto.Password = dataProtector.Protect(registrationDto.Password);
             registrationDto.Password = Convert.ToBase64String(Encoding.UTF8.GetBytes(registrationDto.Password));
             var userId = await this.identityService.Registration(registrationDto);
             if(userId == null) throw new Exception("This email is already using by the other user");
@@ -159,20 +158,18 @@ public class IdentityController : Controller
             var hashedBookId = base.HttpContext.Request.Cookies["CurrentBookId"];
             Guid.TryParse(hashedBookId, out bookId);
             await this.identityService.BuyBook(userId, bookId);
+            return RedirectToAction("GetById", "Book", new { id = bookId });
         }
         catch (Exception ex)
         {
             TempData["error"] = ex.Message;
         }
-        return base.RedirectToAction("Index", "Book", new
-        {
-            ReturnUrl
-        });
+        return base.RedirectToAction("Index", "Book");
     }
+
 
     [HttpPost]
     [Route("/[controller]/[action]", Name = "AddtoWishlistBookEndpoint")]
-    //[Authorize("UserAccess")]
     public async Task<IActionResult> AddtoWishlistBook(string? ReturnUrl)
     {
         try
@@ -185,22 +182,43 @@ public class IdentityController : Controller
             var hashedBookId = base.HttpContext.Request.Cookies["CurrentBookId"];
             Guid.TryParse(hashedBookId, out bookId);
             await this.identityService.AddtoWishlistBook(userId, bookId);
-
-            //var extension = new FileInfo(avatar.FileName).Extension[1..];
-            System.Console.WriteLine(userId.ToString(), bookId.ToString());
-            //using var newFileStream = System.IO.File.Create($"Assets/Avatars/{userId}.{extension}");
-            //await avatar.CopyToAsync(newFileStream);
+            return RedirectToAction("GetById", "Book", new { id = bookId });
         }
         catch (Exception ex)
         {
             TempData["error"] = ex.Message;
             System.Console.WriteLine(TempData["error"]);
         }
-        return base.RedirectToAction("Index", "Book");//, new
-        // {
-        //     ReturnUrl
-        // });
+
+        return base.RedirectToAction("Index", "Book");
     }
+    
+    
+    [HttpPost]
+    [Route("/[controller]/[action]", Name = "RemovefromWishlistBookEndpoint")]
+    public async Task<IActionResult> RemovefromWishlistBook(string? ReturnUrl)
+    {
+        try
+        {
+            Guid userId;
+            var hashedSenderId = base.HttpContext.Request.Cookies["CurrentUserId"];
+            Guid.TryParse(hashedSenderId, out userId);
+
+            Guid bookId;
+            var hashedBookId = base.HttpContext.Request.Cookies["CurrentBookId"];
+            Guid.TryParse(hashedBookId, out bookId);
+            await this.identityService.RemovefromWishlistBook(userId, bookId);
+            return RedirectToAction("GetById", "Book", new { id = bookId });
+        }
+        catch (Exception ex)
+        {
+            TempData["error"] = ex.Message;
+            System.Console.WriteLine(TempData["error"]);
+        }
+        return base.RedirectToAction("Index", "Book");
+    }
+
+
     [HttpGet]
     [Authorize()]
     [Route("[controller]/[action]/{id}")]
