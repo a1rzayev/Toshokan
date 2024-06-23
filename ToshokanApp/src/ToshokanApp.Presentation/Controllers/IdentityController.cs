@@ -46,7 +46,7 @@ public class IdentityController : Controller
     {
         //loginDto.Password = dataProtector.Protect(loginDto.Password);
         loginDto.Password = Convert.ToBase64String(Encoding.UTF8.GetBytes(loginDto.Password));
-        var foundUser = this.identityService.Login(loginDto);
+        var foundUser = await this.identityService.Login(loginDto);
         if (foundUser == null)
         {
             base.TempData["error"] = "Incorrect login or password!";

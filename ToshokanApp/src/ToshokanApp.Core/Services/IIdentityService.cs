@@ -5,7 +5,7 @@ using ToshokanApp.Core.Resources;
 namespace ToshokanApp.Core.Services;
 public interface IIdentityService
 {
-    User? Login(LoginDto loginDto);
+    Task<User?> Login(LoginDto loginDto);
     Task<Guid?> Registration(RegistrationDto registrationDto);
     Task<string> GetRole(Guid userId);
     Task DeleteAsync(Guid id);

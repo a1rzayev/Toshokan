@@ -16,7 +16,7 @@ public class IdentityService : IIdentityService
         this.connectionString = connectionString;
         this.identityRepository = identityRepository;
     }
-    public User? Login(LoginDto loginDto)
+    public Task<User?> Login(LoginDto loginDto)
     {
         return identityRepository.Login(loginDto);
     }

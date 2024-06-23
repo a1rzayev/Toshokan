@@ -35,6 +35,14 @@ public class AdminController : Controller
     public async Task<IActionResult> GetUsers()
     {
         var users = await this.identityService.GetAllAsync();
+        Guid bookId;
+        var hashedBookId = base.HttpContext.Request.Cookies["CurrentBookId"];
+
+        if (string.IsNullOrWhiteSpace(hashedBookId) == false)
+        {
+            Guid.TryParse(hashedBookId, out bookId);
+            ViewBag.CurrentUserId = bookId;
+        }
         return base.View(users);
     }
 
@@ -42,6 +50,7 @@ public class AdminController : Controller
     {
         return base.View(this.bookService.GetAllAsync());
     }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
@@ -49,8 +58,9 @@ public class AdminController : Controller
     }
 
 
-    [HttpPost]
-    [Route("[controller]/[action]", Name = "BanUserEndpoint")]
+    [HttpGet]
+    [ActionName("BanUser")]
+    //[Route("[controller]/[action]", Name = "BanUserEndpoint")]
     public async Task<IActionResult> BanUser(Guid id)
     {
         await this.identityService.BanAsync(id);
@@ -59,8 +69,9 @@ public class AdminController : Controller
     }
 
 
-    [HttpPost]
-    [Route("[controller]/[action]/{id}", Name = "PromoteAdminEndpoint")]
+    [HttpGet]
+    [ActionName("PromoteAdmin")]
+    //[Route("[controller]/[action]/{id}", Name = "PromoteAdminEndpoint")]
     public async Task<IActionResult> PromoteAdmin(Guid id)
     {
         await this.identityService.PromoteAdminAsync(id);
@@ -68,8 +79,9 @@ public class AdminController : Controller
 
     }
 
-    [HttpDelete]
-    [Route("[controller]/[action]/{id}", Name = "DeleteUserEndpoint")]
+    [HttpGet]
+    [ActionName("DeleteUser")]
+    //[Route("[controller]/[action]/{id}", Name = "DeleteUserEndpoint")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
         await this.identityService.DeleteAsync(id);

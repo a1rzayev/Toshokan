@@ -17,9 +17,12 @@ public class IdentityEfCoreRepository : IIdentityRepository
         this.dbContext = dbContext;
     }
 
-    public User? Login(LoginDto loginDto)
+    public async Task<User?> Login(LoginDto loginDto)
     {
-        return dbContext.Users.FirstOrDefault(x => x.Email == loginDto.Email && x.Password == loginDto.Password);
+        var user = dbContext.Users.FirstOrDefault(x => x.Email == loginDto.Email && x.Password == loginDto.Password);
+        var role = await GetRole(user.Id);
+        if (role == "Banned") return null;
+        else return user;
     }
 
     public async Task<Guid?> Registration(RegistrationDto registrationDto)
@@ -41,7 +44,7 @@ public class IdentityEfCoreRepository : IIdentityRepository
             await dbContext.UserRoles.AddAsync(new UserRole
             {
                 UserId = user.Id,
-                Role = "Admin"
+                Role = "User"
             });
             await dbContext.SaveChangesAsync();
             return user.Id;
@@ -56,10 +59,16 @@ public class IdentityEfCoreRepository : IIdentityRepository
 
     public async Task DeleteAsync(Guid id)
     {
-        var user = await dbContext.Users.FirstOrDefaultAsync(c => c.Id == id);
+        var user = await dbContext.Users.FindAsync(id);
+        var userRole = await dbContext.UserRoles.FindAsync(id);
         if (user != null)
         {
             dbContext.Users.Remove(user);
+            await dbContext.SaveChangesAsync();
+        }
+        if (userRole != null)
+        {
+            dbContext.UserRoles.Remove(userRole);
             await dbContext.SaveChangesAsync();
         }
     }

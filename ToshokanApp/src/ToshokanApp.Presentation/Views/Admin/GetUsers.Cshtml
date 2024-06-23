@@ -19,9 +19,15 @@
                         <h5 class="card-title">@(user?.Name ?? "UNKNOWN") @(user?.Surname ?? "UNKNOWN")</h5>
                         <p class="card-text">Id: @(user?.Id.ToString() ?? "UNKNOWN")</p>
                         <p class="card-text">Email: @(user?.Email ?? "UNKNOWN")</p>
-                        <a href="@Url.Action("PromoteAdmin", "Admin", new { id = user.Id })" class="btn btn-primary btn-sm mr-1">Promote to Admin</a>
-                        <a href="@Url.Action("Ban", "Admin", new { id = user.Id })" class="btn btn-warning btn-sm mr-1">Ban</a>
-                        <a href="@Url.Action("Delete", "Admin", new { id = user.Id })" class="btn btn-danger btn-sm">Delete</a>
+                        @if(ViewBag.CurrentUserId == user.Id){
+                            <p>It's you</p>
+                        }
+                        else{
+                            
+                            <a href="@Url.Action("PromoteAdmin", "Admin", new { id = user.Id })" class="btn btn-primary btn-sm mr-1">Promote to Admin</a>
+                            <a href="@Url.Action("BanUser", "Admin", new { id = user.Id })" class="btn btn-warning btn-sm mr-1">Ban</a>
+                            <a href="@Url.Action("DeleteUser", "Admin", new { id = user.Id })" class="btn btn-danger btn-sm">Delete</a>
+                        }
                     </div>
                 </div>
             </div>
