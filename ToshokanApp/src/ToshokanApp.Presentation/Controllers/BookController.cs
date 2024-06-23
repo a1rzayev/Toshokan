@@ -78,9 +78,7 @@ public class BookController : Controller
 
             if (bookFile == null)
             {
-                //throw new NotFoundException("No book file");
                 System.Console.WriteLine("ERORRRRRRRRRRRRRRRRRR");
-
             }
             else
             {

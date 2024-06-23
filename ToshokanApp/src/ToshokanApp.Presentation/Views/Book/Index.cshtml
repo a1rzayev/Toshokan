@@ -13,7 +13,7 @@
     @if (hasAccess)
     {
         <h2 class="mb-4">Add Book</h2>
-        <form id="addBookForm" asp-controller="Book" asp-action="Add" method="post">
+        <form id="addBookForm" asp-controller="Book" asp-action="Add" method="post" enctype="multipart/form-data" id="addBookForm">
             <div class="form-row">
                 <div class="form-group col-md-3 mb-3">
                     <label >Name</label>
@@ -46,8 +46,8 @@
                     <span  class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-12 mb-12">
-                    <label>Pdf file</label>
-                    <input type="file" class="form-control" id="bookFile" name="bookFile" required/>
+                    <label for="bookFile" class="form-label">Pdf File</label>
+                    <input type="file" class="form-control" id="bookFile" name="bookFile" accept=".pdf"/>
                     <span class="text-danger"></span>
                 </div>
             </div>
@@ -84,7 +84,6 @@
 
 <script>
     $(document).ready(function () {
-        // Initialize validation
         $('#addBookForm').validate({
             rules: {
                 PublicationYear: {
@@ -102,22 +101,19 @@
             }
         });
 
-        // Disable the Add button initially
         $('#addBookButton').prop('disabled', true);
 
-        // Function to check if all fields are filled
         function checkFormValidity() {
             let isValid = true;
             $('#addBookForm input, #addBookForm textarea').each(function() {
                 if ($(this).val() === '') {
                     isValid = false;
-                    return false;  // Break the loop
+                    return false; 
                 }
             });
             return isValid;
         }
 
-        // Enable the Add button when the form is valid
         $('#addBookForm input, #addBookForm textarea').on('keyup change', function () {
             if ($('#addBookForm').valid() && checkFormValidity()) {
                 $('#addBookButton').prop('disabled', false);
