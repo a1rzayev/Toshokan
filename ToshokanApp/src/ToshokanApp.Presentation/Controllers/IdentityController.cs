@@ -226,7 +226,9 @@ public class IdentityController : Controller
     public async Task<ActionResult> GetById(Guid id)
     {
         var user = await identityService.GetByIdAsync(id);
-        ViewBag.avatarDirPath = avatarDirConfiguration["StaticFileRoutes:Books"];
+        ViewBag.avatarDirPath = avatarDirConfiguration["StaticFileRoutes:Avatars"];
+        ViewBag.avatarPath = ViewBag.avatarDirPath + user.Id;
+        System.Console.WriteLine(ViewBag.avatarPath);
         return base.View(user);
     }
 }

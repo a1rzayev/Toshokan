@@ -83,7 +83,7 @@
                 <div class="media mb-3">
 
                     <a href="@Url.Action("GetById", "Identity", new { id = item.SenderId})" class="btn">
-                        <img src="@(ViewBag.avatarDirPath)/@item.SenderId" class="mr-3 rounded-circle" alt="User Avatar"
+                        <img src="@(ViewBag.avatarDirPath + item.SenderId)" class="mr-3 rounded-circle" alt="User Avatar"
                             style="width: 64px;">
                     </a>
                     <div class="media-body">
