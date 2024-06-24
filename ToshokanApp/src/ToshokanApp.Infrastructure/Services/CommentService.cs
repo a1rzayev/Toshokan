@@ -7,29 +7,29 @@ namespace ToshokanApp.Infrastructure.Services;
 
 public class CommentService : ICommentService
 {
-    private readonly ICommentRepository bookCommentRepository; 
+    private readonly ICommentRepository commentRepository; 
     private readonly IOptionsSnapshot<string> connectionString;
-    public CommentService(ICommentRepository bookCommentRepository, IOptionsSnapshot<string> connectionString)
+    public CommentService(ICommentRepository commentRepository, IOptionsSnapshot<string> connectionString)
     {
         this.connectionString = connectionString;
-        this.bookCommentRepository = bookCommentRepository;
+        this.commentRepository = commentRepository;
     }
     public async Task AddAsync(Comment comment)
     {
-        await this.bookCommentRepository.AddAsync(comment);
+        await this.commentRepository.AddAsync(comment);
     }
 
     public async Task DeleteAsync(Guid commentId)
     {
-        await this.bookCommentRepository.DeleteAsync(commentId);
+        await this.commentRepository.DeleteAsync(commentId);
     }
 
     public async Task<IEnumerable<Comment>?> GetAllAsync()
     {
-        return await this.bookCommentRepository.GetAllAsync();
+        return await this.commentRepository.GetAllAsync();
     }
-    public async Task<Comment?> GetByIdAsync(Guid bookId){
-        return await this.bookCommentRepository.GetByIdAsync(bookId);
+    public async Task<Comment?> GetByIdAsync(Guid commentId){
+        return await this.commentRepository.GetByIdAsync(commentId);
     }
 
 }

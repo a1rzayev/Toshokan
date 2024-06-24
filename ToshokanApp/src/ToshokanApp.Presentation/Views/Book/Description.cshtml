@@ -89,6 +89,9 @@
                     <div class="media-body">
                         <h6 class="mt-0">@item.SenderName @item.SenderSurname</h6>
                         <p>@item.Text</p>
+                        @if(hasAccess){
+                            <a href="@Url.Action("Delete", "Comment", new { commentId = item.Id })" class="btn btn-primary mt-auto">X</a>
+                        }
                     </div>
                 </div>
             }

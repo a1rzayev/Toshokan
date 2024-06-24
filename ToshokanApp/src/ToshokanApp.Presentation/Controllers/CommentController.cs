@@ -55,24 +55,33 @@ public class CommentController : Controller
         if (ModelState.IsValid)
         {
             await commentService.AddAsync(comment);
-            return base.RedirectToRoute(new
+            return base.RedirectToAction("GetById", "Book", new
             {
-                controller = "Book",
-                action = "GetById",
-                id = comment.BookId.ToString()
+                id = comment.BookId
             });
         }
         return Forbid();
     }
 
-    [HttpPost]
-    [Route("api/[controller]/{bookId}")]
-    public async Task<IActionResult> Delete(Guid bookId)
+    [HttpGet]
+    [ActionName("Delete")]
+    [Route("api/[controller]")]
+    public async Task<IActionResult> Delete(Guid commentId)
     {
         if (ModelState.IsValid)
         {
-            await this.commentService.DeleteAsync(bookId);
-            return base.RedirectToAction("Book", "Index");
+            var comment = await this.commentService.GetByIdAsync(commentId);
+
+            if (comment != null)
+            {
+                var bookId = comment?.BookId;
+                await this.commentService.DeleteAsync(commentId);
+            }
+            return base.RedirectToAction("GetById", "Book", new
+            {
+                id = comment.BookId
+            });
+
         }
 
         return Forbid();

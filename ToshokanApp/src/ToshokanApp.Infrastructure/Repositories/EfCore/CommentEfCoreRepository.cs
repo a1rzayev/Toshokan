@@ -21,7 +21,7 @@ public class CommentEfCoreRepository : ICommentRepository
 
     public async Task DeleteAsync(Guid id)
 {
-    var comment = await dbContext.Comments.FirstOrDefaultAsync(c => c.Id == id);
+    var comment = await dbContext.Comments.FindAsync(id);
     if (comment != null)
     {
         dbContext.Comments.Remove(comment);
@@ -37,6 +37,6 @@ public class CommentEfCoreRepository : ICommentRepository
 
     public async Task<Comment?> GetByIdAsync(Guid id)
     {
-        return dbContext.Comments.FirstOrDefault(bookComment => bookComment.Id == id);
+        return await dbContext.Comments.FindAsync(id);
     }
 }
