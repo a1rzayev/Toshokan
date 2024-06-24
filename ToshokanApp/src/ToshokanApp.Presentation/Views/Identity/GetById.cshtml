@@ -35,7 +35,8 @@
                 @if (!ViewBag.HasPendingRequest)
                 {
                     <div>
-                        <a href="@Url.Action("RequestWriter", "Identity", new { id = Model?.Id })" class="btn btn-primary me-md-2">Request to be writer</a>
+                        <a href="@Url.Action("RequestWriter", "Identity", new { id = Model?.Id })"
+                            class="btn btn-primary me-md-2">Request to be writer</a>
                     </div>
                 }
                 else
@@ -58,19 +59,15 @@
             <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Author</th>
                 </tr>
             </thead>
             <tbody>
-            @foreach (var item in ViewBag.PurchasedBooks)
-            {
-                <tr>
-                    <a>
-                    <td>@item.Name</td>
-                    <td>@item.Author</td>
-                    </a>
-                </tr>
-            }
+                @foreach (var item in ViewBag.PurchasedBooks)
+                {
+                    <tr>
+                            <td><a href="@Url.Action("GetById", "Book", new { id = item.Id })">@item.Name</a></td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
@@ -81,19 +78,25 @@
             <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Author</th>
                 </tr>
             </thead>
             <tbody>
-            @foreach (var item in ViewBag.Wishlist)
-            {
-                <tr>
-                    <a>
-                    <td>@item.Name</td>
-                    <td>@item.Author</td>
-                    </a>
-                </tr>
-            }
+                @foreach (var item in ViewBag.Wishlist)
+                {
+                    <tr>
+
+                        <a href="@Url.Action("GetById", "Book", new { id = item.Id })">
+                            <td><a href="@Url.Action("GetById", "Book", new { id = item.Id })">@item.Name</a></td>
+                            <td>
+                                @using (Html.BeginForm("RemoveFromWishlistBook", "Identity", FormMethod.Post, new { id = item.Id }))
+                                {
+                                    <button type="submit" class="btn btn-primary" id="removeWishlistButton">X</button>
+                                }
+                            </td>
+                        </a>
+                        
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

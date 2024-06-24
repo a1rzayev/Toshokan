@@ -62,6 +62,10 @@ public class BookController : Controller
             ViewBag.InPurchased = user.PurchasedBooks.Contains(id);
             ViewBag.InWishlist = user.WishList.Contains(id);
         }       
+        else{
+            ViewBag.InPurchased = false;
+            ViewBag.InWishlist = false;
+        }
 
         base.HttpContext.Response.Cookies.Append("CurrentBookId", bookById.Id.ToString());
         ViewBag.avatarDirPath = bookDirConfiguration["StaticFileRoutes:Avatars"];

@@ -123,7 +123,7 @@ public class IdentityController : Controller
 
             if (avatar == null)
             {
-                var defaultAvatarPath = $"{avatarDirConfiguration["StaticFileRoutes:Avatars"]}/Default.jpg";
+                var defaultAvatarPath = $"{avatarDirConfiguration["StaticFileRoutes:Assets"]}/Default.jpg";
 
                 var extension = Path.GetExtension(defaultAvatarPath);
                 using var defaultAvatarFileStream = System.IO.File.OpenRead(defaultAvatarPath);
@@ -148,8 +148,8 @@ public class IdentityController : Controller
     }
 
     [HttpPost]
-    [Route("/[controller]/[action]", Name = "BuyBookEndpoint")]
     [Authorize()]
+    [Route("/[controller]/[action]", Name = "BuyBookEndpoint")]
     public async Task<IActionResult> BuyBook(string? ReturnUrl)
     {
         try
@@ -173,6 +173,7 @@ public class IdentityController : Controller
 
 
     [HttpPost]
+    [Authorize()]
     [Route("/[controller]/[action]", Name = "AddtoWishlistBookEndpoint")]
     public async Task<IActionResult> AddtoWishlistBook(string? ReturnUrl)
     {
@@ -188,17 +189,17 @@ public class IdentityController : Controller
             await this.identityService.AddtoWishlistBook(userId, bookId);
             return RedirectToAction("GetById", "Book", new { id = bookId });
         }
+        
         catch (Exception ex)
         {
             TempData["error"] = ex.Message;
-            System.Console.WriteLine(TempData["error"]);
         }
-
         return base.RedirectToAction("Index", "Book");
     }
 
 
     [HttpPost]
+    [Authorize()]
     [Route("/[controller]/[action]", Name = "RemovefromWishlistBookEndpoint")]
     public async Task<IActionResult> RemovefromWishlistBook(string? ReturnUrl)
     {
@@ -224,7 +225,7 @@ public class IdentityController : Controller
 
 
     [HttpGet]
-    [Authorize()]
+    [AllowAnonymous]
     [Route("[controller]/[action]/{id}")]
     [ActionName("GetById")]
     public async Task<ActionResult> GetById(Guid id)
