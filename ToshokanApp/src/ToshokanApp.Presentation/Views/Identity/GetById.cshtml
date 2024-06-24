@@ -51,6 +51,54 @@
     </div>
 </form>
 
+<div class="row">
+    <div class="col-md-6">
+        <h2>Purchased Books</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in ViewBag.PurchasedBooks)
+            {
+                <tr>
+                    <a>
+                    <td>@item.Name</td>
+                    <td>@item.Author</td>
+                    </a>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-6">
+        <h2>Wishlist Books</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in ViewBag.Wishlist)
+            {
+                <tr>
+                    <a>
+                    <td>@item.Name</td>
+                    <td>@item.Author</td>
+                    </a>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
 @if (ViewBag.Message != null)
 {
     <p class="text-success mt-3">@ViewBag.Message</p>

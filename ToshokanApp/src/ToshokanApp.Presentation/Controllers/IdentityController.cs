@@ -10,20 +10,23 @@ using System.Security.Cryptography;
 using ToshokanApp.Core.Services;
 using System.Text;
 using ToshokanApp.Core.Models;
+using ToshokanApp.Infrastructure.Services;
 
 namespace ToshokanApp.Infrastructure.Controllers;
 public class IdentityController : Controller
 {
     private readonly IIdentityService identityService;
+    private readonly IBookService bookService;
 
     private readonly IConfiguration avatarDirConfiguration;
 
     private readonly IDataProtector dataProtector;
-    public IdentityController(IIdentityService identityService, IDataProtectionProvider dataProtectionProvider, IConfiguration avatarDirConfiguration)
+    public IdentityController(IIdentityService identityService, IDataProtectionProvider dataProtectionProvider, IConfiguration avatarDirConfiguration, IBookService bookService)
     {
         this.identityService = identityService;
         this.dataProtector = dataProtectionProvider.CreateProtector("identity");
         this.avatarDirConfiguration = avatarDirConfiguration;
+        this.bookService = bookService;
     }
 
     [Route("/[controller]/[action]", Name = "LoginView")]
@@ -246,6 +249,19 @@ public class IdentityController : Controller
         ViewBag.avatarDirPath = avatarDirConfiguration["StaticFileRoutes:Avatars"];
         ViewBag.avatarPath = ViewBag.avatarDirPath + user.Id;
         System.Console.WriteLine(ViewBag.avatarPath);
+
+        List<Book> purchasedBooks = new List<Book>();
+        foreach (var bookId in user.PurchasedBooks)
+        {
+            purchasedBooks.Add(await this.bookService.GetByIdAsync(bookId));
+        }
+        List<Book> wishList = new List<Book>();
+        foreach (var bookId in user.WishList)
+        {
+            wishList.Add(await this.bookService.GetByIdAsync(bookId));
+        }
+        ViewBag.PurchasedBooks = purchasedBooks;
+        ViewBag.WishList = wishList;
 
         return base.View(user);
     }
