@@ -7,4 +7,8 @@ public interface IAdminService
     Task DeleteUser(Guid id);
     Task DeleteBook(Guid id);
     Task DeleteComment(Guid id);
+    
+    Task<IEnumerable<UserRequest>?> GetAllUserRequestsAsync();
+    Task AcceptUserRequest(Guid requestId);
+    Task RejectUserRequest(Guid requestId);
 }

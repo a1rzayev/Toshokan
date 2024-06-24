@@ -68,6 +68,9 @@ builder.Services.AddTransient<ILogService, LogService>();
 builder.Services.AddTransient<IIdentityRepository, IdentityEfCoreRepository>();
 builder.Services.AddTransient<IIdentityService, IdentityService>();
 
+builder.Services.AddTransient<IAdminRepository, AdminEfCoreRepository>();
+builder.Services.AddTransient<IAdminService, AdminService>();
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

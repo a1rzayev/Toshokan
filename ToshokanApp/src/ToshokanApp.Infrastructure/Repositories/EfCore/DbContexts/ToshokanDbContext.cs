@@ -11,6 +11,7 @@ public class ToshokanDbContext : DbContext
     public DbSet<Log> Logs { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<UserRole> UserRoles { get; set; }
+    public DbSet<UserRequest> UserRequests { get; set; }
 
     public ToshokanDbContext(DbContextOptions<ToshokanDbContext> options) : base(options)
     {
@@ -158,6 +159,15 @@ public class ToshokanDbContext : DbContext
         .HasKey(c => c.UserId);
 
         modelBuilder.Entity<UserRole>()
+        .Property(c => c.Role)
+        .IsRequired();
+
+
+
+        modelBuilder.Entity<UserRequest>()
+        .HasKey(c => c.UserId);
+
+        modelBuilder.Entity<UserRequest>()
         .Property(c => c.Role)
         .IsRequired();
     }

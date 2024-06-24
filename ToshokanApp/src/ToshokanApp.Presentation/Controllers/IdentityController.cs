@@ -9,12 +9,13 @@ using ToshokanApp.Core.Dtos;
 using System.Security.Cryptography;
 using ToshokanApp.Core.Services;
 using System.Text;
+using ToshokanApp.Core.Models;
 
 namespace ToshokanApp.Infrastructure.Controllers;
 public class IdentityController : Controller
 {
     private readonly IIdentityService identityService;
-    
+
     private readonly IConfiguration avatarDirConfiguration;
 
     private readonly IDataProtector dataProtector;
@@ -115,7 +116,7 @@ public class IdentityController : Controller
         {
             registrationDto.Password = Convert.ToBase64String(Encoding.UTF8.GetBytes(registrationDto.Password));
             var userId = await this.identityService.Registration(registrationDto);
-            if(userId == null) throw new Exception("This email is already using by the other user");
+            if (userId == null) throw new Exception("This email is already using by the other user");
 
             if (avatar == null)
             {
@@ -125,7 +126,7 @@ public class IdentityController : Controller
                 using var defaultAvatarFileStream = System.IO.File.OpenRead(defaultAvatarPath);
                 using var newFileStream = System.IO.File.Create($"{avatarDirConfiguration["StaticFileRoutes:Avatars"]}{userId}{extension}");
                 await defaultAvatarFileStream.CopyToAsync(newFileStream);
-                
+
             }
             else
             {
@@ -192,8 +193,8 @@ public class IdentityController : Controller
 
         return base.RedirectToAction("Index", "Book");
     }
-    
-    
+
+
     [HttpPost]
     [Route("/[controller]/[action]", Name = "RemovefromWishlistBookEndpoint")]
     public async Task<IActionResult> RemovefromWishlistBook(string? ReturnUrl)
@@ -226,10 +227,41 @@ public class IdentityController : Controller
     public async Task<ActionResult> GetById(Guid id)
     {
         var user = await identityService.GetByIdAsync(id);
+        Guid senderId;
+        var hashedSenderId = base.HttpContext.Request.Cookies["CurrentUserId"];
+
+        if (string.IsNullOrWhiteSpace(hashedSenderId) == false)
+        {
+
+            Guid.TryParse(hashedSenderId, out senderId);
+            if(senderId == id){
+                ViewBag.IsCurrentAccount = true;
+                ViewBag.HasPendingRequest = await identityService.HasPendingRequest(id);
+            }
+            else ViewBag.IsCurrentAccount = false;
+        }
+        else {
+            ViewBag.IsCurrentAccount = false;
+        }
         ViewBag.avatarDirPath = avatarDirConfiguration["StaticFileRoutes:Avatars"];
         ViewBag.avatarPath = ViewBag.avatarDirPath + user.Id;
         System.Console.WriteLine(ViewBag.avatarPath);
+
         return base.View(user);
+    }
+
+
+    [HttpGet]
+    [Authorize()]
+    [ActionName("RequestWriter")]
+    public async Task<IActionResult> RequestWriter(Guid id)
+    {
+        if (ModelState.IsValid)
+        {
+            var userRequest = new UserRequest{UserId = id, Role = "Writer"};
+            await identityService.SendUserRequest(userRequest);
+        }
+        return base.RedirectToAction("GetById", new {id = id});
     }
 }
 

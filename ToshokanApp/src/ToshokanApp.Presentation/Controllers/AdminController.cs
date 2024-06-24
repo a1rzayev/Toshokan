@@ -16,10 +16,12 @@ public class AdminController : Controller
 
     private readonly IBookService bookService;
     private readonly IIdentityService identityService;
-    public AdminController(IConfiguration configuration, IBookService bookService, IIdentityService identityService)
+    private readonly IAdminService adminService;
+    public AdminController(IConfiguration configuration, IBookService bookService, IIdentityService identityService, IAdminService adminService)
     {
         this.bookService = bookService;
         this.identityService = identityService;
+        this.adminService = adminService;
     }
 
     public async Task<IActionResult> Index()
@@ -60,7 +62,6 @@ public class AdminController : Controller
 
     [HttpGet]
     [ActionName("BanUser")]
-    //[Route("[controller]/[action]", Name = "BanUserEndpoint")]
     public async Task<IActionResult> BanUser(Guid id)
     {
         await this.identityService.BanAsync(id);
@@ -71,7 +72,6 @@ public class AdminController : Controller
 
     [HttpGet]
     [ActionName("PromoteAdmin")]
-    //[Route("[controller]/[action]/{id}", Name = "PromoteAdminEndpoint")]
     public async Task<IActionResult> PromoteAdmin(Guid id)
     {
         await this.identityService.PromoteAdminAsync(id);
@@ -81,11 +81,32 @@ public class AdminController : Controller
 
     [HttpGet]
     [ActionName("DeleteUser")]
-    //[Route("[controller]/[action]/{id}", Name = "DeleteUserEndpoint")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
         await this.identityService.DeleteAsync(id);
         return base.RedirectToAction("GetUsers");
     }
 
+    [HttpGet]
+    [ActionName("AcceptRequest")]
+    public async Task<IActionResult> AcceptRequest(Guid id)
+    {
+        await this.adminService.AcceptUserRequest(id);
+        return base.RedirectToAction("GetRequests");
+    }
+
+    [HttpGet]
+    [ActionName("RejectRequest")]
+    public async Task<IActionResult> RejectRequest(Guid id)
+    {
+        await this.adminService.RejectUserRequest(id);
+        return base.RedirectToAction("GetRequests");
+    }
+
+    [HttpGet]
+    [ActionName("GetRequests")]
+    public async Task<IActionResult> GetRequests()
+    {
+        return base.View(await this.adminService.GetAllUserRequestsAsync());
+    }
 }

@@ -121,6 +121,12 @@ public class IdentityEfCoreRepository : IIdentityRepository
     }
 
 
+
+    public async Task SendUserRequest(UserRequest userRequest){
+        await dbContext.UserRequests.AddAsync(userRequest);
+        await dbContext.SaveChangesAsync();
+    }
+
     public async Task RemovefromWishlistBook(Guid userId, Guid bookId)
     {
         var user = dbContext.Users.FirstOrDefault(x => x.Id == userId);
@@ -134,5 +140,11 @@ public class IdentityEfCoreRepository : IIdentityRepository
     public async Task<User?> GetByIdAsync(Guid userId)
     {
         return dbContext.Users.FirstOrDefault(u => u.Id == userId);
+    }
+
+
+    public async Task<bool> HasPendingRequest(Guid userId){
+        var userRequest = dbContext.UserRequests.Find(userId); 
+        return (userRequest != null);
     }
 }

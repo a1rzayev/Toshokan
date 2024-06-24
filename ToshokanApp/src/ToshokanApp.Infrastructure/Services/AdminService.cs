@@ -7,9 +7,9 @@ namespace ToshokanApp.Infrastructure.Services;
 
 public class AdminService : IAdminService
 {
-    private readonly IBookRepository adminRepository; 
+    private readonly IAdminRepository adminRepository; 
     private readonly IOptionsSnapshot<string> connectionString;
-    public AdminService(IAdminRepository bookRepository, IOptionsSnapshot<string> connectionString)
+    public AdminService(IAdminRepository adminRepository, IOptionsSnapshot<string> connectionString)
     {
         this.connectionString = connectionString;
         this.adminRepository = adminRepository;
@@ -33,5 +33,17 @@ public class AdminService : IAdminService
     public Task<IEnumerable<User>?> GetAllUsersAsync()
     {
         throw new NotImplementedException();
+    }
+
+    public async Task AcceptUserRequest(Guid requestId){
+        await adminRepository.AcceptUserRequest(requestId);
+    }
+
+    public async Task RejectUserRequest(Guid requestId){
+        await adminRepository.RejectUserRequest(requestId);
+    }
+
+    public async Task<IEnumerable<UserRequest>?> GetAllUserRequestsAsync(){
+        return await adminRepository.GetAllUserRequestsAsync();
     }
 }

@@ -22,8 +22,34 @@ public class AdminEfCoreRepository : IAdminRepository
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<User>?> GetAllAsync()
+    public async Task AcceptUserRequest(Guid requestId)
     {
-        throw new NotImplementedException();
+        var userRequest = dbContext.UserRequests.Find(requestId);
+        if (userRequest != null)
+        {
+            var userroles = dbContext.UserRoles.FirstOrDefault(c => c.UserId == requestId);
+            if (userroles != null)
+            {
+                dbContext.UserRoles.FirstOrDefault(c => c.UserId == requestId).Role = userRequest.Role;
+                dbContext.UserRequests.Remove(userRequest);
+                await dbContext.SaveChangesAsync();
+            }
+        }
+
+    }
+    public async Task RejectUserRequest(Guid requestId)
+    {
+
+        var userRequest = dbContext.UserRequests.Find(requestId);
+        if (userRequest != null)
+        {
+            dbContext.UserRequests.Remove(userRequest);
+            await dbContext.SaveChangesAsync();
+        }
+    }
+
+    public async Task<IEnumerable<UserRequest>?> GetAllUserRequestsAsync()
+    {
+        return dbContext.UserRequests;
     }
 }
