@@ -123,7 +123,7 @@ public class IdentityController : Controller
 
             if (avatar == null)
             {
-                var defaultAvatarPath = $"{avatarDirConfiguration["StaticFileRoutes:Assets"]}/Default.jpg";
+                var defaultAvatarPath = $"{avatarDirConfiguration["StaticFileRoutes:Assets"]}Default.jpg";
 
                 var extension = Path.GetExtension(defaultAvatarPath);
                 using var defaultAvatarFileStream = System.IO.File.OpenRead(defaultAvatarPath);

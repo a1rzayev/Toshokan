@@ -1,6 +1,11 @@
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ToshokanApp.Core.Models;
+using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace ToshokanApp.Infrastructure.Repositories.EfCore.DbContexts;
 
@@ -19,12 +24,16 @@ public class ToshokanDbContext : DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
-        
-        
+        // string usersJson = File.ReadAllText("../ToshokanApp.Core/TestData/Users.json");
+        // List<User> testUsers = JsonSerializer.Deserialize<List<User>>(usersJson);
+        // string booksJson = File.ReadAllText("../ToshokanApp.Core/TestData/Books.json");
+        // List<User> testBooks = JsonSerializer.Deserialize<List<User>>(booksJson);
+        // string userrolesJson = File.ReadAllText("../ToshokanApp.Core/TestData/UserRoles.json");
+        // List<User> testUserRoles = JsonSerializer.Deserialize<List<User>>(userrolesJson);
+
         modelBuilder.Entity<Book>()
         .HasKey(g => g.Id);
-        
+
         modelBuilder.Entity<Book>()
         .Property(g => g.Name)
         .HasMaxLength(100)
@@ -52,10 +61,6 @@ public class ToshokanDbContext : DbContext
         modelBuilder.Entity<Book>()
         .Property(g => g.Description)
         .HasMaxLength(1000)
-        .IsRequired();
-
-        modelBuilder.Entity<Book>()
-        .Property(g => g.AddedBy)
         .IsRequired();
 
         modelBuilder.Entity<Book>()
@@ -98,30 +103,30 @@ public class ToshokanDbContext : DbContext
         modelBuilder.Entity<Log>()
         .Property(e => e.RequestBody)
         .IsRequired();
-        
+
         modelBuilder.Entity<Log>()
         .Property(e => e.ResponseBody)
         .IsRequired();
-        
+
         modelBuilder.Entity<Log>()
         .Property(e => e.CreationDate)
         .IsRequired();
-        
+
         modelBuilder.Entity<Log>()
         .Property(e => e.EndDate)
         .IsRequired();
-        
+
         modelBuilder.Entity<Log>()
         .Property(e => e.StatusCode)
         .IsRequired();
-        
+
         modelBuilder.Entity<Log>()
         .Property(e => e.HttpMethod)
         .IsRequired();
 
 
 
-        
+
         modelBuilder.Entity<User>()
         .HasKey(c => c.Id);
 
@@ -170,5 +175,20 @@ public class ToshokanDbContext : DbContext
         modelBuilder.Entity<UserRequest>()
         .Property(c => c.Role)
         .IsRequired();
+
+        Guid id = Guid.NewGuid();
+        modelBuilder.Entity<User>().HasData(new User
+        {
+            Id = id,
+            Name = "Admin",
+            Surname = "Adminov",
+            Email = "admin.adminov@gmail.com",
+            Password = "QWRtaW4xMjM0",
+            PurchasedBooks = new List<Guid>(),
+            WishList = new List<Guid>()
+        });
+        modelBuilder.Entity<UserRole>().HasData(new UserRole { UserId = id, Role = "Admin" });
+
+        base.OnModelCreating(modelBuilder);
     }
 }

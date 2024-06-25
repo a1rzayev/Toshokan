@@ -20,6 +20,7 @@ public class IdentityEfCoreRepository : IIdentityRepository
     public async Task<User?> Login(LoginDto loginDto)
     {
         var user = dbContext.Users.FirstOrDefault(x => x.Email == loginDto.Email && x.Password == loginDto.Password);
+        if(user == null) return null;
         var role = await GetRole(user.Id);
         if (role == "Banned") return null;
         else return user;
@@ -29,7 +30,7 @@ public class IdentityEfCoreRepository : IIdentityRepository
     {
         if (dbContext.Users.FirstOrDefault(u => u.Email.ToLower() == registrationDto.Email.ToLower()) == null)
         {
-            var userId = new Guid();
+            var userId = Guid.NewGuid();
             var user = new User
             {
                 Id = userId,

@@ -31,7 +31,7 @@ namespace ToshokanApp.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("AddedBy")
+                    b.Property<Guid>("AddedBy")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("AddedDate")

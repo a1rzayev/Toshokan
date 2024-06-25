@@ -28,24 +28,32 @@ builder.Services.AddDbContext<ToshokanDbContext>(dbContextOptionsBuilder =>
 builder.Services.AddDataProtection();
 
 
-var avatarDirPath = builder.Configuration["StaticFileRoutes:Avatar"];
-var bookDirPath = builder.Configuration["StaticFileRoutes:Books"];
+var assetsDirPath = builder.Configuration["StaticFileRoutes:Assets"];
 
-if (!Directory.Exists(avatarDirPath))
+if (!Directory.Exists(assetsDirPath))
 {
     try{
-        Directory.CreateDirectory(avatarDirPath);
+        Directory.CreateDirectory(assetsDirPath);
+        Directory.CreateDirectory($"{assetsDirPath}/Avatars");
+        Directory.CreateDirectory($"{assetsDirPath}/Books");
     }
     catch (Exception ex)
     {
         Console.WriteLine($"Error while initializing folder: {ex.Message}");
     }
 }
-
-if (!Directory.Exists(bookDirPath))
-{
+else if(!Directory.Exists($"{assetsDirPath}/Avatars")){
     try{
-        Directory.CreateDirectory(bookDirPath);
+        Directory.CreateDirectory($"{assetsDirPath}/Avatars");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error while initializing folder: {ex.Message}");
+    }
+}
+else if(!Directory.Exists($"{assetsDirPath}/Books")){
+    try{
+        Directory.CreateDirectory($"{assetsDirPath}/Books");
     }
     catch (Exception ex)
     {

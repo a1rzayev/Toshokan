@@ -1,0 +1,11 @@
+[
+    {
+        "Id": "d1e90fbb-c731-4e2a-87b4-7c5d9ec4d65f",
+        "Name": "Admin",
+        "Surname": "Adminov",
+        "Email": "admin.adminov@gmail.com",
+        "Password": "QWRtaW4xMjM0", 
+        "PurchasedBooks": [],
+        "WishList": []
+    }
+]

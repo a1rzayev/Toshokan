@@ -24,7 +24,5 @@ public class Book
     [StringLength(1000)]
     public string? Description { get; set; }
     [Required]
-    public int AddedBy { get; set; }
-    [Required]
     public DateTime AddedDate { get; set; }
 }

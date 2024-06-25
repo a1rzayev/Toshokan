@@ -81,6 +81,12 @@ public class BookController : Controller
         try
         {
             newBook.Id = new Guid();
+
+            // Guid adderId;
+            // Guid.TryParse(base.HttpContext.Request.Cookies["CurrentUserId"], out adderId);
+            // newBook.AddedBy = adderId;
+            newBook.AddedDate = DateTime.Now;
+
             await this.bookService.AddAsync(newBook);
 
             if (bookFile != null)
@@ -105,8 +111,7 @@ public class BookController : Controller
     public async Task<IActionResult> DownloadBook(Guid id)
     {
         var book = await this.bookService.GetByIdAsync(id);
-        var fileName = $"{id}.pdf";
-        var filePath = Path.Combine(bookDirConfiguration["StaticFileRoutes:Books"], fileName);
+        var filePath = $"{bookDirConfiguration["StaticFileRoutes:Books"]}{id}.pdf";
 
         if (!System.IO.File.Exists(filePath))
         {
