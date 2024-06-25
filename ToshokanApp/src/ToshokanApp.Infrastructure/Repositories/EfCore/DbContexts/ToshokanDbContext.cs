@@ -176,14 +176,14 @@ public class ToshokanDbContext : DbContext
         .Property(c => c.Role)
         .IsRequired();
 
-        Guid id = Guid.NewGuid();
+        Guid id = new Guid("d1e90fbb-c731-4e2a-87b4-7c5d9ec4d65f");
         modelBuilder.Entity<User>().HasData(new User
         {
             Id = id,
             Name = "Admin",
             Surname = "Adminov",
             Email = "admin.adminov@gmail.com",
-            Password = "QWRtaW4xMjM0",
+            Password = "QWRtaW4xMjM0", //Admin1234
             PurchasedBooks = new List<Guid>(),
             WishList = new List<Guid>()
         });
