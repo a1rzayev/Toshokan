@@ -99,7 +99,6 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequireAdminAccess", policyBuilder =>
     {
         policyBuilder.RequireRole("Admin");
-        policyBuilder.RequireRole("Writer");
     });
     options.AddPolicy("UserAccess", policyBuilder =>
     {

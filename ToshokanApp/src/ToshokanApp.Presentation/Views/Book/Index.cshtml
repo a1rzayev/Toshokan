@@ -14,7 +14,7 @@
     @if (hasAccess)
     {
         <h2 class="mb-4">Add Book</h2>
-        <form id="addBookForm" asp-controller="Book" asp-action="Add" method="post" enctype="multipart/form-data" id="addBookForm">
+        <form asp-controller="Book" asp-action="Add" enctype="multipart/form-data" id="addBookForm">
             <div class="form-row">
                 <div class="form-group col-md-3 mb-3">
                     <label >Name</label>
