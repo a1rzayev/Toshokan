@@ -33,10 +33,10 @@
                 </div>
                 <div class="mb-3">
                     <label for="avatar" class="form-label">Avatar</label>
-                    <input type="file" class="form-control" id="avatar" name="avatar" accept=".png,.jpg,.jpeg"/>
+                    <input type="file" class="form-control" id="avatar" name="avatar" accept=".jpg"/>
                 </div>
                 <button type="submit" class="btn btn-success w-100" id="submitButton" disabled>Register</button>
-                <p class="text-center mt-3">Already have an account? <a asp-action="Login">Sign in</a></p>
+                <p class="text-center mt-3">Already have an account? <a asp-route="LoginView">Sign in</a></p>
             </form>
         </div>
     </div>

@@ -81,10 +81,6 @@ public class BookController : Controller
         try
         {
             newBook.Id = new Guid();
-
-            // Guid adderId;
-            // Guid.TryParse(base.HttpContext.Request.Cookies["CurrentUserId"], out adderId);
-            // newBook.AddedBy = adderId;
             newBook.AddedDate = DateTime.Now;
 
             await this.bookService.AddAsync(newBook);

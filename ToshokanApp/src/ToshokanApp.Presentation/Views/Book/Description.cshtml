@@ -82,12 +82,11 @@
             {
                 <div class="media mb-3">
 
-                    <a href="@Url.Action("GetById", "Identity", new { id = item.SenderId})" class="btn">
-                        <img src="@(ViewBag.avatarDirPath + item.SenderId)" class="mr-3 rounded-circle" alt="User Avatar"
-                            style="width: 64px;">
-                    </a>
+                    @* <a href="@Url.Action("GetById", "Identity", new { id = item.SenderId})" class="btn"> *@
+                        @* <img src="~/Avatars/@(item.SenderId).jpg" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;"> *@
+                    @* </a> *@
                     <div class="media-body">
-                        <h6 class="mt-0">@item.SenderName @item.SenderSurname</h6>
+                        <a href="@Url.Action("GetById", "Identity", new { id = item.SenderId})" class="btn"><h6 class="mt-0">@item.SenderName @item.SenderSurname</h6></a>
                         <p>@item.Text</p>
                         @if(hasAccess){
                             <a href="@Url.Action("Delete", "Comment", new { commentId = item.Id })" class="btn btn-primary mt-auto">X</a>

@@ -119,22 +119,38 @@ public class IdentityController : Controller
         {
             registrationDto.Password = Convert.ToBase64String(Encoding.UTF8.GetBytes(registrationDto.Password));
             var userId = await this.identityService.Registration(registrationDto);
-            if (userId == null) throw new Exception("This email is already using by the other user");
+            if (userId == null) throw new Exception("This email is already being used by another user");
+
+            var avatarFilePath = $"{avatarDirConfiguration["StaticFileRoutes:Avatars"]}{userId}";
 
             if (avatar == null)
             {
-                var defaultAvatarPath = $"{avatarDirConfiguration["StaticFileRoutes:Assets"]}Default.jpg";
+                var defaultAvatarUrl = "https://wallpapers.com/images/hd/blank-default-pfp-wue0zko1dfxs9z2c.jpg"; 
 
-                var extension = Path.GetExtension(defaultAvatarPath);
-                using var defaultAvatarFileStream = System.IO.File.OpenRead(defaultAvatarPath);
-                using var newFileStream = System.IO.File.Create($"{avatarDirConfiguration["StaticFileRoutes:Avatars"]}{userId}{extension}");
-                await defaultAvatarFileStream.CopyToAsync(newFileStream);
+                var uri = new Uri(defaultAvatarUrl);
+                var extension = Path.GetExtension(uri.AbsolutePath);
 
+                using var httpClient = new HttpClient();
+                HttpResponseMessage response = null;
+
+                try
+                {
+                    response = await httpClient.GetAsync(defaultAvatarUrl);
+                    response.EnsureSuccessStatusCode();
+                }
+                catch (HttpRequestException e)
+                {
+                    throw new Exception("Error fetching default avatar from the internet: " + e.Message);
+                }
+
+                using var newFileStream = System.IO.File.Create(avatarFilePath + extension);
+                await response.Content.CopyToAsync(newFileStream);
             }
             else
             {
                 var extension = Path.GetExtension(avatar.FileName);
-                using var newFileStream = System.IO.File.Create($"{avatarDirConfiguration["StaticFileRoutes:Avatars"]}{userId}{extension}");
+
+                using var newFileStream = System.IO.File.Create(avatarFilePath + extension);
                 await avatar.CopyToAsync(newFileStream);
             }
         }
@@ -146,6 +162,7 @@ public class IdentityController : Controller
 
         return base.RedirectToRoute("LoginView");
     }
+
 
     [HttpPost]
     [Authorize()]
@@ -189,7 +206,7 @@ public class IdentityController : Controller
             await this.identityService.AddtoWishlistBook(userId, bookId);
             return RedirectToAction("GetById", "Book", new { id = bookId });
         }
-        
+
         catch (Exception ex)
         {
             TempData["error"] = ex.Message;
@@ -238,18 +255,20 @@ public class IdentityController : Controller
         {
 
             Guid.TryParse(hashedSenderId, out senderId);
-            if(senderId == id){
+            if (senderId == id)
+            {
                 ViewBag.IsCurrentAccount = true;
                 ViewBag.HasPendingRequest = await identityService.HasPendingRequest(id);
             }
             else ViewBag.IsCurrentAccount = false;
         }
-        else {
+        else
+        {
             ViewBag.IsCurrentAccount = false;
         }
         ViewBag.avatarDirPath = avatarDirConfiguration["StaticFileRoutes:Avatars"];
         ViewBag.avatarPath = ViewBag.avatarDirPath + user.Id;
-        System.Console.WriteLine(ViewBag.avatarPath);
+        ViewBag.UserId = user.Id;
 
         List<Book> purchasedBooks = new List<Book>();
         foreach (var bookId in user.PurchasedBooks)
@@ -275,10 +294,12 @@ public class IdentityController : Controller
     {
         if (ModelState.IsValid)
         {
-            var userRequest = new UserRequest{UserId = id, Role = "Writer"};
+            var userRequest = new UserRequest { UserId = id, Role = "Writer" };
             await identityService.SendUserRequest(userRequest);
         }
-        return base.RedirectToAction("GetById", new {id = id});
+        return base.RedirectToAction("GetById", new { id = id });
     }
+
+
 }
 

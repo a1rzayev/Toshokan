@@ -29,10 +29,12 @@ builder.Services.AddDataProtection();
 
 
 var assetsDirPath = builder.Configuration["StaticFileRoutes:Assets"];
+var avatarsDirPath = builder.Configuration["StaticFileRoutes:Avatars"];
 
 if (!Directory.Exists(assetsDirPath))
 {
-    try{
+    try
+    {
         Directory.CreateDirectory(assetsDirPath);
         Directory.CreateDirectory($"{assetsDirPath}/Avatars");
         Directory.CreateDirectory($"{assetsDirPath}/Books");
@@ -42,17 +44,21 @@ if (!Directory.Exists(assetsDirPath))
         Console.WriteLine($"Error while initializing folder: {ex.Message}");
     }
 }
-else if(!Directory.Exists($"{assetsDirPath}/Avatars")){
-    try{
-        Directory.CreateDirectory($"{assetsDirPath}/Avatars");
+if (!Directory.Exists(avatarsDirPath))
+{
+    try
+    {
+        Directory.CreateDirectory(avatarsDirPath);
     }
     catch (Exception ex)
     {
         Console.WriteLine($"Error while initializing folder: {ex.Message}");
     }
 }
-else if(!Directory.Exists($"{assetsDirPath}/Books")){
-    try{
+if (!Directory.Exists($"{assetsDirPath}/Books"))
+{
+    try
+    {
         Directory.CreateDirectory($"{assetsDirPath}/Books");
     }
     catch (Exception ex)
@@ -93,6 +99,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequireAdminAccess", policyBuilder =>
     {
         policyBuilder.RequireRole("Admin");
+        policyBuilder.RequireRole("Writer");
     });
     options.AddPolicy("UserAccess", policyBuilder =>
     {
@@ -123,5 +130,6 @@ app.UseMiddleware<LoggingMiddleware>();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Book}/{action=Index}");
+
 
 app.Run();

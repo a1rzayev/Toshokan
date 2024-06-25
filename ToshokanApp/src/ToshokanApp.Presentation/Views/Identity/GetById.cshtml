@@ -2,8 +2,7 @@
 
 @{
     ViewData["Title"] = "Account Info";
-    var Requestable = !User.Claims.Any(c => c.Type == ClaimTypes.Role && (c.Value == "Admin" || c.Value == "Developer" ||
-    c.Value == "Writer" || c.Value == "CEO"));
+    var Requestable = !User.Claims.Any(c => c.Type == ClaimTypes.Role && (c.Value == "Admin" || c.Value == "Developer" || c.Value == "Writer" || c.Value == "CEO"));
 }
 
 <h2>Account Info</h2>
@@ -11,7 +10,7 @@
 <div asp-validation-summary="All" class="text-danger"></div>
 
 <form>
-    <img src="@ViewBag.avatarPath" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
+    <img src="~/Avatars/@(ViewBag.UserId).jpg" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
     <div class="mb-3">
         <label asp-for="@Model.Name" class="form-label">Name</label>
         <label asp-for="@Model.Name" type="text" class="form-control" readonly>@Model.Name</label>
@@ -65,7 +64,9 @@
                 @foreach (var item in ViewBag.PurchasedBooks)
                 {
                     <tr>
-                            <td><a href="@Url.Action("GetById", "Book", new { id = item.Id })">@item.Name</a></td>
+                            @if(item != null){
+                                <td><a href="@Url.Action("GetById", "Book", new { id = item.Id })">@item.Name</a></td>
+                            }
                     </tr>
                 }
             </tbody>

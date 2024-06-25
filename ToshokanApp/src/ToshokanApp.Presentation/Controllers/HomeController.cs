@@ -26,26 +26,6 @@ public ActionResult GetMessage()
     }   
      public async Task<IActionResult> Index()
     {
-        // var authenticationHashedValue = base.HttpContext.Request.Cookies["Authentication"];
-
-        // if(string.IsNullOrWhiteSpace(authenticationHashedValue) == false) {
-        //     var authenticationValue = this.dataProtector.Unprotect(authenticationHashedValue);
-
-        //     if(Guid.TryParse(authenticationValue, out Guid userId)) {
-        //         var connection = new SqlConnection(identityConnectionString);
-
-        //         var foundUser = await connection.QueryFirstOrDefaultAsync<User>(
-        //             sql: "select * from Users where [Id] = @Id",
-        //             param: new {
-        //                 Id = userId
-        //             }
-        //         );
-
-        //         return View(foundUser);
-        //     }
-        // } 
-        // else return base.RedirectToRoute("LoginView");//.RedirectToAction(controllerName: "Identity", actionName: "Login");
-
         return View();
     }
 
