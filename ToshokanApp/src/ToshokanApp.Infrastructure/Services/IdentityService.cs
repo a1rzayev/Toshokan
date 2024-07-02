@@ -68,4 +68,14 @@ public class IdentityService : IIdentityService
     {
         return await this.identityRepository.HasPendingRequest(userId);
     }
+
+    // public async Task<bool> ConfirmEmailAsync(Guid userId, string code)
+    // {
+    //     var user = await identityRepository.GetByIdAsync(userId);
+    //     if (user == null)
+    //     {
+    //         return false;
+    //     }
+    //     return await identityRepository.ConfirmEmailAsync(user, code);
+    // }
 }

@@ -11,22 +11,26 @@ using ToshokanApp.Core.Services;
 using System.Text;
 using ToshokanApp.Core.Models;
 using ToshokanApp.Infrastructure.Services;
+using System.Net.Mail;
+using System.Net;
 
 namespace ToshokanApp.Infrastructure.Controllers;
 public class IdentityController : Controller
 {
     private readonly IIdentityService identityService;
     private readonly IBookService bookService;
+    private readonly IEmailService emailService;
 
     private readonly IConfiguration avatarDirConfiguration;
 
     private readonly IDataProtector dataProtector;
-    public IdentityController(IIdentityService identityService, IDataProtectionProvider dataProtectionProvider, IConfiguration avatarDirConfiguration, IBookService bookService)
+    public IdentityController(IIdentityService identityService, IDataProtectionProvider dataProtectionProvider, IConfiguration avatarDirConfiguration, IBookService bookService, IEmailService emailService)
     {
         this.identityService = identityService;
         this.dataProtector = dataProtectionProvider.CreateProtector("identity");
         this.avatarDirConfiguration = avatarDirConfiguration;
         this.bookService = bookService;
+        this.emailService = emailService;
     }
 
     [Route("/[controller]/[action]", Name = "LoginView")]
@@ -299,7 +303,22 @@ public class IdentityController : Controller
         }
         return base.RedirectToAction("GetById", new { id = id });
     }
-
-
+    [HttpGet]
+    [Authorize()]
+    public async Task<IActionResult> SendEmail(string userEmail, string subject, string message)
+    {
+        try
+        {
+            await emailService.SendEmailAsync(userEmail, subject, message);
+            Console.WriteLine("Email sent successfully.");
+        }
+        catch (Exception ex)
+        {
+            // Handle other errors
+            Console.WriteLine("General error sending email: " + ex.Message);
+        }
+        return Ok("ConfirmEmail");
+        
+    }
 }
 

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "GVA3WgbrGGUnh3lz9SPzuB22BZeBwjsM1sSyo/F7vuU=",
+  "Hash": "IRb4wqfzqf/9aITewm8KVKJMKx0iU08pFOcDPFcRTag=",
   "Source": "ToshokanApp.Presentation",
   "BasePath": "_content/ToshokanApp.Presentation",
   "Mode": "Default",
@@ -53,6 +53,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\Asif\\Projects\\L0\\ComputerScience\\Toshokan\\ToshokanApp\\src\\ToshokanApp.Presentation\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\ToshokanApp.Presentation.bundle.scp.css"
+    },
+    {
+      "Identity": "C:\\Users\\Asif\\Projects\\L0\\ComputerScience\\Toshokan\\ToshokanApp\\src\\ToshokanApp.Presentation\\wwwroot\\Avatars\\0ae38aff-b9e1-451f-8646-2a092d452b02.jpg",
+      "SourceId": "ToshokanApp.Presentation",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Asif\\Projects\\L0\\ComputerScience\\Toshokan\\ToshokanApp\\src\\ToshokanApp.Presentation\\wwwroot\\",
+      "BasePath": "_content/ToshokanApp.Presentation",
+      "RelativePath": "Avatars/0ae38aff-b9e1-451f-8646-2a092d452b02.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Avatars\\0ae38aff-b9e1-451f-8646-2a092d452b02.jpg"
     },
     {
       "Identity": "C:\\Users\\Asif\\Projects\\L0\\ComputerScience\\Toshokan\\ToshokanApp\\src\\ToshokanApp.Presentation\\wwwroot\\Avatars\\d1e90fbb-c731-4e2a-87b4-7c5d9ec4d65f.jpg",

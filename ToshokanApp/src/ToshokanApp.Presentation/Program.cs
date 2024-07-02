@@ -67,6 +67,9 @@ if (!Directory.Exists($"{assetsDirPath}/Books"))
     }
 }
 
+
+builder.Services.AddTransient<IEmailService, EmailService>();
+
 builder.Services.AddTransient<ICurrentStateService, CurrentStateService>();
 
 builder.Services.AddTransient<ICommentRepository, CommentEfCoreRepository>();

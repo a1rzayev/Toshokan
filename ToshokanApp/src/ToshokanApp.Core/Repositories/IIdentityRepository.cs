@@ -21,4 +21,6 @@ public interface IIdentityRepository : IDeleteAsync<User>, IGetAllAsync<User> {
     Task<User?> GetByIdAsync(Guid userId);
 
     Task<bool> HasPendingRequest(Guid userId);
+
+    //Task<bool> ConfirmEmailAsync(User user, string code);
 }

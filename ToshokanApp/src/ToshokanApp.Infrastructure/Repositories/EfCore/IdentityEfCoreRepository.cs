@@ -74,6 +74,25 @@ public class IdentityEfCoreRepository : IIdentityRepository
         }
     }
 
+    public Task<string> GenerateEmailConfirmationTokenAsync(User user)
+    {
+        // Реализуйте генерацию токена подтверждения
+        var token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+        return Task.FromResult(token);
+    }
+
+    // public async Task<bool> ConfirmEmailAsync(User user, string code)
+    // {
+    //     // Реализуйте подтверждение токена
+    //     if (user.EmailConfirmationToken == code)
+    //     {
+    //         user.EmailConfirmed = true;
+    //         await UpdateUserAsync(user);
+    //         return true;
+    //     }
+    //     return false;
+    // }
+
     public async Task<IEnumerable<User>?> GetAllAsync()
     {
         return dbContext.Users;

@@ -26,6 +26,9 @@
         <label asp-for="@Model.Email" type="email" class="form-control" readonly />@Model.Email</label>
     </div>
 
+    <div>
+        <a href="@Url.Action("SendEmail", "Identity", new { userEmail = Model?.Email, message = "Test email 1"})" class="btn btn-primary me-md-2">Request to be writer</a>
+    </div>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         @if (ViewBag.IsCurrentAccount)
         {

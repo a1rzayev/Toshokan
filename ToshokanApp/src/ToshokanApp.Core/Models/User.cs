@@ -21,4 +21,5 @@ public class User
     public string Password { get; set; }
     public List<Guid>? PurchasedBooks { get; set; }
     public List<Guid>? WishList { get; set; }
+    //public bool EmailVerified { get; set; }
 }
