@@ -2,28 +2,31 @@ using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Configuration;
 using ToshokanApp.Core.Services;
+using ToshokanApp.Core.Repositories;
 
 public class EmailService : IEmailService
 {
-    private readonly IConfiguration _configuration;
+    private readonly IEmailRepository emailRepository;
+    private readonly IConfiguration configuration;
 
-    public EmailService(IConfiguration configuration)
+    public EmailService(IEmailRepository emailRepository, IConfiguration configuration)
     {
-        _configuration = configuration;
+        this.emailRepository = emailRepository;
+        this.configuration = configuration;
     }
 
     public async Task SendEmailAsync(string email, string subject, string message)
     {
-        var smtpClient = new SmtpClient(_configuration["Smtp:Host"])
+        var smtpClient = new SmtpClient(configuration["Smtp:Host"])
         {
-            Port = int.Parse(_configuration["Smtp:Port"]),
-            Credentials = new NetworkCredential(_configuration["Smtp:Username"], _configuration["Smtp:Password"]),
+            Port = int.Parse(configuration["Smtp:Port"]),
+            Credentials = new NetworkCredential(configuration["Smtp:Username"], configuration["Smtp:Password"]),
             EnableSsl = true,
         };
 
         var mailMessage = new MailMessage
         {
-            From = new MailAddress(_configuration["Smtp:Username"]),
+            From = new MailAddress(configuration["Smtp:Username"]),
             Subject = subject,
             Body = message,
             IsBodyHtml = true,
@@ -32,4 +35,16 @@ public class EmailService : IEmailService
 
         await smtpClient.SendMailAsync(mailMessage);
     }
+    public string GenerateVerificationCode()
+    {
+        Random random = new Random();
+        int randomNumber = random.Next(100000, 1000000);
+        return randomNumber.ToString();
+
+    }
+
+    public async Task VerifyEmail(Guid userId){
+        await this.emailRepository.VerifyEmail(userId);
+    }
+
 }

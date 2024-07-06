@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ToshokanApp.Infrastructure.Repositories.EfCore.DbContexts;
 
@@ -11,9 +12,11 @@ using ToshokanApp.Infrastructure.Repositories.EfCore.DbContexts;
 namespace ToshokanApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ToshokanDbContext))]
-    partial class ToshokanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240703074036_DeleteEmailVerification")]
+    partial class DeleteEmailVerification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -39,7 +39,8 @@ public class IdentityEfCoreRepository : IIdentityRepository
                 Email = registrationDto.Email,
                 Password = registrationDto.Password,
                 PurchasedBooks = new List<Guid>(),
-                WishList = new List<Guid>()
+                WishList = new List<Guid>(),
+                EmailVerified = false
             };
             await dbContext.Users.AddAsync(user);
             await dbContext.UserRoles.AddAsync(new UserRole

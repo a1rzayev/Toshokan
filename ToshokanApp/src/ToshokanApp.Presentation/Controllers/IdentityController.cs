@@ -20,6 +20,7 @@ public class IdentityController : Controller
     private readonly IIdentityService identityService;
     private readonly IBookService bookService;
     private readonly IEmailService emailService;
+    private string verificationCode;
 
     private readonly IConfiguration avatarDirConfiguration;
 
@@ -129,7 +130,7 @@ public class IdentityController : Controller
 
             if (avatar == null)
             {
-                var defaultAvatarUrl = "https://wallpapers.com/images/hd/blank-default-pfp-wue0zko1dfxs9z2c.jpg"; 
+                var defaultAvatarUrl = "https://wallpapers.com/images/hd/blank-default-pfp-wue0zko1dfxs9z2c.jpg";
 
                 var uri = new Uri(defaultAvatarUrl);
                 var extension = Path.GetExtension(uri.AbsolutePath);
@@ -304,21 +305,58 @@ public class IdentityController : Controller
         return base.RedirectToAction("GetById", new { id = id });
     }
     [HttpGet]
-    [Authorize()]
-    public async Task<IActionResult> SendEmail(string userEmail, string subject, string message)
+    [Authorize]
+    public async Task<IActionResult> SendEmail(string userEmail, string subject)
     {
         try
         {
+            verificationCode = emailService.GenerateVerificationCode();
+            string message = $"Your verification code: {verificationCode}";
             await emailService.SendEmailAsync(userEmail, subject, message);
             Console.WriteLine("Email sent successfully.");
+
+            // Store the verification code in TempData
+            TempData["VerificationCode"] = verificationCode;
         }
         catch (Exception ex)
         {
-            // Handle other errors
             Console.WriteLine("General error sending email: " + ex.Message);
         }
-        return Ok("ConfirmEmail");
-        
+        return RedirectToRoute("VerifyEmailView");
     }
+
+    [Authorize]
+    [Route("[controller]/[action]/", Name = "VerifyEmailView")]
+    public IActionResult VerifyEmail()
+    {
+        if (TempData["error"] != null)
+        {
+            ModelState.AddModelError("All", TempData["error"].ToString());
+            System.Console.WriteLine(TempData["error"]);
+        }
+
+        // Pass the verification code to the view
+        ViewBag.VerificationCode = TempData["VerificationCode"];
+
+        return View();
+    }
+
+    [HttpPost]
+    [Authorize]
+    [Route("api/[controller]/[action]/", Name = "VerifyEmailEndpoint")]
+    public async Task<IActionResult> VerifyEmail(string enteredCode, string hiddenCode)
+    {
+        if (string.IsNullOrEmpty(enteredCode) || enteredCode != hiddenCode)
+        {
+            TempData["error"] = "The entered code is incorrect.";
+            return RedirectToRoute("VerifyEmailView");
+        }
+
+        System.Console.WriteLine(enteredCode);
+        System.Console.WriteLine(hiddenCode);
+        await this.emailService.VerifyEmail(new Guid(base.HttpContext.Request.Cookies["CurrentUserId"]));
+        return RedirectToAction("Index", "Book");
+    }
+
 }
 

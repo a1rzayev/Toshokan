@@ -155,6 +155,11 @@ public class ToshokanDbContext : DbContext
 
         modelBuilder.Entity<User>()
         .Property(c => c.WishList);
+        
+
+        modelBuilder.Entity<User>()
+        .Property(c => c.EmailVerified)
+        .IsRequired();
 
 
 
@@ -182,10 +187,11 @@ public class ToshokanDbContext : DbContext
             Id = id,
             Name = "Admin",
             Surname = "Adminov",
-            Email = "admin.adminov@gmail.com",
+            Email = "toshokanappservice@gmail.com",
             Password = "QWRtaW4xMjM0", //Admin1234
             PurchasedBooks = new List<Guid>(),
-            WishList = new List<Guid>()
+            WishList = new List<Guid>(),
+            EmailVerified = true
         });
         modelBuilder.Entity<UserRole>().HasData(new UserRole { UserId = id, Role = "Admin" });
 

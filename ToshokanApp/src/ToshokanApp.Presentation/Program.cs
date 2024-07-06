@@ -44,6 +44,7 @@ if (!Directory.Exists(assetsDirPath))
         Console.WriteLine($"Error while initializing folder: {ex.Message}");
     }
 }
+
 if (!Directory.Exists(avatarsDirPath))
 {
     try
@@ -68,6 +69,7 @@ if (!Directory.Exists($"{assetsDirPath}/Books"))
 }
 
 
+builder.Services.AddTransient<IEmailRepository, EmailEfCoreRepository>();
 builder.Services.AddTransient<IEmailService, EmailService>();
 
 builder.Services.AddTransient<ICurrentStateService, CurrentStateService>();
