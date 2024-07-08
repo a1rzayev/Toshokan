@@ -76,20 +76,52 @@ public class BookController : Controller
     [ActionName("Add")]
     [Route("api/[controller]/[action]/")]
     [Authorize("RequireAdminAccess")]
-    public async Task<IActionResult> Add([FromForm] Book newBook, IFormFile bookFile)
+    public async Task<IActionResult> Add([FromForm] Book newBook, IFormFile layout, IFormFile bookFile)
     {
         try
         {
             newBook.Id = new Guid();
             newBook.AddedDate = DateTime.Now;
 
-            await this.bookService.AddAsync(newBook);
 
+            await this.bookService.AddAsync(newBook);
             if (bookFile != null)
             {
                 var extension = Path.GetExtension(bookFile.FileName);
                 using var newFileStream = System.IO.File.Create($"{bookDirConfiguration["StaticFileRoutes:Books"]}{newBook.Id}{extension}");
                 await bookFile.CopyToAsync(newFileStream);
+            }
+            var layoutFilePath = $"{bookDirConfiguration["StaticFileRoutes:Layouts"]}{newBook.Id}";
+
+            if (layout == null)
+            {
+                var defaultLayoutUrl = "https://static.vecteezy.com/system/resources/previews/000/357/095/non_2x/vector-book-icon.jpg";
+
+                var uri = new Uri(defaultLayoutUrl);
+                var extension = Path.GetExtension(uri.AbsolutePath);
+
+                using var httpClient = new HttpClient();
+                HttpResponseMessage response = null;
+
+                try
+                {
+                    response = await httpClient.GetAsync(defaultLayoutUrl);
+                    response.EnsureSuccessStatusCode();
+                }
+                catch (HttpRequestException e)
+                {
+                    throw new Exception("Error fetching default layout from the internet: " + e.Message);
+                }
+
+                using var newFileStream = System.IO.File.Create(layoutFilePath + extension);
+                await response.Content.CopyToAsync(newFileStream);
+            }
+            else
+            {
+                var extension = Path.GetExtension(layout.FileName);
+
+                using var newFileStream = System.IO.File.Create(layoutFilePath + extension);
+                await layout.CopyToAsync(newFileStream);
             }
         }
         catch (Exception ex)
