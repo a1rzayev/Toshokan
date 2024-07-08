@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "OM9Zv98I47JZ1qHimEaM8pqZwlMOpRsCJSre5ulPSDIEWPsBs9G/iKL7axpiuJNO+yacLLYvD5Dp6EtgmqIF8w==",
+  "dgSpecHash": "W/hkGT5oYw4SqtqSqfcjvBsRfYSv6tRZ+NMTAjgyd5mhk4DG05HRXVfhGNJ3FWfGeZE+3AYn6f90IQuCNnahjQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Asif\\Projects\\L0\\ComputerScience\\Toshokan\\ToshokanApp\\src\\ToshokanApp.Presentation\\ToshokanApp.Presentation.csproj",
   "expectedPackageFiles": [
@@ -60,6 +60,7 @@
     "C:\\Users\\Asif\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\Asif\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
     "C:\\Users\\Asif\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\Asif\\.nuget\\packages\\recaptcha.aspnetcore\\3.0.10\\recaptcha.aspnetcore.3.0.10.nupkg.sha512",
     "C:\\Users\\Asif\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.7.0\\runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",
     "C:\\Users\\Asif\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\Asif\\.nuget\\packages\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",

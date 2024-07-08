@@ -3,6 +3,7 @@
 @{
     var currentUserId = httpAccessor.HttpContext.Request.Cookies["CurrentUserId"];
 }
+
 @{
     var IsAuthenticated = base.User.Identity?.IsAuthenticated ?? false;
     
@@ -19,11 +20,10 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ToshokanApp.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-custom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Book" asp-action="Index">ToshokanApp</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@
                         }
                         else
                         {                           
-                            <a href="@Url.Action("GetById", "Identity", new { id = currentUserId})"class="btn">
+                            <a href="@Url.Action("GetById", "Identity", new { id = currentUserId})" class="btn">
                                 <img src="~/Avatars/@(currentUserId).jpg" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
                             </a>
                         }
