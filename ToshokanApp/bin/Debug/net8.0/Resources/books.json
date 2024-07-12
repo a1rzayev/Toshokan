@@ -75,5 +75,38 @@
         "Description": "Kazarma",
         "AddedBy": 0,
         "AddedDate": "0001-01-01T00:00:00"
+    },
+    {
+        "Id": 0,
+        "Name": "test",
+        "Author": "tesstov",
+        "PublicationYear": 2133,
+        "Genre": "dsfhsjdf",
+        "Language": "Azerbaycan",
+        "Description": "hello world",
+        "AddedBy": 0,
+        "AddedDate": "0001-01-01T00:00:00"
+    },
+    {
+        "Id": 0,
+        "Name": "test",
+        "Author": "sdfsdf",
+        "PublicationYear": null,
+        "Genre": "sdfsdf",
+        "Language": "sdfsdf",
+        "Description": "sdfsdf",
+        "AddedBy": 0,
+        "AddedDate": "0001-01-01T00:00:00"
+    },
+    {
+        "Id": 0,
+        "Name": "clara",
+        "Author": "asdgsafg",
+        "PublicationYear": -236,
+        "Genre": "svoloch",
+        "Language": "francais",
+        "Description": "tatoo",
+        "AddedBy": 0,
+        "AddedDate": "0001-01-01T00:00:00"
     }
 ]

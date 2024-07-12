@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Asif\\OneDrive - French-Azerbaijani University\\Desktop\\Projects\\Computer Science\\Toshokan\\ToshokanApp\\ToshokanApp.csproj": {}
+    "C:\\Users\\Asif\\Projects\\ComputerScience\\Toshokan\\ToshokanApp\\ToshokanApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Asif\\OneDrive - French-Azerbaijani University\\Desktop\\Projects\\Computer Science\\Toshokan\\ToshokanApp\\ToshokanApp.csproj": {
+    "C:\\Users\\Asif\\Projects\\ComputerScience\\Toshokan\\ToshokanApp\\ToshokanApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Asif\\OneDrive - French-Azerbaijani University\\Desktop\\Projects\\Computer Science\\Toshokan\\ToshokanApp\\ToshokanApp.csproj",
+        "projectUniqueName": "C:\\Users\\Asif\\Projects\\ComputerScience\\Toshokan\\ToshokanApp\\ToshokanApp.csproj",
         "projectName": "ToshokanApp",
-        "projectPath": "C:\\Users\\Asif\\OneDrive - French-Azerbaijani University\\Desktop\\Projects\\Computer Science\\Toshokan\\ToshokanApp\\ToshokanApp.csproj",
+        "projectPath": "C:\\Users\\Asif\\Projects\\ComputerScience\\Toshokan\\ToshokanApp\\ToshokanApp.csproj",
         "packagesPath": "C:\\Users\\Asif\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Asif\\OneDrive - French-Azerbaijani University\\Desktop\\Projects\\Computer Science\\Toshokan\\ToshokanApp\\obj\\",
+        "outputPath": "C:\\Users\\Asif\\Projects\\ComputerScience\\Toshokan\\ToshokanApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -44,6 +44,20 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.1.44, )"
+            },
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[5.2.0, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.6, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
