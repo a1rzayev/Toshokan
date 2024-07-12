@@ -4,6 +4,7 @@ using ToshokanApp.Services;
 using ToshokanApp.Services.Base;
 using System.Data.SqlClient;
 using Microsoft.Data.SqlClient;
+using ToshokanApp.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -32,6 +32,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseMiddleware<LoggingMiddleware>();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
