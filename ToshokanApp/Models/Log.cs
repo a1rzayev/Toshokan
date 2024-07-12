@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace ToshokanApp.Models;
 
@@ -7,7 +8,7 @@ namespace ToshokanApp.Models;
 public class Log
 {
     [Key]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     [Required]
     public string Url { get; set; }
     [Required]

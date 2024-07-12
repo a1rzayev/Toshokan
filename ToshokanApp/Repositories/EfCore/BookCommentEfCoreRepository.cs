@@ -25,7 +25,7 @@ public class BookCommentEfCoreRepository : IBookCommentRepository
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(int Id)
+    public async Task DeleteAsync(Guid Id)
     {
         dbContext.BookComments.Remove((BookComment)dbContext.BookComments.Where(c => c.Id == Id));
         await dbContext.SaveChangesAsync();

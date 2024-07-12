@@ -43,7 +43,7 @@ public class BookCommentController : Controller
 
     [HttpPost]
     [Route("[controller]/{bookId}")]
-    public async Task<IActionResult> Delete(int bookId)
+    public async Task<IActionResult> Delete(Guid bookId)
     {
         await this.bookCommentService.DeleteAsync(bookId);
 
