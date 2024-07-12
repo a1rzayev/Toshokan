@@ -1,13 +1,13 @@
 @using System.Text.Json
 <link rel="stylesheet" href="~/wwwroot/css/styles.css">
-
+@model IEnumerable<Book>
 @{
     ViewData["Title"] = "Home Page";
-    var booksJson = await System.IO.File.ReadAllTextAsync("Resources/books.json");
+    @* var booksJson = await System.IO.File.ReadAllTextAsync("Resources/books.json");
 
     var books = JsonSerializer.Deserialize<IEnumerable<Book>>(booksJson, new JsonSerializerOptions {
         PropertyNameCaseInsensitive = true,
-    });
+    }); *@
 
     var bookComment = new BookComment();
 
@@ -41,7 +41,7 @@
 
 <h2>Library</h2>
 <div>
-    @foreach (var book in books)
+    @foreach (var book in Model)
     {
         <p>Name: @(book?.Name ?? "UNKNOWN")</p>
         <p>Author: @(book?.Author ?? "UNKNOWN")</p>

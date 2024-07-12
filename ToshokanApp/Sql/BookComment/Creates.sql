@@ -1,0 +1,6 @@
+CREATE TABLE BookComments (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    BookId INT NOT NULL,
+    SenderId INT NOT NULL,
+    Comment NVARCHAR(1000) NOT NULL
+);

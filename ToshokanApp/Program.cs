@@ -2,22 +2,29 @@ using System.Data;
 using ToshokanApp.Repositories;
 using ToshokanApp.Services;
 using ToshokanApp.Services.Base;
-using System.Data.SqlClient;
-using Microsoft.Data.SqlClient;
 using ToshokanApp.Middlewares;
+using ToshokanApp.Repositories.EfCore.DbContexts;
+using Microsoft.EntityFrameworkCore;
+using ToshokanApp.Configuration;
+using Microsoft.Extensions.Options;
+using ToshokanApp.Repositories.Base;
+using ToshokanApp.Repositories.EfCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
-//builder.Services.Configure<string>(builder.Configuration.GetSection("MsSql"));
-builder.Services.AddScoped<IDbConnection>(sp => new System.Data.SqlClient.SqlConnection(builder.Configuration.GetConnectionString("MsSql")));
-    
-builder.Services.AddTransient<IBookCommentRepository, BookCommentRepository>();
+//builder.Services.AddScoped<IDbConnection>(sp => new System.Data.SqlClient.SqlConnection(builder.Configuration.GetConnectionString("MsSql")));
+builder.Services.AddDbContext<ToshokanDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MsSql")));
+builder.Services.AddTransient<IBookCommentRepository, BookCommentEfCoreRepository>();
 builder.Services.AddTransient<IBookCommentService, BookCommentService>();
-var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+builder.Services.AddTransient<IBookRepository, BookEfCoreRepository>();
+builder.Services.AddTransient<IBookService, BookService>();
+
+builder.Services.AddTransient<ILogRepository, LogEfCoreRepository>();
+builder.Services.AddTransient<ILogService, LogService>();
+
+var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

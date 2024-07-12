@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Options;
 using ToshokanApp.Models;
-using ToshokanApp.Repositories;
+using ToshokanApp.Repositories.Base;
 using ToshokanApp.Services.Base;
 
 namespace ToshokanApp.Services;
@@ -19,7 +19,7 @@ public class BookCommentService : IBookCommentService
         await this.bookCommentRepository.AddAsync(comment);
     }
 
-    public async Task DeleteAsync(Guid commentId)
+    public async Task DeleteAsync(int commentId)
     {
         await this.bookCommentRepository.DeleteAsync(commentId);
     }
