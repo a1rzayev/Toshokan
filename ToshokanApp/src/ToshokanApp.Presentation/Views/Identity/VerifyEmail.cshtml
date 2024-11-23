@@ -1,0 +1,36 @@
+@{
+    ViewBag.Title = "Verify Email";
+}
+
+<h2>Verify Email</h2>
+
+<form asp-action="VerifyEmail" method="post" onsubmit="return validateCode()">
+    <input type="hidden" name="hiddenCode" value="@ViewBag.VerificationCode" />
+    <div class="form-group">
+        <label for="enteredCode">Enter Verification Code</label>
+        <input type="text" id="enteredCode" name="enteredCode" class="form-control" required />
+        <span id="codeError" class="text-danger" style="display:none;">The code must be exactly 6 characters long.</span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Verify" class="btn btn-primary" />
+    </div>
+</form>
+
+@if (ViewData.ModelState.ContainsKey("All"))
+{
+    <div class="text-danger">@Html.ValidationSummary("Verification failed. Please try again.")</div>
+}
+
+@section Scripts {
+    <script>
+        function validateCode() {
+            var code = document.getElementById("enteredCode").value;
+            if (code.length !== 6) {
+                document.getElementById("codeError").style.display = "block";
+                return false; // Prevent form submission
+            }
+            document.getElementById("codeError").style.display = "none";
+            return true; // Allow form submission
+        }
+    </script>
+}

@@ -1,0 +1,52 @@
+[
+    {
+        "Id": "a3c8f8e6-1b4d-40ed-b5b2-038afec4c831",
+        "Name": "The Great Gatsby",
+        "Author": "F. Scott Fitzgerald",
+        "PublicationYear": 1925,
+        "Genre": "Novel",
+        "Language": "English",
+        "Description": "A novel about the American dream and the roaring twenties.",
+        "AddedDate": "2023-06-20T00:00:00"
+    },
+    {
+        "Id": "c4f7d528-98cf-4b6c-9c84-24d8d0232f13",
+        "Name": "To Kill a Mockingbird",
+        "Author": "Harper Lee",
+        "PublicationYear": 1960,
+        "Genre": "Fiction",
+        "Language": "English",
+        "Description": "A novel about racial injustice in the deep South.",
+        "AddedDate": "2023-06-21T00:00:00"
+    },
+    {
+        "Id": "e8a2d5f5-5a56-40d6-9a7c-3447e839b830",
+        "Name": "1984",
+        "Author": "George Orwell",
+        "PublicationYear": 1949,
+        "Genre": "Dystopian",
+        "Language": "English",
+        "Description": "A novel about a totalitarian regime that uses surveillance to control its citizens.",
+        "AddedDate": "2024-06-22T00:00:00"
+    },
+    {
+        "Id": "b4e7a672-d44b-451a-8c1b-473af72944a7",
+        "Name": "Pride and Prejudice",
+        "Author": "Jane Austen",
+        "PublicationYear": 1813,
+        "Genre": "Romance",
+        "Language": "English",
+        "Description": "A novel about love and social standing in 19th century England.",
+        "AddedDate": "2024-06-23T00:00:00"
+    },
+    {
+        "Id": "f7a10b33-6d43-4b23-8288-1a3f07a6d842",
+        "Name": "The Catcher in the Rye",
+        "Author": "J.D. Salinger",
+        "PublicationYear": 1951,
+        "Genre": "Fiction",
+        "Language": "English",
+        "Description": "A novel about the teenage angst and alienation of Holden Caulfield.",
+        "AddedDate": "2024-06-24T00:00:00"
+    }
+]

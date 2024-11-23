@@ -1,0 +1,114 @@
+@model User
+
+@{
+    ViewData["Title"] = "Account Info";
+    var Requestable = !User.Claims.Any(c => c.Type == ClaimTypes.Role && (c.Value == "Admin" || c.Value == "Developer" || c.Value == "Writer" || c.Value == "CEO"));
+}
+
+<h2>Account Info</h2>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form>
+    <img src="~/Avatars/@(ViewBag.UserId).jpg" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
+    <div class="mb-3">
+        <label asp-for="@Model.Name" class="form-label">Name</label>
+        <label asp-for="@Model.Name" type="text" class="form-control" readonly>@Model.Name</label>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="@Model.Surname" class="form-label">Surname</label>
+        <label asp-for="@Model.Surname" type="text" class="form-control" readonly />@Model.Surname</label>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="@Model.Email" class="form-label">Email address</label>
+        <label asp-for="@Model.Email" type="email" class="form-control" readonly />@Model.Email</label>
+    </div>
+
+    @if(Model.EmailVerified == false){
+        <div>
+            <a href="@Url.Action("SendEmail", "Identity", new { userEmail = Model?.Email, subject = "Email verification"})" class="btn btn-primary me-md-2">Verify email</a>
+        </div>
+    }
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        @if (ViewBag.IsCurrentAccount)
+        {
+            @if (Requestable)
+            {
+                @if (!ViewBag.HasPendingRequest)
+                {
+                    <div>
+                        <a href="@Url.Action("RequestWriter", "Identity", new { id = Model?.Id })"
+                            class="btn btn-primary me-md-2">Request to be writer</a>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <p class="btn btn-primary me-md-2">Pending</p>
+                    </div>
+                }
+            }
+            <button type="button" class="btn btn-secondary"
+                onclick="location.href='@Url.Action("Logout", "Identity")'">Logout</button>
+        }
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Purchased Books</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.PurchasedBooks)
+                {
+                    <tr>
+                            @if(item != null){
+                                <td><a href="@Url.Action("GetById", "Book", new { id = item.Id })">@item.Name</a></td>
+                            }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-6">
+        <h2>Wishlist Books</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.Wishlist)
+                {
+                    <tr>
+
+                        <a href="@Url.Action("GetById", "Book", new { id = item.Id })">
+                            <td><a href="@Url.Action("GetById", "Book", new { id = item.Id })">@item.Name</a></td>
+                            <td>
+                                @using (Html.BeginForm("RemoveFromWishlistBook", "Identity", FormMethod.Post, new { id = item.Id }))
+                                {
+                                    <button type="submit" class="btn btn-primary" id="removeWishlistButton">X</button>
+                                }
+                            </td>
+                        </a>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <p class="text-success mt-3">@ViewBag.Message</p>
+}

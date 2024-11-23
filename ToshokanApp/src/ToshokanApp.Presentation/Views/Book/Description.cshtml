@@ -1,0 +1,182 @@
+@model BookComment
+
+<link rel="stylesheet" href="~/wwwroot/css/styles.css">
+
+@{
+    ViewData["Title"] = "Description";
+
+    var hasAccess = User.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Admin");
+
+
+    var bookName = Model.book.Name;
+
+    var comment = new Comment();
+}
+
+<div class="container mt-5">
+    <h2>@bookName</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <p class="card-text"><strong>Name:</strong> @(Model?.book.Name ?? "UNKNOWN")</p>
+            <strong>Author:<a target="_blank" href="https://en.wikipedia.org/w/index.php?search=@(Model?.book.Author)&title=Special%3ASearch&ns0=1" class="card-text">@(Model?.book.Author ?? "UNKNOWN")</a></strong>
+            <p class="card-text"><strong>Year:</strong> @(Model?.book.PublicationYear?.ToString() ?? "UNKNOWN")</p>
+            <p class="card-text"><strong>Genre:</strong> @(Model?.book.Genre ?? "UNKNOWN")</p>
+            <p class="card-text"><strong>Language:</strong> @(Model?.book.Language ?? "UNKNOWN")</p>
+            <p class="card-text"><strong>Description:</strong> @(Model?.book.Description ?? "UNKNOWN")</p>
+        </div>
+        @if (ViewBag.InPurchased && base.User.Identity?.IsAuthenticated)
+        {
+            <div>
+            <a id="downloadButton" href="@Url.Action("DownloadBook", "Book", new { id = Model?.book.Id})"
+                class="btn btn-primary">Download File</a>
+            </div>
+        }
+        else
+        {
+            <div>
+                @using (Html.BeginForm("BuyBook", "Identity", FormMethod.Post, new { id = Model?.book.Id }))
+                {
+                    <button type="submit" class="btn btn-primary" id="buyButton">Buy</button>
+                    <div class="alert alert-warning mt-3" role="alert" id="buyAlert" style="display: none;">
+                        Please log in to buy the book.
+                    </div>
+                }
+            </div>
+        }
+
+        @if (ViewBag.InWishlist && base.User.Identity?.IsAuthenticated)
+        {
+
+            <div>
+                @using (Html.BeginForm("RemoveFromWishlistBook", "Identity", FormMethod.Post, new { id = Model?.book.Id }))
+                {
+                    <button type="submit" class="btn btn-primary" id="removeWishlistButton">Remove from Wishlist</button>
+                    <div class="alert alert-warning mt-3" role="alert" id="removeWishlistAlert" style="display: none;">
+                        Please log in to add the book to your wishlist.
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div>
+                @using (Html.BeginForm("AddToWishlistBook", "Identity", FormMethod.Post, new { id = Model?.book.Id }))
+                {
+                    <button type="submit" class="btn btn-primary" id="addWishlistButton">Add to Wishlist</button>
+                    <div class="alert alert-warning mt-3" role="alert" id="addWishlistAlert" style="display: none;">
+                        Please log in to add the book to your wishlist.
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <hr>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Comments</h5>
+
+            @foreach (var item in Model.comments)
+            {
+                <div class="media mb-3">
+
+                    @* <a href="@Url.Action("GetById", "Identity", new { id = item.SenderId})" class="btn"> *@
+                        @* <img src="~/Avatars/@(item.SenderId).jpg" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;"> *@
+                    @* </a> *@
+                    <div class="media-body">
+                        <a href="@Url.Action("GetById", "Identity", new { id = item.SenderId})" class="btn"><h6 class="mt-0">@item.SenderName @item.SenderSurname</h6></a>
+                        <p>@item.Text</p>
+                        @if(hasAccess){
+                            <a href="@Url.Action("Delete", "Comment", new { commentId = item.Id })" class="btn btn-primary mt-auto">X</a>
+                        }
+                    </div>
+                </div>
+            }
+
+            <form asp-controller="Comment" asp-action="Add" method="post" id="commentForm">
+                <div class="form-group">
+                    <label asp-for="@comment.Text" class="control-label">Comment</label>
+                    <input asp-for="@comment.Text" class="form-control" id="commentInput" />
+                    <span asp-validation-for="@comment.Text" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <button type="submit" class="btn btn-primary" id="addButton">Add</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-primary" id="addButton" disabled>Add</button>
+                        <div class="alert alert-warning mt-3" role="alert" id="loginAlert" style="display: none;">
+                            Please log in to add a comment.
+                        </div>
+                    }
+                </div>
+            </form>
+            @section Scripts {
+                <script>
+                    $(document).ready(function () {
+                        $('#addButton').click(function (e) {
+                            if (!@User.Identity.IsAuthenticated.ToString().ToLower()) {
+                                e.preventDefault();
+                                $('#loginAlert').slideDown();
+                                setTimeout(function () {
+                                    $('#loginAlert').slideUp();
+                                }, 3000);
+                            }
+                        });
+
+                        $('#commentInput').on('keyup change', function () {
+                            validateForm();
+                        });
+
+                        function validateForm() {
+                            var isValid = true;
+                            $('#commentForm input[type="text"]').each(function () {
+                                if ($(this).val() === '') {
+                                    isValid = false;
+                                }
+                            });
+
+                            $('#addButton').prop('disabled', !isValid);
+                        }
+
+                        $('#buyBookForm').submit(function (e) {
+                            if (!@User.Identity.IsAuthenticated.ToString().ToLower()) {
+                                e.preventDefault();
+                                $('#buyAlert').slideDown();
+                                setTimeout(function () {
+                                    $('#buyAlert').slideUp();
+                                }, 3000);
+                            }
+                        });
+
+                        $('#addWishlistForm').submit(function (e) {
+                            if (!@User.Identity.IsAuthenticated.ToString().ToLower()) {
+                                e.preventDefault();
+                                $('#addWishlistAlert').slideDown();
+                                setTimeout(function () {
+                                    $('#addWishlistAlert').slideUp();
+                                }, 3000);
+                            }
+                        });
+
+                        $('#removeWishlistForm').submit(function (e) {
+                            if (!@User.Identity.IsAuthenticated.ToString().ToLower()) {
+                                e.preventDefault();
+                                $('#removeWishlistAlert').slideDown();
+                                setTimeout(function () {
+                                    $('#removeWishlistAlert').slideUp();
+                                }, 3000);
+                            }
+                        });
+                        validateForm();
+                    });
+                </script>
+            }
+
+        </div>
+    </div>
+</div>

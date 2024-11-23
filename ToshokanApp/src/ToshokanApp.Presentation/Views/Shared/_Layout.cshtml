@@ -1,0 +1,88 @@
+﻿@inject IHttpContextAccessor httpAccessor
+
+@{
+    var currentUserId = httpAccessor.HttpContext.Request.Cookies["CurrentUserId"];
+}
+
+@{
+    var IsAuthenticated = base.User.Identity?.IsAuthenticated ?? false;
+    
+    var hasAccess = User.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Admin");
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ToshokanApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ToshokanApp.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-custom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Book" asp-action="Index">ToshokanApp</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Book" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        @if (hasAccess)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="GetUsers">Users</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="GetRequests">Requests</a>
+                            </li>
+                        }
+                    </ul>
+                    <form class="d-flex me-2" asp-controller="Book" asp-action="GetByName" method="get">
+                        <input class="form-control me-2" type="search" placeholder="Enter book name" aria-label="Search" name="name">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                    <ul class="navbar-nav">
+                        @if (!IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-route="LoginView">Sign in</a>
+                            </li>
+                        }
+                        else
+                        {                           
+                            <a href="@Url.Action("GetById", "Identity", new { id = currentUserId})" class="btn">
+                                <img src="~/Avatars/@(currentUserId).jpg" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
+                            </a>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - ToshokanApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,95 @@
+@model RegistrationDto
+
+@{
+    ViewData["Title"] = "Registration";
+    
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center">@ViewData["Title"]</h2>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <form asp-action="Registration" method="post" enctype="multipart/form-data" id="registrationForm">
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" type="text" class="form-control" id="name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Surname" class="form-label"></label>
+                    <input asp-for="Surname" type="text" class="form-control" id="surname" />
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" type="email" class="form-control" id="email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input asp-for="Password" type="password" class="form-control" id="password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="avatar" class="form-label">Avatar</label>
+                    <input type="file" class="form-control" id="avatar" name="avatar" accept=".jpg"/>
+                </div>
+                <button type="submit" class="btn btn-success w-100" id="submitButton" disabled>Register</button>
+                <p class="text-center mt-3">Already have an account? <a asp-route="LoginView">Sign in</a></p>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#registrationForm input').on('keyup change', function () {
+                let isValid = true;
+                $('#registrationForm input[type="text"], #registrationForm input[type="email"], #registrationForm input[type="password"]').each(function () {
+                    if ($(this).val() === '') {
+                        isValid = false;
+                    }
+                });
+                $('#submitButton').prop('disabled', !isValid);
+            });
+            $('#registrationForm input').on('keyup change', function () {
+                validateForm();
+            });
+
+            $('#password').on('blur', function () {
+                validatePassword();
+            });
+
+            function validateForm() {
+                let isValid = true;
+                $('#registrationForm input[type="text"], #registrationForm input[type="email"], #registrationForm input[type="password"]').each(function () {
+                    if ($(this).val() === '') {
+                        isValid = false;
+                    }
+                });
+
+                // Only check password if it's been entered
+                let password = $('#password').val();
+                if (password !== '' && (password.length < 8 || !/[A-Z]/.test(password))) {
+                    isValid = false;
+                    $('#password').siblings('.text-danger').text('Password must be at least 8 characters long and contain at least one uppercase letter.');
+                } else {
+                    $('#password').siblings('.text-danger').text('');
+                }
+
+                $('#submitButton').prop('disabled', !isValid);
+            }
+
+            function validatePassword() {
+                let password = $('#password').val();
+                if (password !== '' && (password.length < 8 || !/[A-Z]/.test(password))) {
+                    $('#password').siblings('.text-danger').text('Password must be at least 8 characters long and contain at least one uppercase letter.');
+                } else {
+                    $('#password').siblings('.text-danger').text('');
+                }
+            }
+        });
+    </script>
+}
