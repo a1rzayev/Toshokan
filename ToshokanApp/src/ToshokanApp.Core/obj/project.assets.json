@@ -1451,11 +1451,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Asif\\Projects\\L0\\ComputerScience\\Toshokan\\ToshokanAPp\\src\\ToshokanApp.Core\\ToshokanApp.Core.csproj",
+      "projectUniqueName": "C:\\Users\\Asif\\Projects\\L0\\ComputerScience\\Toshokan\\ToshokanApp\\src\\ToshokanApp.Core\\ToshokanApp.Core.csproj",
       "projectName": "ToshokanApp.Core",
-      "projectPath": "C:\\Users\\Asif\\Projects\\L0\\ComputerScience\\Toshokan\\ToshokanAPp\\src\\ToshokanApp.Core\\ToshokanApp.Core.csproj",
+      "projectPath": "C:\\Users\\Asif\\Projects\\L0\\ComputerScience\\Toshokan\\ToshokanApp\\src\\ToshokanApp.Core\\ToshokanApp.Core.csproj",
       "packagesPath": "C:\\Users\\Asif\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Asif\\Projects\\L0\\ComputerScience\\Toshokan\\ToshokanAPp\\src\\ToshokanApp.Core\\obj\\",
+      "outputPath": "C:\\Users\\Asif\\Projects\\L0\\ComputerScience\\Toshokan\\ToshokanApp\\src\\ToshokanApp.Core\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1483,6 +1483,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -1538,7 +1543,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
