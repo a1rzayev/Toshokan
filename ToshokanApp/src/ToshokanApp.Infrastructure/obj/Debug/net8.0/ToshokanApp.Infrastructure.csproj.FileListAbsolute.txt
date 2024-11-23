@@ -9,8 +9,8 @@ C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.I
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Infrastructure\obj\Debug\net8.0\ToshokanApp.Infrastructure.AssemblyInfo.cs
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Infrastructure\obj\Debug\net8.0\ToshokanApp.Infrastructure.csproj.CoreCompileInputs.cache
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Infrastructure\obj\Debug\net8.0\ToshokanApp.Infrastructure.sourcelink.json
-C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Infrastructure\obj\Debug\net8.0\ToshokanApp.Infrastructure.csproj.CopyComplete
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Infrastructure\obj\Debug\net8.0\ToshokanApp.Infrastructure.dll
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Infrastructure\obj\Debug\net8.0\refint\ToshokanApp.Infrastructure.dll
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Infrastructure\obj\Debug\net8.0\ToshokanApp.Infrastructure.pdb
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Infrastructure\obj\Debug\net8.0\ref\ToshokanApp.Infrastructure.dll
+C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Infrastructure\obj\Debug\net8.0\Toshokan.12577EF2.Up2Date

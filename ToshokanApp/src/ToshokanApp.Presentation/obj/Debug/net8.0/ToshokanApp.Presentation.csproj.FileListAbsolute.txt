@@ -29,7 +29,6 @@ C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.P
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Presentation\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Presentation\obj\Debug\net8.0\scopedcss\bundle\ToshokanApp.Presentation.styles.css
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Presentation\obj\Debug\net8.0\scopedcss\projectbundle\ToshokanApp.Presentation.bundle.scp.css
-C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Presentation\obj\Debug\net8.0\ToshokanApp.Presentation.csproj.CopyComplete
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Presentation\obj\Debug\net8.0\ToshokanApp.Presentation.dll
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Presentation\obj\Debug\net8.0\refint\ToshokanApp.Presentation.dll
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Presentation\obj\Debug\net8.0\ToshokanApp.Presentation.pdb
@@ -149,3 +148,4 @@ C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.P
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Presentation\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Presentation\bin\Debug\net8.0\reCAPTCHA.AspNetCore.dll
 C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Presentation\obj\Debug\net8.0\ToshokanApp.Presentation.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Asif\Projects\L0\ComputerScience\Toshokan\ToshokanApp\src\ToshokanApp.Presentation\obj\Debug\net8.0\Toshokan.013E60FD.Up2Date
