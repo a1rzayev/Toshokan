@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "Home Page";
     var hasAccess = User.Claims.Any(c => c.Type == ClaimTypes.Role && (c.Value == "Admin" || c.Value == "Developer" || c.Value == "CEO"));
-     @* || c.Value == "Writer")); *@
 }
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -10,78 +9,82 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.11/dist/jquery.validate.unobtrusive.min.js"></script>
 
-<div class="container mt-4">
+<div class="container my-5">
     @if (hasAccess)
     {
-        <h2 class="mb-4">Add Book</h2>
-        <form asp-controller="Book" asp-action="Add" enctype="multipart/form-data" id="addBookForm">
-            <div class="form-row">
-                <div class="form-group col-md-3 mb-3">
-                    <label >Name</label>
-                    <input type="text" name="Name" class="form-control" required>
-                    <span asp- class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-3 mb-3">
-                    <label >Author</label>
-                    <input type="text" name="Author" class="form-control" required>
-                    <span  class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-2 mb-3">
-                    <label >PublicationYear</label>
-                    <input type="text" name="PublicationYear" class="form-control" required>
-                    <span  class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-2 mb-3">
-                    <label >Genre</label>
-                    <input type="text" name="Genre" class="form-control" required>
-                    <span  class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-2 mb-3">
-                    <label >Language</label>
-                    <input type="text" name="Language" class="form-control" required>
-                    <span  class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-12 mb-12">
-                    <label >Description</label>
-                    <textarea type="text" name="Description" class="form-control" rows="3" required></textarea>
-                    <span  class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <label for="avatar" class="form-label">Avatar</label>
-                    <input type="file" class="form-control" id="avatar" name="avatar" accept=".jpg"/>
-                </div>
-                <div class="form-group col-md-12 mb-12">
-                    <label for="bookFile" class="form-label">Pdf File</label>
-                    <input type="file" class="form-control" id="bookFile" name="bookFile" accept=".pdf" required/>
-                    <span class="text-danger"></span>
-                </div>
+        <div class="card shadow mb-5">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title mb-0">Add Book</h3>
             </div>
-
-            <button type="submit" class="btn btn-primary" id="addBookButton">Add</button>
-        </form>
-
-        <hr>
+            <div class="card-body">
+                <form asp-controller="Book" asp-action="Add" enctype="multipart/form-data" id="addBookForm">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="Name">Name</label>
+                            <input type="text" name="Name" id="Name" class="form-control" placeholder="Enter book name" required>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="Author">Author</label>
+                            <input type="text" name="Author" id="Author" class="form-control" placeholder="Enter author name" required>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="PublicationYear">Publication Year</label>
+                            <input type="text" name="PublicationYear" id="PublicationYear" class="form-control" placeholder="YYYY" required>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="Genre">Genre</label>
+                            <input type="text" name="Genre" id="Genre" class="form-control" placeholder="Enter genre" required>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="Language">Language</label>
+                            <input type="text" name="Language" id="Language" class="form-control" placeholder="Enter language" required>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Description">Description</label>
+                        <textarea name="Description" id="Description" class="form-control" rows="4" placeholder="Write a brief description" required></textarea>
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="avatar">Avatar</label>
+                        <input type="file" id="avatar" name="avatar" class="form-control-file" accept=".jpg">
+                    </div>
+                    <div class="form-group">
+                        <label for="bookFile">PDF File</label>
+                        <input type="file" id="bookFile" name="bookFile" class="form-control-file" accept=".pdf" required>
+                        <span class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="addBookButton" disabled>Add Book</button>
+                </form>
+            </div>
+        </div>
     }
 
-    <h2 class="mb-4">Library</h2>
+    <h2 class="text-center mb-4">Library</h2>
     <div class="row">
         @foreach (var book in Model)
         {
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body d-flex flex-column">
-                        <a href="@Url.Action("GetById", "Book", new { id = book.Id})" class="btn">
-                            <img src="~/Layouts/@(book.Id).jpg" class="mr-3 rounded-circle" alt="Book Layout" style="width: 64px;">
-                        </a>
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <img src="~/Layouts/@(book.Id).jpg" class="card-img-top" alt="@book.Name">
+                    <div class="card-body">
                         <h5 class="card-title">@book.Name</h5>
-                        <p class="card-text">Author: @book.Author</p>
-                        <p class="card-text">Year: @book.PublicationYear</p>
-                        <p class="card-text">Genre: @book.Genre</p>
-                        <p class="card-text">Language: @book.Language</p>
-                        <p class="card-text">Description: @book.Description</p>
-                        <a href="@Url.Action("GetById", "Book", new { id = book.Id })" class="btn btn-primary mt-auto">Details</a>
-                        @if(hasAccess){
-                            <a href="@Url.Action("DeleteBook", "Book", new { id = book.Id })" class="btn btn-primary mt-auto">Delete</a>
+                        <p class="card-text"><strong>Author:</strong> @book.Author</p>
+                        <p class="card-text"><strong>Year:</strong> @book.PublicationYear</p>
+                        <p class="card-text"><strong>Genre:</strong> @book.Genre</p>
+                        <p class="card-text"><strong>Language:</strong> @book.Language</p>
+                        <p class="card-text text-truncate" title="@book.Description">@book.Description</p>
+                        <a href="@Url.Action("GetById", "Book", new { id = book.Id })" class="btn btn-outline-primary btn-sm">Details</a>
+                        @if (hasAccess)
+                        {
+                            <a href="@Url.Action("DeleteBook", "Book", new { id = book.Id })" class="btn btn-outline-danger btn-sm ml-2">Delete</a>
                         }
                     </div>
                 </div>
@@ -109,25 +112,8 @@
             }
         });
 
-        $('#addBookButton').prop('disabled', true);
-
-        function checkFormValidity() {
-            let isValid = true;
-            $('#addBookForm input, #addBookForm textarea').each(function() {
-                if ($(this).val() === '') {
-                    isValid = false;
-                    return false; 
-                }
-            });
-            return isValid;
-        }
-
         $('#addBookForm input, #addBookForm textarea').on('keyup change', function () {
-            if ($('#addBookForm').valid() && checkFormValidity()) {
-                $('#addBookButton').prop('disabled', false);
-            } else {
-                $('#addBookButton').prop('disabled', true);
-            }
+            $('#addBookButton').prop('disabled', !$('#addBookForm').valid());
         });
     });
 </script>
