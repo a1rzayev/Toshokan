@@ -20,18 +20,20 @@ public class IdentityController : Controller
     private readonly IIdentityService identityService;
     private readonly IBookService bookService;
     private readonly IEmailService emailService;
+    private readonly ICloudinaryService cloudinaryService;
     private string verificationCode;
 
     private readonly IConfiguration avatarDirConfiguration;
 
     private readonly IDataProtector dataProtector;
-    public IdentityController(IIdentityService identityService, IDataProtectionProvider dataProtectionProvider, IConfiguration avatarDirConfiguration, IBookService bookService, IEmailService emailService)
+    public IdentityController(IIdentityService identityService, IDataProtectionProvider dataProtectionProvider, IConfiguration avatarDirConfiguration, IBookService bookService, IEmailService emailService, ICloudinaryService cloudinaryService)
     {
         this.identityService = identityService;
         this.dataProtector = dataProtectionProvider.CreateProtector("identity");
         this.avatarDirConfiguration = avatarDirConfiguration;
         this.bookService = bookService;
         this.emailService = emailService;
+        this.cloudinaryService = cloudinaryService;
     }
 
     [Route("/[controller]/[action]", Name = "LoginView")]
@@ -126,37 +128,19 @@ public class IdentityController : Controller
             var userId = await this.identityService.Registration(registrationDto);
             if (userId == null) throw new Exception("This email is already being used by another user");
 
-            var avatarFilePath = $"{avatarDirConfiguration["StaticFileRoutes:Avatars"]}{userId}";
-
+            string avatarUrl;
             if (avatar == null)
             {
-                var defaultAvatarUrl = "https://wallpapers.com/images/hd/blank-default-pfp-wue0zko1dfxs9z2c.jpg";
-
-                var uri = new Uri(defaultAvatarUrl);
-                var extension = Path.GetExtension(uri.AbsolutePath);
-
-                using var httpClient = new HttpClient();
-                HttpResponseMessage response = null;
-
-                try
-                {
-                    response = await httpClient.GetAsync(defaultAvatarUrl);
-                    response.EnsureSuccessStatusCode();
-                }
-                catch (HttpRequestException e)
-                {
-                    throw new Exception("Error fetching default avatar from the internet: " + e.Message);
-                }
-
-                using var newFileStream = System.IO.File.Create(avatarFilePath + extension);
-                await response.Content.CopyToAsync(newFileStream);
+                avatarUrl = "https://wallpapers.com/images/hd/blank-default-pfp-wue0zko1dfxs9z2c.jpg";
             }
             else
             {
-                var extension = Path.GetExtension(avatar.FileName);
+                avatarUrl = await cloudinaryService.UploadImageAsync(avatar, "avatars");
+            }
 
-                using var newFileStream = System.IO.File.Create(avatarFilePath + extension);
-                await avatar.CopyToAsync(newFileStream);
+            if (userId.HasValue)
+            {
+                await identityService.UpdateAvatarUrlAsync(userId.Value, avatarUrl);
             }
         }
         catch (Exception ex)
@@ -271,8 +255,7 @@ public class IdentityController : Controller
         {
             ViewBag.IsCurrentAccount = false;
         }
-        ViewBag.avatarDirPath = avatarDirConfiguration["StaticFileRoutes:Avatars"];
-        ViewBag.avatarPath = ViewBag.avatarDirPath + user.Id;
+        ViewBag.AvatarUrl = user.AvatarUrl ?? "https://wallpapers.com/images/hd/blank-default-pfp-wue0zko1dfxs9z2c.jpg";
         ViewBag.UserId = user.Id;
 
         List<Book> purchasedBooks = new List<Book>();
@@ -315,7 +298,6 @@ public class IdentityController : Controller
             await emailService.SendEmailAsync(userEmail, subject, message);
             Console.WriteLine("Email sent successfully.");
 
-            // Store the verification code in TempData
             TempData["VerificationCode"] = verificationCode;
         }
         catch (Exception ex)
@@ -335,7 +317,6 @@ public class IdentityController : Controller
             System.Console.WriteLine(TempData["error"]);
         }
 
-        // Pass the verification code to the view
         ViewBag.VerificationCode = TempData["VerificationCode"];
 
         return View();
@@ -356,6 +337,23 @@ public class IdentityController : Controller
         System.Console.WriteLine(hiddenCode);
         await this.emailService.VerifyEmail(new Guid(base.HttpContext.Request.Cookies["CurrentUserId"]));
         return RedirectToAction("Index", "Book");
+    }
+
+    [HttpGet]
+    [Authorize]
+    [Route("api/[controller]/[action]", Name = "GetCurrentUserAvatar")]
+    public async Task<IActionResult> GetCurrentUserAvatar()
+    {
+        var currentUserId = base.HttpContext.Request.Cookies["CurrentUserId"];
+        if (string.IsNullOrEmpty(currentUserId) || !Guid.TryParse(currentUserId, out var userId))
+        {
+            return Json(new { avatarUrl = "https://wallpapers.com/images/hd/blank-default-pfp-wue0zko1dfxs9z2c.jpg" });
+        }
+
+        var user = await identityService.GetByIdAsync(userId);
+        var avatarUrl = user?.AvatarUrl ?? "https://wallpapers.com/images/hd/blank-default-pfp-wue0zko1dfxs9z2c.jpg";
+        
+        return Json(new { avatarUrl });
     }
 
 }

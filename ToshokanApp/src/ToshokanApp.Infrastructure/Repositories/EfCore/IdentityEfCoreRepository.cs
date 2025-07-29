@@ -77,7 +77,6 @@ public class IdentityEfCoreRepository : IIdentityRepository
 
     public Task<string> GenerateEmailConfirmationTokenAsync(User user)
     {
-        // Реализуйте генерацию токена подтверждения
         var token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
         return Task.FromResult(token);
     }
@@ -167,5 +166,15 @@ public class IdentityEfCoreRepository : IIdentityRepository
     public async Task<bool> HasPendingRequest(Guid userId){
         var userRequest = dbContext.UserRequests.Find(userId); 
         return (userRequest != null);
+    }
+
+    public async Task UpdateAvatarUrlAsync(Guid userId, string avatarUrl)
+    {
+        var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        if (user != null)
+        {
+            user.AvatarUrl = avatarUrl;
+            await dbContext.SaveChangesAsync();
+        }
     }
 }

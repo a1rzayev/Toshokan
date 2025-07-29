@@ -13,11 +13,13 @@ public class BookController : Controller
     private readonly IConfiguration bookDirConfiguration;
     private readonly IBookService bookService;
     private readonly IIdentityService identityService;
-    public BookController(IBookService bookService, IIdentityService identityService, IConfiguration bookDirConfiguration)
+    private readonly ICloudinaryService cloudinaryService;
+    public BookController(IBookService bookService, IIdentityService identityService, IConfiguration bookDirConfiguration, ICloudinaryService cloudinaryService)
     {
         this.bookService = bookService;
         this.identityService = identityService;
         this.bookDirConfiguration = bookDirConfiguration;
+        this.cloudinaryService = cloudinaryService;
     }
 
     [HttpGet]
@@ -83,46 +85,23 @@ public class BookController : Controller
             newBook.Id = new Guid();
             newBook.AddedDate = DateTime.Now;
 
+            string layoutUrl = "https://static.vecteezy.com/system/resources/previews/000/357/095/non_2x/vector-book-icon.jpg";
+            string fileUrl = string.Empty;
 
-            await this.bookService.AddAsync(newBook);
+            if (layout != null)
+            {
+                layoutUrl = await cloudinaryService.UploadImageAsync(layout, "book-layouts");
+            }
+
             if (bookFile != null)
             {
-                var extension = Path.GetExtension(bookFile.FileName);
-                using var newFileStream = System.IO.File.Create($"{bookDirConfiguration["StaticFileRoutes:Books"]}{newBook.Id}{extension}");
-                await bookFile.CopyToAsync(newFileStream);
+                fileUrl = await cloudinaryService.UploadPdfAsync(bookFile, "book-files");
             }
-            var layoutFilePath = $"{bookDirConfiguration["StaticFileRoutes:Layouts"]}{newBook.Id}";
 
-            if (layout == null)
-            {
-                var defaultLayoutUrl = "https://static.vecteezy.com/system/resources/previews/000/357/095/non_2x/vector-book-icon.jpg";
+            newBook.LayoutUrl = layoutUrl;
+            newBook.FileUrl = fileUrl;
 
-                var uri = new Uri(defaultLayoutUrl);
-                var extension = Path.GetExtension(uri.AbsolutePath);
-
-                using var httpClient = new HttpClient();
-                HttpResponseMessage response = null;
-
-                try
-                {
-                    response = await httpClient.GetAsync(defaultLayoutUrl);
-                    response.EnsureSuccessStatusCode();
-                }
-                catch (HttpRequestException e)
-                {
-                    throw new Exception("Error fetching default layout from the internet: " + e.Message);
-                }
-
-                using var newFileStream = System.IO.File.Create(layoutFilePath + extension);
-                await response.Content.CopyToAsync(newFileStream);
-            }
-            else
-            {
-                var extension = Path.GetExtension(layout.FileName);
-
-                using var newFileStream = System.IO.File.Create(layoutFilePath + extension);
-                await layout.CopyToAsync(newFileStream);
-            }
+            await this.bookService.AddAsync(newBook);
         }
         catch (Exception ex)
         {
@@ -139,23 +118,13 @@ public class BookController : Controller
     public async Task<IActionResult> DownloadBook(Guid id)
     {
         var book = await this.bookService.GetByIdAsync(id);
-        var filePath = $"{bookDirConfiguration["StaticFileRoutes:Books"]}{id}.pdf";
-
-        if (!System.IO.File.Exists(filePath))
+        
+        if (string.IsNullOrEmpty(book.FileUrl))
         {
             return NotFound();
         }
 
-        var mimeType = "application/pdf";
-        var newFileName = $"{book.Name}({book.Author}).pdf";
-        var cd = new System.Net.Mime.ContentDisposition
-        {
-            FileName = newFileName,
-            Inline = false,
-        };
-
-        Response.Headers.Add("Content-Disposition", cd.ToString());
-        return PhysicalFile(filePath, mimeType);
+        return Redirect(book.FileUrl);
     }
 
 

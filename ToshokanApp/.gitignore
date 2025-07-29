@@ -52,4 +52,7 @@
 *.scss.css
 *.bundle.scp.css
 apphost
-apphost.exe 
+apphost.exe
+
+# Configuration files with sensitive data
+**/appsettings.Development.json 

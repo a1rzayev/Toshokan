@@ -14,7 +14,7 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <a href="@Url.Action("GetById", "Identity", new { id = user.Id })">
-                            <img src="@Url.Content($"~/Assets/Avatars/{user.Id}.jpg")" class="rounded-circle mb-3" alt="User Avatar" style="width: 64px; height: 64px;">
+                            <img src="@(user.AvatarUrl ?? "https://wallpapers.com/images/hd/blank-default-pfp-wue0zko1dfxs9z2c.jpg")" class="rounded-circle mb-3" alt="User Avatar" style="width: 64px; height: 64px;">
                         </a>
                         <h5 class="card-title">@(user?.Name ?? "UNKNOWN") @(user?.Surname ?? "UNKNOWN")</h5>
                         <p class="card-text">Id: @(user?.Id.ToString() ?? "UNKNOWN")</p>

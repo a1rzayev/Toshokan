@@ -69,6 +69,11 @@ public class IdentityService : IIdentityService
         return await this.identityRepository.HasPendingRequest(userId);
     }
 
+    public async Task UpdateAvatarUrlAsync(Guid userId, string avatarUrl)
+    {
+        await this.identityRepository.UpdateAvatarUrlAsync(userId, avatarUrl);
+    }
+
     // public async Task<bool> ConfirmEmailAsync(Guid userId, string code)
     // {
     //     var user = await identityRepository.GetByIdAsync(userId);
