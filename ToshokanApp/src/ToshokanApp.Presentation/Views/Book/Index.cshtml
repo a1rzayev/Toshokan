@@ -12,59 +12,86 @@
 <div class="container my-5">
     @if (hasAccess)
     {
-        <div class="card shadow mb-5">
-            <div class="card-header bg-primary text-white">
-                <h3 class="card-title mb-0">Add Book</h3>
-            </div>
-            <div class="card-body">
-                <form asp-controller="Book" asp-action="Add" enctype="multipart/form-data" id="addBookForm">
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="Name">Name</label>
-                            <input type="text" name="Name" id="Name" class="form-control" placeholder="Enter book name" required>
-                            <span class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="Author">Author</label>
-                            <input type="text" name="Author" id="Author" class="form-control" placeholder="Enter author name" required>
-                            <span class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="PublicationYear">Publication Year</label>
-                            <input type="text" name="PublicationYear" id="PublicationYear" class="form-control" placeholder="YYYY" required>
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="Genre">Genre</label>
-                            <input type="text" name="Genre" id="Genre" class="form-control" placeholder="Enter genre" required>
-                            <span class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="Language">Language</label>
-                            <input type="text" name="Language" id="Language" class="form-control" placeholder="Enter language" required>
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="Description">Description</label>
-                        <textarea name="Description" id="Description" class="form-control" rows="4" placeholder="Write a brief description" required></textarea>
-                        <span class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="avatar">Avatar</label>
-                        <input type="file" id="avatar" name="avatar" class="form-control-file" accept=".jpg">
-                    </div>
-                    <div class="form-group">
-                        <label for="bookFile">PDF File</label>
-                        <input type="file" id="bookFile" name="bookFile" class="form-control-file" accept=".pdf" required>
-                        <span class="text-danger"></span>
-                    </div>
-                    <button type="submit" class="btn btn-primary" id="addBookButton" disabled>Add Book</button>
-                </form>
-            </div>
+        <div class="text-center mb-4">
+            <span class="badge badge-pill badge-info px-4 py-2" style="font-size:1.1rem;">Book Creation</span>
         </div>
+        <form asp-controller="Book" asp-action="Add" enctype="multipart/form-data" id="addBookForm" class="p-3 rounded bg-light shadow-sm">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="Name"><i class="fas fa-book mr-1"></i> Name</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-book"></i></span>
+                        </div>
+                        <input type="text" name="Name" id="Name" class="form-control" placeholder="Enter book name" required>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="Author"><i class="fas fa-user-edit mr-1"></i> Author</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user-edit"></i></span>
+                        </div>
+                        <input type="text" name="Author" id="Author" class="form-control" placeholder="Enter author name" required>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="PublicationYear"><i class="fas fa-calendar-alt mr-1"></i> Publication Year</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                        </div>
+                        <input type="text" name="PublicationYear" id="PublicationYear" class="form-control" placeholder="YYYY" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="Genre"><i class="fas fa-tags mr-1"></i> Genre</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-tags"></i></span>
+                        </div>
+                        <input type="text" name="Genre" id="Genre" class="form-control" placeholder="Enter genre" required>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="Language"><i class="fas fa-language mr-1"></i> Language</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-language"></i></span>
+                        </div>
+                        <input type="text" name="Language" id="Language" class="form-control" placeholder="Enter language" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Description"><i class="fas fa-align-left mr-1"></i> Description</label>
+                <textarea name="Description" id="Description" class="form-control" rows="4" placeholder="Write a brief description" required></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="avatar"><i class="fas fa-image mr-1"></i> Layout Image</label>
+                    <div class="custom-file">
+                        <input type="file" id="avatar" name="avatar" class="custom-file-input" accept=".jpg">
+                        <label class="custom-file-label" for="avatar">Choose layout image (JPG)</label>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="bookFile"><i class="fas fa-file-pdf mr-1"></i> PDF File</label>
+                    <div class="custom-file">
+                        <input type="file" id="bookFile" name="bookFile" class="custom-file-input" accept=".pdf" required>
+                        <label class="custom-file-label" for="bookFile">Choose book file (PDF)</label>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success btn-lg px-5 shadow" id="addBookButton" disabled>
+                    <i class="fas fa-plus-circle mr-2"></i> Add Book
+                </button>
+            </div>
+        </form>
+        <!-- Modern Book Creation Form End -->
     }
 
     <h2 class="text-center mb-4">Library</h2>
