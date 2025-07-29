@@ -1,7 +1,7 @@
 ﻿@inject IHttpContextAccessor httpAccessor
 
 @{
-    var currentUserId = httpAccessor.HttpContext.Request.Cookies["CurrentUserId"];
+    var currentUserId = httpAccessor.HttpContext?.Request.Cookies["CurrentUserId"];
     var IsAuthenticated = base.User.Identity?.IsAuthenticated ?? false;
     var hasAccess = User.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Admin");
 }
