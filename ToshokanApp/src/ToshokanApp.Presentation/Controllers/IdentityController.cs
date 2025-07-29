@@ -20,18 +20,20 @@ public class IdentityController : Controller
     private readonly IIdentityService identityService;
     private readonly IBookService bookService;
     private readonly IEmailService emailService;
+    private readonly IEmailTemplateService emailTemplateService;
     private readonly ICloudinaryService cloudinaryService;
 
     private readonly IConfiguration avatarDirConfiguration;
 
     private readonly IDataProtector dataProtector;
-    public IdentityController(IIdentityService identityService, IDataProtectionProvider dataProtectionProvider, IConfiguration avatarDirConfiguration, IBookService bookService, IEmailService emailService, ICloudinaryService cloudinaryService)
+    public IdentityController(IIdentityService identityService, IDataProtectionProvider dataProtectionProvider, IConfiguration avatarDirConfiguration, IBookService bookService, IEmailService emailService, IEmailTemplateService emailTemplateService, ICloudinaryService cloudinaryService)
     {
         this.identityService = identityService;
         this.dataProtector = dataProtectionProvider.CreateProtector("identity");
         this.avatarDirConfiguration = avatarDirConfiguration;
         this.bookService = bookService;
         this.emailService = emailService;
+        this.emailTemplateService = emailTemplateService;
         this.cloudinaryService = cloudinaryService;
     }
 
@@ -140,6 +142,17 @@ public class IdentityController : Controller
             if (userId.HasValue)
             {
                 await identityService.UpdateAvatarUrlAsync(userId.Value, avatarUrl);
+                
+                try
+                {
+                    var userName = registrationDto.Name;
+                    var welcomeMessage = emailTemplateService.GenerateWelcomeEmailTemplate(userName);
+                    await emailService.SendEmailAsync(registrationDto.Email, "Welcome to Toshokan!", welcomeMessage);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Welcome email failed: {ex.Message}");
+                }
             }
         }
         catch (Exception ex)
@@ -293,8 +306,22 @@ public class IdentityController : Controller
         try
         {
             var verificationCode = emailService.GenerateVerificationCode();
-            string message = $"Your verification code: {verificationCode}";
-            await emailService.SendEmailAsync(userEmail, subject, message);
+            
+            // Get current user for personalized email
+            var currentUserId = base.HttpContext.Request.Cookies["CurrentUserId"];
+            var userName = "User";
+            if (!string.IsNullOrEmpty(currentUserId) && Guid.TryParse(currentUserId, out var userId))
+            {
+                var user = await identityService.GetByIdAsync(userId);
+                if (user != null)
+                {
+                    userName = user.Name;
+                }
+            }
+            
+            string htmlMessage = emailTemplateService.GenerateVerificationEmailTemplate(verificationCode, userName);
+            
+            await emailService.SendEmailAsync(userEmail, subject, htmlMessage);
             Console.WriteLine("Email sent successfully.");
 
             TempData["VerificationCode"] = verificationCode;
