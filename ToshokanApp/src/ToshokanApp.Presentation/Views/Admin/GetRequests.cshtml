@@ -1,38 +1,80 @@
 @model IEnumerable<UserRequest>?
 
 @{
-    ViewData["Title"] = "User Requests List";
+    ViewData["Title"] = "User Requests";
+    var requestCount = Model?.Count() ?? 0;
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 font-weight-bold text-primary mb-3">
+            <i class="fas fa-envelope-open-text mr-3"></i>User Requests
+        </h1>
+        <p class="lead text-muted">Review and manage pending user role requests</p>
+    </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Role)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
+    @if (Model != null && Model.Any())
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Role)
-            </td>
-            <td>
-                <a asp-action="AcceptRequest" asp-route-id="@item.UserId">Accept</a> |
-                <a asp-action="RejectRequest" asp-route-id="@item.UserId">Reject</a>
-            </td>
-        </tr>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card shadow-lg border-0 h-100">
+                        <div class="card-header bg-gradient-primary text-white text-center py-3">
+                            <h5 class="card-title mb-1">
+                                <i class="fas fa-user mr-2"></i>User ID
+                            </h5>
+                            <span class="text-white-50 small">@item.UserId</span>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <div class="mb-3">
+                                <span class="badge badge-@(item.Role == "Admin" ? "danger" : item.Role == "Writer" ? "success" : "secondary") p-2">
+                                    <i class="fas fa-user-tag mr-1"></i>@item.Role
+                                </span>
+                            </div>
+                            <div class="mt-auto">
+                                <div class="btn-group w-100" role="group">
+                                    <a asp-action="AcceptRequest" asp-route-id="@item.UserId" class="btn btn-outline-success">
+                                        <i class="fas fa-check mr-1"></i>Accept
+                                    </a>
+                                    <a asp-action="RejectRequest" asp-route-id="@item.UserId" class="btn btn-outline-danger">
+                                        <i class="fas fa-times mr-1"></i>Reject
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     }
-    </tbody>
-</table>
+    else
+    {
+        <div class="text-center py-5">
+            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+            <h4 class="text-muted">No pending requests</h4>
+            <p class="text-muted">There are currently no user requests to review.</p>
+        </div>
+    }
+</div>
+
+<style>
+    .card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+    }
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .badge {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+    }
+    .btn-group .btn {
+        border-radius: 6px !important;
+    }
+</style>
