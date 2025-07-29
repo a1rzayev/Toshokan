@@ -71,6 +71,7 @@ if (!Directory.Exists($"{assetsDirPath}/Books"))
 
 builder.Services.AddTransient<IEmailRepository, EmailEfCoreRepository>();
 builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddTransient<IEmailTemplateService, EmailTemplateService>();
 
 builder.Services.AddTransient<ICurrentStateService, CurrentStateService>();
 

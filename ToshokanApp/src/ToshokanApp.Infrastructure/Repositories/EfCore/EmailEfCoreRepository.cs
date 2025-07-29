@@ -18,7 +18,7 @@ public class EmailEfCoreRepository : IEmailRepository
         var user = await dbContext.Users.FindAsync(userId);
         if (user != null)
         {
-            dbContext.Users.FirstOrDefault(c => c.Id == userId).EmailVerified = true;
+            user.EmailVerified = true;
             await dbContext.SaveChangesAsync();
         }
     }
