@@ -73,7 +73,7 @@
         {
             <div class="col-md-4">
                 <div class="card shadow-sm h-100">
-                    <img src="~/Layouts/@(book.Id).jpg" class="card-img-top" alt="@book.Name">
+                    <img src="@(book.LayoutUrl ?? "https://static.vecteezy.com/system/resources/previews/000/357/095/non_2x/vector-book-icon.jpg")" class="card-img-top" alt="@book.Name">
                     <div class="card-body">
                         <h5 class="card-title">@book.Name</h5>
                         <p class="card-text"><strong>Author:</strong> @book.Author</p>

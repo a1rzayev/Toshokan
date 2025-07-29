@@ -25,4 +25,6 @@ public class Book
     public string? Description { get; set; }
     [Required]
     public DateTime AddedDate { get; set; }
+    public string? LayoutUrl { get; set; }
+    public string? FileUrl { get; set; }
 }

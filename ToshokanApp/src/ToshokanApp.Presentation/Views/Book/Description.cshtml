@@ -17,6 +17,8 @@
     <h2>@bookName</h2>
 
     <div class="card">
+        <img src="@(Model.book.LayoutUrl ?? "https://static.vecteezy.com/system/resources/previews/000/357/095/non_2x/vector-book-icon.jpg")" class="card-img-top" alt="@Model.book.Name" style="max-width: 300px; margin: 20px auto; display: block;">
+        <div class="card-body">
         <div class="card-body">
             <p class="card-text"><strong>Name:</strong> @(Model?.book.Name ?? "UNKNOWN")</p>
             <strong>Author:<a target="_blank" href="https://en.wikipedia.org/w/index.php?search=@(Model?.book.Author)&title=Special%3ASearch&ns0=1" class="card-text">@(Model?.book.Author ?? "UNKNOWN")</a></strong>

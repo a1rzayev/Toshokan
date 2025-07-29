@@ -23,4 +23,5 @@ public class User
     public List<Guid>? WishList { get; set; }
     [Required]
     public bool EmailVerified { get; set; }
+    public string? AvatarUrl { get; set; }
 }

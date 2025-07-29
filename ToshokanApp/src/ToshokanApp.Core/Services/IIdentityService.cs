@@ -19,5 +19,5 @@ public interface IIdentityService
     Task RemovefromWishlistBook(Guid userId, Guid bookId);
     Task<User?> GetByIdAsync(Guid userId);
     Task<bool> HasPendingRequest(Guid userId);
-
+    Task UpdateAvatarUrlAsync(Guid userId, string avatarUrl);
 }
