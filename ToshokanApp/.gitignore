@@ -1,0 +1,51 @@
+# Build outputs
+**/bin/
+**/obj/
+*.dll
+*.exe
+*.pdb
+*.deps.json
+*.runtimeconfig.json
+*.runtimeconfig.dev.json
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.cache
+
+# IDE files
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.wsuo
+*.vsidx
+*.sqlite
+
+# NuGet
+*.nuget.cache
+*.nuget.g.props
+*.nuget.g.targets
+*.nuget.dgspec.json
+*.project.assets.json
+*.project.nuget.cache
+
+# Test results
+**/TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Entity Framework
+**/Migrations/*.Designer.cs
+**/Migrations/*.Designer.cs.bak
+
+# ASP.NET Core
+*.scss.css
+*.bundle.scp.css
+apphost
+apphost.exe 
