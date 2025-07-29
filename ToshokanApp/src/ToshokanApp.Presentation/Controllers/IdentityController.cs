@@ -21,7 +21,6 @@ public class IdentityController : Controller
     private readonly IBookService bookService;
     private readonly IEmailService emailService;
     private readonly ICloudinaryService cloudinaryService;
-    private string verificationCode;
 
     private readonly IConfiguration avatarDirConfiguration;
 
@@ -293,7 +292,7 @@ public class IdentityController : Controller
     {
         try
         {
-            verificationCode = emailService.GenerateVerificationCode();
+            var verificationCode = emailService.GenerateVerificationCode();
             string message = $"Your verification code: {verificationCode}";
             await emailService.SendEmailAsync(userEmail, subject, message);
             Console.WriteLine("Email sent successfully.");
@@ -303,6 +302,7 @@ public class IdentityController : Controller
         catch (Exception ex)
         {
             Console.WriteLine("General error sending email: " + ex.Message);
+            TempData["error"] = "Failed to send email. Please try again.";
         }
         return RedirectToRoute("VerifyEmailView");
     }
