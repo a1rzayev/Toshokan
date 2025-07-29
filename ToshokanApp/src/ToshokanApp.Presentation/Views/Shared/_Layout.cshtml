@@ -15,54 +15,73 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ToshokanApp.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-dark bg-primary box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-dark mb-4 shadow-lg" style="background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); border-radius: 1.5rem; margin: 20px 30px 30px 30px; box-shadow: 0 8px 32px 0 rgba(76,68,182,0.2);">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Book" asp-action="Index">ToshokanApp</a>
+                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Book" asp-action="Index" style="font-weight: bold; font-size: 1.6rem; letter-spacing: 1px;">
+                    <i class="fas fa-book-reader mr-2"></i> ToshokanApp
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Book" asp-action="Index">Home</a>
+                            <a class="nav-link d-flex align-items-center" asp-area="" asp-controller="Book" asp-action="Index">
+                                <i class="fas fa-home mr-1"></i> Home
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Privacy">
+                                <i class="fas fa-user-secret mr-1"></i> Privacy
+                            </a>
                         </li>
                         @if (hasAccess)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="GetUsers">Users</a>
+                                <a class="nav-link d-flex align-items-center" asp-area="" asp-controller="Admin" asp-action="GetUsers">
+                                    <i class="fas fa-users mr-1"></i> Users
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="GetRequests">Requests</a>
+                                <a class="nav-link d-flex align-items-center" asp-area="" asp-controller="Admin" asp-action="GetRequests">
+                                    <i class="fas fa-envelope-open-text mr-1"></i> Requests
+                                </a>
                             </li>
                         }
                     </ul>
                     <form class="d-flex me-2" asp-controller="Book" asp-action="GetByName" method="get">
-                        <input class="form-control me-2" type="search" placeholder="Enter book name" aria-label="Search" name="name">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
+                        <div class="input-group">
+                            <input class="form-control" type="search" placeholder="Enter book name" aria-label="Search" name="name">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
                     </form>
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav align-items-center">
                         @if (!IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-route="LoginView">Sign in</a>
+                                <a class="nav-link d-flex align-items-center" asp-route="LoginView">
+                                    <i class="fas fa-sign-in-alt mr-1"></i> Sign in
+                                </a>
                             </li>
                         }
                         else
-                        {                           
-                            <a href="@Url.Action("GetById", "Identity", new { id = currentUserId})" class="btn" id="userAvatarLink">
-                                <img src="https://wallpapers.com/images/hd/blank-default-pfp-wue0zko1dfxs9z2c.jpg" 
-                                     class="mr-3 rounded-circle" 
-                                     alt="User Avatar" 
-                                     style="width: 64px; height: 64px; object-fit: cover;"
-                                     id="userAvatar">
-                            </a>
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("GetById", "Identity", new { id = currentUserId})" class="btn p-0 border-0 bg-transparent" id="userAvatarLink" style="box-shadow: none;">
+                                    <img src="https://wallpapers.com/images/hd/blank-default-pfp-wue0zko1dfxs9z2c.jpg"
+                                         class="rounded-circle shadow-sm border border-3 border-white"
+                                         alt="User Avatar"
+                                         style="width: 56px; height: 56px; object-fit: cover; transition: box-shadow 0.2s; box-shadow: 0 2px 8px rgba(76,68,182,0.15);"
+                                         id="userAvatar">
+                                </a>
+                            </li>
                         }
                     </ul>
                 </div>
@@ -88,7 +107,6 @@
     {
         <script>
             $(document).ready(function() {
-                // Load user avatar
                 $.get('/api/Identity/GetCurrentUserAvatar')
                     .done(function(data) {
                         $('#userAvatar').attr('src', data.avatarUrl);
