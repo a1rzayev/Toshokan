@@ -15,9 +15,9 @@ public class ToshokanDbContextFactory : IDesignTimeDbContextFactory<ToshokanDbCo
             .Build();
 
         var builder = new DbContextOptionsBuilder<ToshokanDbContext>();
-        var connectionString = configuration.GetConnectionString("MsSql");
+        var connectionString = configuration.GetConnectionString("Postgres");
 
-        builder.UseSqlServer(connectionString);
+        builder.UseNpgsql(connectionString);
 
         return new ToshokanDbContext(builder.Options);
     }
