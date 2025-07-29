@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ToshokanApp.Infrastructure.Repositories.EfCore.DbContexts;
@@ -12,9 +13,11 @@ using ToshokanApp.Infrastructure.Repositories.EfCore.DbContexts;
 namespace ToshokanApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ToshokanDbContext))]
-    partial class ToshokanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250728205520_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -16,8 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ToshokanDbContext>(dbContextOptionsBuilder =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("MsSql");
-    dbContextOptionsBuilder.UseSqlServer(connectionString, options =>
+    var connectionString = builder.Configuration.GetConnectionString("Postgres");
+    dbContextOptionsBuilder.UseNpgsql(connectionString, options =>
     {
         options.MigrationsAssembly("ToshokanApp.Infrastructure");
     });
