@@ -1,6 +1,101 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 font-weight-bold text-primary mb-3">
+            <i class="fas fa-user-secret mr-3"></i>Privacy Policy
+        </h1>
+        <p class="lead text-muted">Last updated: 29 July 2025</p>
+    </div>
+
+    <div class="card shadow-lg border-0 mb-4">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title mb-0">
+                <i class="fas fa-database mr-2"></i>What We Collect
+            </h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-unstyled">
+                <li class="mb-2"><i class="fas fa-check text-success mr-2"></i>Your name, email, and profile picture</li>
+                <li class="mb-2"><i class="fas fa-check text-success mr-2"></i>Books you purchase and wishlist</li>
+                <li class="mb-2"><i class="fas fa-check text-success mr-2"></i>Comments you leave on books</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0 mb-4">
+        <div class="card-header bg-success text-white">
+            <h3 class="card-title mb-0">
+                <i class="fas fa-cogs mr-2"></i>How We Use Your Data
+            </h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-unstyled">
+                <li class="mb-2"><i class="fas fa-check text-success mr-2"></i>Create and manage your account</li>
+                <li class="mb-2"><i class="fas fa-check text-success mr-2"></i>Process your book purchases</li>
+                <li class="mb-2"><i class="fas fa-check text-success mr-2"></i>Send you important emails</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0 mb-4">
+        <div class="card-header bg-info text-white">
+            <h3 class="card-title mb-0">
+                <i class="fas fa-user-check mr-2"></i>Your Rights
+            </h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-unstyled">
+                <li class="mb-2"><i class="fas fa-check text-info mr-2"></i>Update your profile anytime</li>
+                <li class="mb-2"><i class="fas fa-check text-info mr-2"></i>Delete your account</li>
+                <li class="mb-2"><i class="fas fa-check text-info mr-2"></i>Download your data (just ask)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0 mb-4">
+        <div class="card-header bg-secondary text-white">
+            <h3 class="card-title mb-0">
+                <i class="fas fa-envelope mr-2"></i>Contact Us
+            </h3>
+        </div>
+        <div class="card-body">
+            <p class="mb-3">Questions? Contact us at <a href="mailto:noreply.toshokanapp@gmail.com" class="text-primary font-weight-bold">noreply.toshokanapp@gmail.com</a></p>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle mr-2"></i>
+                <strong>Important:</strong> We never sell your personal information.
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <div class="alert alert-light border-0 shadow-sm">
+            <i class="fas fa-heart text-danger mr-2"></i>
+            <strong>Thank you for trusting Toshokan!</strong>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.2s ease-in-out;
+    }
+    .card:hover {
+        transform: translateY(-3px);
+    }
+    .card-header {
+        border-bottom: none;
+    }
+    .list-unstyled li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #f8f9fa;
+    }
+    .list-unstyled li:last-child {
+        border-bottom: none;
+    }
+    .alert {
+        border-radius: 15px;
+    }
+</style>
