@@ -3,34 +3,134 @@
 <link rel="stylesheet" href="~/wwwroot/css/styles.css">
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "User Management";
 }
 
-<div class="container mt-4">
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 font-weight-bold text-primary mb-3">
+            <i class="fas fa-users mr-3"></i>User Management
+        </h1>
+        <p class="lead text-muted">Manage your library's user community</p>
+    </div>
+
     <div class="row">
         @foreach (var user in Model)
         {
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <a href="@Url.Action("GetById", "Identity", new { id = user.Id })">
-                            <img src="@(user.AvatarUrl ?? "https://wallpapers.com/images/hd/blank-default-pfp-wue0zko1dfxs9z2c.jpg")" class="rounded-circle mb-3" alt="User Avatar" style="width: 64px; height: 64px;">
-                        </a>
-                        <h5 class="card-title">@(user?.Name ?? "UNKNOWN") @(user?.Surname ?? "UNKNOWN")</h5>
-                        <p class="card-text">Id: @(user?.Id.ToString() ?? "UNKNOWN")</p>
-                        <p class="card-text">Email: @(user?.Email ?? "UNKNOWN")</p>
-                        @if(ViewBag.CurrentUserId == user.Id){
-                            <p>It's you</p>
-                        }
-                        else{
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card shadow-lg border-0 h-100">
+                    <div class="card-header bg-gradient-primary text-white text-center py-3">
+                        <div class="position-relative">
+                            <img src="@(user.AvatarUrl ?? "https://wallpapers.com/images/hd/blank-default-pfp-wue0zko1dfxs9z2c.jpg")" 
+                                 class="rounded-circle mb-2" 
+                                 alt="User Avatar" 
+                                 style="width: 80px; height: 80px; object-fit: cover; border: 3px solid rgba(255,255,255,0.3);">
+                            @if(ViewBag.CurrentUserId == user.Id)
+                            {
+                                <span class="badge badge-light position-absolute" style="top: -5px; right: -5px;">
+                                    <i class="fas fa-user-check text-primary"></i> You
+                                </span>
+                            }
+                        </div>
+                        <h5 class="card-title mb-1">@(user?.Name ?? "UNKNOWN") @(user?.Surname ?? "UNKNOWN")</h5>
+                        <small class="text-white-50">
+                            <i class="fas fa-id-badge mr-1"></i>@(user?.Id.ToString() ?? "UNKNOWN")
+                        </small>
+                    </div>
+                    
+                    <div class="card-body d-flex flex-column">
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-envelope text-muted mr-2"></i>
+                                <span class="text-truncate">@(user?.Email ?? "UNKNOWN")</span>
+                            </div>
                             
-                            <a href="@Url.Action("PromoteAdmin", "Admin", new { id = user.Id })" class="btn btn-primary btn-sm mr-1">Promote to Admin</a>
-                            <a href="@Url.Action("BanUser", "Admin", new { id = user.Id })" class="btn btn-warning btn-sm mr-1">Ban</a>
-                            <a href="@Url.Action("DeleteUser", "Admin", new { id = user.Id })" class="btn btn-danger btn-sm">Delete</a>
-                        }
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-envelope-open text-muted mr-2"></i>
+                                <span class="badge badge-@(user?.EmailVerified == true ? "success" : "warning")">
+                                    @(user?.EmailVerified == true ? "Verified" : "Not Verified")
+                                </span>
+                            </div>
+                            
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-book text-muted mr-2"></i>
+                                <span>Books: @(user?.PurchasedBooks?.Count ?? 0) purchased</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-auto">
+                            @if(ViewBag.CurrentUserId == user.Id)
+                            {
+                                <div class="alert alert-success border-0 text-center mb-0">
+                                    <i class="fas fa-user-check mr-2"></i>
+                                    <strong>This is your account</strong>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="btn-group-vertical w-100" role="group">
+                                    <a href="@Url.Action("GetById", "Identity", new { id = user.Id })" 
+                                       class="btn btn-outline-primary btn-sm mb-2">
+                                        <i class="fas fa-eye mr-1"></i>View Profile
+                                    </a>
+                                    
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <a href="@Url.Action("PromoteAdmin", "Admin", new { id = user.Id })" 
+                                           class="btn btn-outline-success">
+                                            <i class="fas fa-user-shield mr-1"></i>Promote
+                                        </a>
+                                        <a href="@Url.Action("BanUser", "Admin", new { id = user.Id })" 
+                                           class="btn btn-outline-warning">
+                                            <i class="fas fa-ban mr-1"></i>Ban
+                                        </a>
+                                        <a href="@Url.Action("DeleteUser", "Admin", new { id = user.Id })" 
+                                           class="btn btn-outline-danger"
+                                           onclick="return confirm('Are you sure you want to delete this user?')">
+                                            <i class="fas fa-trash mr-1"></i>Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
         }
     </div>
+    
+    <!-- Empty State -->
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <i class="fas fa-users fa-3x text-muted mb-3"></i>
+            <h4 class="text-muted">No users found</h4>
+            <p class="text-muted">There are currently no users registered in the system.</p>
+        </div>
+    }
 </div>
+
+<style>
+    .card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+    }
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .btn-group-vertical .btn {
+        border-radius: 8px !important;
+    }
+    .btn-group .btn {
+        border-radius: 6px !important;
+    }
+    .badge {
+        font-size: 0.75rem;
+        padding: 0.5rem 0.75rem;
+    }
+    .text-truncate {
+        max-width: 200px;
+    }
+</style>
