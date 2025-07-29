@@ -26,6 +26,10 @@ obj/
 *.vsidx
 *.sqlite
 
+# GitHub (excluding workflows)
+.github/*
+!.github/workflows/
+
 # NuGet
 *.nuget.cache
 *.nuget.g.props
