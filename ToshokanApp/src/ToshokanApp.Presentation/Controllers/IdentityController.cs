@@ -339,5 +339,22 @@ public class IdentityController : Controller
         return RedirectToAction("Index", "Book");
     }
 
+    [HttpGet]
+    [Authorize]
+    [Route("api/[controller]/[action]", Name = "GetCurrentUserAvatar")]
+    public async Task<IActionResult> GetCurrentUserAvatar()
+    {
+        var currentUserId = base.HttpContext.Request.Cookies["CurrentUserId"];
+        if (string.IsNullOrEmpty(currentUserId) || !Guid.TryParse(currentUserId, out var userId))
+        {
+            return Json(new { avatarUrl = "https://wallpapers.com/images/hd/blank-default-pfp-wue0zko1dfxs9z2c.jpg" });
+        }
+
+        var user = await identityService.GetByIdAsync(userId);
+        var avatarUrl = user?.AvatarUrl ?? "https://wallpapers.com/images/hd/blank-default-pfp-wue0zko1dfxs9z2c.jpg";
+        
+        return Json(new { avatarUrl });
+    }
+
 }
 

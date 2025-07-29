@@ -2,11 +2,7 @@
 
 @{
     var currentUserId = httpAccessor.HttpContext.Request.Cookies["CurrentUserId"];
-}
-
-@{
     var IsAuthenticated = base.User.Identity?.IsAuthenticated ?? false;
-    
     var hasAccess = User.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Admin");
 }
 
@@ -60,8 +56,12 @@
                         }
                         else
                         {                           
-                            <a href="@Url.Action("GetById", "Identity", new { id = currentUserId})" class="btn">
-                                <img src="https://wallpapers.com/images/hd/blank-default-pfp-wue0zko1dfxs9z2c.jpg" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px;">
+                            <a href="@Url.Action("GetById", "Identity", new { id = currentUserId})" class="btn" id="userAvatarLink">
+                                <img src="https://wallpapers.com/images/hd/blank-default-pfp-wue0zko1dfxs9z2c.jpg" 
+                                     class="mr-3 rounded-circle" 
+                                     alt="User Avatar" 
+                                     style="width: 64px; height: 64px; object-fit: cover;"
+                                     id="userAvatar">
                             </a>
                         }
                     </ul>
@@ -83,6 +83,23 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    @if (IsAuthenticated)
+    {
+        <script>
+            $(document).ready(function() {
+                // Load user avatar
+                $.get('/api/Identity/GetCurrentUserAvatar')
+                    .done(function(data) {
+                        $('#userAvatar').attr('src', data.avatarUrl);
+                    })
+                    .fail(function() {
+                        console.log('Failed to load user avatar');
+                    });
+            });
+        </script>
+    }
+    
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
