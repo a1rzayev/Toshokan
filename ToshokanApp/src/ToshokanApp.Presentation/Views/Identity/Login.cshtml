@@ -4,42 +4,164 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="container mt-5">
+<div class="container my-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2 class="text-center">@ViewData["Title"]</h2>
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <form asp-route="LoginEndpoint" method="post" id="loginForm">
-                <input type="hidden" class="form-control" name="ReturnUrl" value="@ViewBag.ReturnUrl">
-                <div class="mb-3">
-                    <label asp-for="Email" class="form-label">Email address</label>
-                    <input asp-for="Email" type="email" class="form-control" id="email">
-                    <span asp-validation-for="Email" class="text-danger"></span>
+        <div class="col-lg-5 col-md-7">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary text-white text-center py-4">
+                    <h1 class="mb-0">
+                        <i class="fas fa-sign-in-alt mr-3"></i>Welcome Back
+                    </h1>
+                    <p class="mb-0 mt-2 opacity-75">Sign in to your account</p>
                 </div>
-                <div class="mb-3">
-                    <label asp-for="Password" class="form-label">Password</label>
-                    <input asp-for="Password" type="password" class="form-control" id="password">
-                    <span asp-validation-for="Password" class="text-danger"></span>
+                <div class="card-body p-5">
+                    <div asp-validation-summary="All" class="alert alert-danger @((ViewData.ModelState.ErrorCount > 0 ? "d-block" : "d-none"))" role="alert">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors)) {
+                            <div>@error.ErrorMessage</div>
+                        }
+                    </div>
+                    
+                    <form asp-route="LoginEndpoint" method="post" id="loginForm" autocomplete="off">
+                        <input type="hidden" class="form-control" name="ReturnUrl" value="@ViewBag.ReturnUrl">
+                        
+                        <div class="form-group mb-4">
+                            <label asp-for="Email" class="form-label">
+                                <i class="fas fa-envelope mr-2 text-primary"></i>Email Address
+                            </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                </div>
+                                <input asp-for="Email" type="email" class="form-control" id="email" 
+                                       placeholder="Enter your email address">
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="form-group mb-4">
+                            <label asp-for="Password" class="form-label">
+                                <i class="fas fa-lock mr-2 text-primary"></i>Password
+                            </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                </div>
+                                <input asp-for="Password" type="password" class="form-control" id="password" 
+                                       placeholder="Enter your password">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="form-group mb-4">
+                            <button type="submit" class="btn btn-primary btn-lg w-100" id="submitButton" disabled>
+                                <i class="fas fa-sign-in-alt mr-2"></i>Sign In
+                            </button>
+                        </div>
+                        
+                        <div class="text-center">
+                            <p class="text-muted mb-0">
+                                Don't have an account? 
+                                <a asp-route="RegistrationView" class="text-primary font-weight-bold">
+                                    <i class="fas fa-user-plus mr-1"></i>Create Account
+                                </a>
+                            </p>
+                        </div>
+                    </form>
                 </div>
-                <button type="submit" class="btn btn-primary w-100" id="submitButton" disabled>Login</button>
-                <p class="text-center mt-3">Don't have an account? <a asp-route="RegistrationView">Sign up</a></p>
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            $('#loginForm input').on('keyup change', function () {
-                let isValid = true;
-                $('#loginForm input[type="email"], #loginForm input[type="password"]').each(function () {
-                    if ($(this).val() === '') {
-                        isValid = false;
-                    }
-                });
-                $('#submitButton').prop('disabled', !isValid);
-            });
-        });
-    </script>
+<style>
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
+
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-header {
+    border-bottom: none;
+}
+
+.form-control {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.input-group-text {
+    border-radius: 8px 0 0 8px;
+    border: 2px solid #e9ecef;
+    border-right: none;
+    background-color: #f8f9fa;
+}
+
+.input-group .form-control {
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+}
+
+.input-group .form-control:focus {
+    border-left: none;
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn:disabled {
+    transform: none;
+    box-shadow: none;
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+    color: #fff !important;
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+.text-primary {
+    color: #667eea !important;
+}
+
+.opacity-75 {
+    opacity: 0.75;
+}
+</style>
+<script src="@(Url.Content("~/js/identity-validation.js"))"></script>

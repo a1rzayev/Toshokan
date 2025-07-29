@@ -2,94 +2,249 @@
 
 @{
     ViewData["Title"] = "Registration";
-    
 }
 
-<div class="container mt-5">
+<div class="container my-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2 class="text-center">@ViewData["Title"]</h2>
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <form asp-action="Registration" method="post" enctype="multipart/form-data" id="registrationForm">
-                <div class="mb-3">
-                    <label asp-for="Name" class="form-label"></label>
-                    <input asp-for="Name" type="text" class="form-control" id="name" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-success text-white text-center py-4">
+                    <h1 class="mb-0">
+                        <i class="fas fa-user-plus mr-3"></i>Create Account
+                    </h1>
+                    <p class="mb-0 mt-2 opacity-75">Join our digital library community</p>
                 </div>
-                <div class="mb-3">
-                    <label asp-for="Surname" class="form-label"></label>
-                    <input asp-for="Surname" type="text" class="form-control" id="surname" />
-                    <span asp-validation-for="Surname" class="text-danger"></span>
+                <div class="card-body p-5">
+                    <div asp-validation-summary="All" class="alert alert-danger @((ViewData.ModelState.ErrorCount > 0 ? "d-block" : "d-none"))" role="alert">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors)) {
+                            <div>@error.ErrorMessage</div>
+                        }
+                    </div>
+                    
+                    <form asp-action="Registration" method="post" enctype="multipart/form-data" id="registrationForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-4">
+                                    <label asp-for="Name" class="form-label">
+                                        <i class="fas fa-user mr-2 text-success"></i>First Name
+                                    </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-user"></i>
+                                            </span>
+                                        </div>
+                                        <input asp-for="Name" type="text" class="form-control" id="name" 
+                                               placeholder="Enter your first name" />
+                                    </div>
+                                    <span asp-validation-for="Name" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-4">
+                                    <label asp-for="Surname" class="form-label">
+                                        <i class="fas fa-user-tag mr-2 text-success"></i>Last Name
+                                    </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-user-tag"></i>
+                                            </span>
+                                        </div>
+                                        <input asp-for="Surname" type="text" class="form-control" id="surname" 
+                                               placeholder="Enter your last name" />
+                                    </div>
+                                    <span asp-validation-for="Surname" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group mb-4">
+                            <label asp-for="Email" class="form-label">
+                                <i class="fas fa-envelope mr-2 text-success"></i>Email Address
+                            </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                </div>
+                                <input asp-for="Email" type="email" class="form-control" id="email" 
+                                       placeholder="Enter your email address" />
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="form-group mb-4">
+                            <label asp-for="Password" class="form-label">
+                                <i class="fas fa-lock mr-2 text-success"></i>Password
+                            </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                </div>
+                                <input asp-for="Password" type="password" class="form-control" id="password" 
+                                       placeholder="Create a strong password" />
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                            <small class="form-text text-muted">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Password must be at least 8 characters with one uppercase letter
+                            </small>
+                        </div>
+                        
+                        <div class="form-group mb-4">
+                            <label for="avatar" class="form-label">
+                                <i class="fas fa-camera mr-2 text-success"></i>Profile Picture
+                            </label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="avatar" name="avatar" accept=".jpg,.jpeg,.png,.gif" />
+                                <label class="custom-file-label" for="avatar">
+                                    <i class="fas fa-upload mr-2"></i>Choose file (JPG, PNG, GIF)
+                                </label>
+                            </div>
+                            <small class="form-text text-muted">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Optional: Upload a profile picture (max 5MB)
+                            </small>
+                        </div>
+                        
+                        <div class="form-group mb-4">
+                            <button type="submit" class="btn btn-success btn-lg w-100" id="submitButton" disabled>
+                                <i class="fas fa-user-plus mr-2"></i>Create Account
+                            </button>
+                        </div>
+                        
+                        <div class="text-center">
+                            <p class="text-muted mb-0">
+                                Already have an account? 
+                                <a asp-route="LoginView" class="text-success font-weight-bold">
+                                    <i class="fas fa-sign-in-alt mr-1"></i>Sign In
+                                </a>
+                            </p>
+                        </div>
+                    </form>
                 </div>
-                <div class="mb-3">
-                    <label asp-for="Email" class="form-label"></label>
-                    <input asp-for="Email" type="email" class="form-control" id="email" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <label asp-for="Password" class="form-label"></label>
-                    <input asp-for="Password" type="password" class="form-control" id="password" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <label for="avatar" class="form-label">Avatar</label>
-                    <input type="file" class="form-control" id="avatar" name="avatar" accept=".jpg"/>
-                </div>
-                <button type="submit" class="btn btn-success w-100" id="submitButton" disabled>Register</button>
-                <p class="text-center mt-3">Already have an account? <a asp-route="LoginView">Sign in</a></p>
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            $('#registrationForm input').on('keyup change', function () {
-                let isValid = true;
-                $('#registrationForm input[type="text"], #registrationForm input[type="email"], #registrationForm input[type="password"]').each(function () {
-                    if ($(this).val() === '') {
-                        isValid = false;
-                    }
-                });
-                $('#submitButton').prop('disabled', !isValid);
-            });
-            $('#registrationForm input').on('keyup change', function () {
-                validateForm();
-            });
-
-            $('#password').on('blur', function () {
-                validatePassword();
-            });
-
-            function validateForm() {
-                let isValid = true;
-                $('#registrationForm input[type="text"], #registrationForm input[type="email"], #registrationForm input[type="password"]').each(function () {
-                    if ($(this).val() === '') {
-                        isValid = false;
-                    }
-                });
-
-                // Only check password if it's been entered
-                let password = $('#password').val();
-                if (password !== '' && (password.length < 8 || !/[A-Z]/.test(password))) {
-                    isValid = false;
-                    $('#password').siblings('.text-danger').text('Password must be at least 8 characters long and contain at least one uppercase letter.');
-                } else {
-                    $('#password').siblings('.text-danger').text('');
-                }
-
-                $('#submitButton').prop('disabled', !isValid);
-            }
-
-            function validatePassword() {
-                let password = $('#password').val();
-                if (password !== '' && (password.length < 8 || !/[A-Z]/.test(password))) {
-                    $('#password').siblings('.text-danger').text('Password must be at least 8 characters long and contain at least one uppercase letter.');
-                } else {
-                    $('#password').siblings('.text-danger').text('');
-                }
-            }
-        });
-    </script>
+<style>
+.bg-gradient-success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
 }
+
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-header {
+    border-bottom: none;
+}
+
+.form-control {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #11998e;
+    box-shadow: 0 0 0 0.2rem rgba(17, 153, 142, 0.25);
+}
+
+.input-group-text {
+    border-radius: 8px 0 0 8px;
+    border: 2px solid #e9ecef;
+    border-right: none;
+    background-color: #f8f9fa;
+}
+
+.input-group .form-control {
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+}
+
+.input-group .form-control:focus {
+    border-left: none;
+}
+
+.custom-file {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.custom-file-input {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.custom-file-input:focus {
+    border-color: #11998e;
+    box-shadow: 0 0 0 0.2rem rgba(17, 153, 142, 0.25);
+}
+
+.custom-file-label {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    background-color: #f8f9fa;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn:disabled {
+    transform: none;
+    box-shadow: none;
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+    color: #fff !important;
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+.text-success {
+    color: #11998e !important;
+}
+
+.opacity-75 {
+    opacity: 0.75;
+}
+
+.form-text {
+    font-size: 0.875rem;
+}
+</style>
+<script src="@(Url.Content("~/js/identity-validation.js"))"></script>
